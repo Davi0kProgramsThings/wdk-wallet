@@ -17,7 +17,7 @@ export interface IWalletAccountMultisig extends IWalletAccountReadOnlyMultisig {
      *
      * @type {KeyPair}
      */
-    get signerKeyPair(): KeyPair;
+    get keyPair(): KeyPair;
     /**
      * Proposes sending a transaction for the other owners to approve. Does not execute on-chain:
      * the returned proposal must be approved up to the threshold and then executed via
@@ -26,7 +26,7 @@ export interface IWalletAccountMultisig extends IWalletAccountReadOnlyMultisig {
      * @param {Transaction} tx - The transaction.
      * @param {MultisigTransactionOptions} [transactionOptions] - The multisig transaction's options.
      * @returns {Promise<MultisigProposal>} The created proposal; its `status` is `'executed'` when `autoExecute` ran to completion, otherwise `'pending'`.
-     * @throws {SignerError} If the signer is not an owner of the multisig account.
+     * @throws {Error} If the signer is not an owner of the multisig account.
      */
     propose(tx: Transaction, transactionOptions?: MultisigTransactionOptions): Promise<MultisigProposal>;
     /**
@@ -34,7 +34,7 @@ export interface IWalletAccountMultisig extends IWalletAccountReadOnlyMultisig {
      *
      * @param {string} message - The message to sign.
      * @returns {Promise<MultisigMessageProposal>} The multisig message proposal.
-     * @throws {SignerError} If the signer is not an owner of the multisig account.
+     * @throws {Error} If the signer is not an owner of the multisig account.
      */
     proposeMessage(message: string): Promise<MultisigMessageProposal>;
     /**
@@ -42,16 +42,16 @@ export interface IWalletAccountMultisig extends IWalletAccountReadOnlyMultisig {
      *
      * @param {string} messageId - The message's hash.
      * @returns {Promise<MultisigMessageProposal>} The multisig message proposal.
-     * @throws {SignerError} If the signer is not an owner of the multisig account.
+     * @throws {Error} If the signer is not an owner of the multisig account.
      * @throws {NoSuchElementError} If no message exists for the given id.
      */
-    approveMessage(messageId: string): Promise<MultisigMessageProposal>;
+    approveMessageProposal(messageId: string): Promise<MultisigMessageProposal>;
     /**
      * Approves a pending proposal.
      *
      * @param {string} proposalId - The proposal's id.
      * @returns {Promise<MultisigProposal>} The multisig proposal.
-     * @throws {SignerError} If the signer is not an owner of the multisig account.
+     * @throws {Error} If the signer is not an owner of the multisig account.
      * @throws {NoSuchElementError} If no proposal exists for the given id.
      */
     approveProposal(proposalId: string): Promise<MultisigProposal>;

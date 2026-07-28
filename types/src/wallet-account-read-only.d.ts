@@ -1,5 +1,5 @@
 /** @interface */
-export interface IWalletAccountReadOnly extends IWalletAccountReadOnlyBase {
+export interface IWalletAccountReadOnly extends IWalletAccountReadOnlySimple {
     /**
      * Quotes the costs of a send transaction operation.
      *
@@ -135,4 +135,4 @@ export type TransferResult = {
      */
     fee: bigint;
 };
-import { IWalletAccountReadOnlyBase } from './wallet-account-read-only-base.js';
+import { IWalletAccountReadOnlySimple } from './wallet-account-read-only-simple.js';

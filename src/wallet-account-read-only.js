@@ -15,7 +15,7 @@
 
 import { NotImplementedError } from './errors.js'
 
-import { IWalletAccountReadOnlyBase } from './wallet-account-read-only-base.js'
+import { IWalletAccountReadOnlySimple } from './wallet-account-read-only-simple.js'
 
 /**
  * @typedef {Object} Transaction
@@ -43,7 +43,7 @@ import { IWalletAccountReadOnlyBase } from './wallet-account-read-only-base.js'
  */
 
 /** @interface */
-export class IWalletAccountReadOnly extends IWalletAccountReadOnlyBase {
+export class IWalletAccountReadOnly extends IWalletAccountReadOnlySimple {
   /**
    * Quotes the costs of a send transaction operation.
    *

@@ -1,5 +1,5 @@
 /** @interface */
-export interface IWalletAccountReadOnlyMultisig extends IWalletAccountReadOnlyBase {
+export interface IWalletAccountReadOnlyMultisig extends IWalletAccountReadOnlySimple {
     /**
      * Returns the address of the signer associated with this wallet account.
      *
@@ -16,18 +16,18 @@ export interface IWalletAccountReadOnlyMultisig extends IWalletAccountReadOnlyBa
      * Returns a list of proposals by their identifiers.
      *
      * @param {string[]} proposalIds - The list of proposal identifiers.
-     * @returns {Promise<(MultisigProposal | null)[]>} For each proposal id, the proposal details or
+     * @returns {Promise<Record<string, MultisigProposal | null>>} For each proposal id, the proposal details or
      *   null if the proposal has not been found.
      */
-    getProposals(proposalIds: string[]): Promise<(MultisigProposal | null)[]>;
+    getProposals(proposalIds: string[]): Promise<Record<string, MultisigProposal | null>>;
     /**
      * Returns a list of message proposals by their hashes.
      *
      * @param {string[]} messageIds - The list of message hashes
-     * @returns {Promise<(MultisigMessage | null)[]>} For each message hash, the message details or
+     * @returns {Promise<Record<string, MultisigMessage | null>>} For each message hash, the message details or
      *   null if the message has not been found.
      */
-    getMessages(messageIds: string[]): Promise<(MultisigMessage | null)[]>;
+    getMessageProposals(messageIds: string[]): Promise<Record<string, MultisigMessage | null>>;
     /**
      * Quotes the on-chain cost of executing a pending proposal.
      *
@@ -92,4 +92,4 @@ export type MultisigMessage = {
     combinedSignature: string | null;
 };
 export type TransactionResult = import("../wallet-account-read-only.js").TransactionResult;
-import { IWalletAccountReadOnlyBase } from '../wallet-account-read-only-base.js';
+import { IWalletAccountReadOnlySimple } from '../wallet-account-read-only-simple.js';

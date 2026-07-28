@@ -13,7 +13,7 @@
 // limitations under the License.
 'use strict'
 
-import { IWalletAccountReadOnlyBase } from '../wallet-account-read-only-base.js'
+import { IWalletAccountReadOnlySimple } from '../wallet-account-read-only-simple.js'
 
 import { NotImplementedError } from '../errors.js'
 
@@ -47,7 +47,7 @@ import { NotImplementedError } from '../errors.js'
  */
 
 /** @interface */
-export class IWalletAccountReadOnlyMultisig extends IWalletAccountReadOnlyBase {
+export class IWalletAccountReadOnlyMultisig extends IWalletAccountReadOnlySimple {
   /**
    * Returns the address of the signer associated with this wallet account.
    *
@@ -70,7 +70,7 @@ export class IWalletAccountReadOnlyMultisig extends IWalletAccountReadOnlyBase {
    * Returns a list of proposals by their identifiers.
    *
    * @param {string[]} proposalIds - The list of proposal identifiers.
-   * @returns {Promise<(MultisigProposal | null)[]>} For each proposal id, the proposal details or
+   * @returns {Promise<Record<string, MultisigProposal | null>>} For each proposal id, the proposal details or
    *   null if the proposal has not been found.
    */
   async getProposals (proposalIds) {
@@ -81,11 +81,11 @@ export class IWalletAccountReadOnlyMultisig extends IWalletAccountReadOnlyBase {
    * Returns a list of message proposals by their hashes.
    *
    * @param {string[]} messageIds - The list of message hashes
-   * @returns {Promise<(MultisigMessage | null)[]>} For each message hash, the message details or
+   * @returns {Promise<Record<string, MultisigMessage | null>>} For each message hash, the message details or
    *   null if the message has not been found.
    */
-  async getMessages (messageIds) {
-    throw new NotImplementedError('getMessages(messageIds)')
+  async getMessageProposals (messageIds) {
+    throw new NotImplementedError('getMessageProposals(messageIds)')
   }
 
   /**

@@ -17,18 +17,13 @@ import { NotImplementedError } from '../errors.js'
 
 /** @typedef {import('./wallet-account-read-only-multisig.js').MultisigProposal} MultisigProposal */
 
-/** @typedef {import('../errors.js').SignerError} SignerError */
-
 /**
  * @typedef {Object} MultisigOptions
  * @property {number} threshold - The new amount of approvals required to execute a transaction.
  */
 
 /**
- * Optional owner-management surface for multisig accounts whose owner set is mutable
- * (e.g. account-abstraction wallets). Chains whose owner set is fixed at creation —
- * such as Bitcoin script multisig, where the participants are committed in the redeem
- * script — do not implement this interface.
+ * Adds owner management features to a multisig wallet.
  *
  * @interface
  */
@@ -39,7 +34,7 @@ export class IMultisigOwnerManagement {
    * @param {string} owner - The owner's address.
    * @param {MultisigOptions} [options] - The multisig options.
    * @returns {Promise<MultisigProposal>} The multisig proposal.
-   * @throws {SignerError} If the signer is not an owner of the multisig account.
+   * @throws {Error} If the signer is not an owner of the multisig account.
    */
   async addOwner (owner, options) {
     throw new NotImplementedError('addOwner(owner, options)')
@@ -51,7 +46,7 @@ export class IMultisigOwnerManagement {
    * @param {string} owner - The owner's address.
    * @param {MultisigOptions} [options] - The multisig options.
    * @returns {Promise<MultisigProposal>} The multisig proposal.
-   * @throws {SignerError} If the signer is not an owner of the multisig account.
+   * @throws {Error} If the signer is not an owner of the multisig account.
    */
   async removeOwner (owner, options) {
     throw new NotImplementedError('removeOwner(owner, options)')
@@ -63,7 +58,7 @@ export class IMultisigOwnerManagement {
    * @param {string} oldOwner - The old owner.
    * @param {string} newOwner - The new owner.
    * @returns {Promise<MultisigProposal>} The multisig proposal.
-   * @throws {SignerError} If the signer is not an owner of the multisig account.
+   * @throws {Error} If the signer is not an owner of the multisig account.
    */
   async swapOwner (oldOwner, newOwner) {
     throw new NotImplementedError('swapOwner(oldOwner, newOwner)')
@@ -74,7 +69,7 @@ export class IMultisigOwnerManagement {
    *
    * @param {number} newThreshold - The new threshold.
    * @returns {Promise<MultisigProposal>} The multisig proposal.
-   * @throws {SignerError} If the signer is not an owner of the multisig account.
+   * @throws {Error} If the signer is not an owner of the multisig account.
    */
   async changeThreshold (newThreshold) {
     throw new NotImplementedError('changeThreshold(newThreshold)')

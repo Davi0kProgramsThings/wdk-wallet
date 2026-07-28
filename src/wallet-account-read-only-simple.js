@@ -24,7 +24,7 @@ import { NotImplementedError } from './errors.js'
  *
  * @interface
  */
-export class IWalletAccountReadOnlyBase {
+export class IWalletAccountReadOnlySimple {
   /**
    * Returns the account's address.
    *

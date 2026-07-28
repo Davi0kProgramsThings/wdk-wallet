@@ -1,6 +1,6 @@
 export { IWalletAccountReadOnlyMultisig } from "./wallet-account-read-only-multisig.js";
 export { IWalletAccountMultisig } from "./wallet-account-multisig.js";
-export { IMultisigOwnerManagement } from "./i-multisig-owner-management.js";
+export { IMultisigOwnerManagement } from "./multisig-owner-management.js";
 export { IMultisigTransport } from "./i-multisig-transport.js";
 export { toTransportJson } from "./transport-serialization.js";
 export type MultisigInfo = import("./wallet-account-read-only-multisig.js").MultisigInfo;
@@ -9,7 +9,7 @@ export type MultisigMessage = import("./wallet-account-read-only-multisig.js").M
 export type KeyPair = import("../wallet-account.js").KeyPair;
 export type MultisigTransactionOptions = import("./wallet-account-multisig.js").MultisigTransactionOptions;
 export type MultisigMessageProposal = import("./wallet-account-multisig.js").MultisigMessageProposal;
-export type MultisigOptions = import("./i-multisig-owner-management.js").MultisigOptions;
+export type MultisigOptions = import("./multisig-owner-management.js").MultisigOptions;
 export type MultisigTransportProposal = import("./i-multisig-transport.js").MultisigTransportProposal;
 export type MultisigTransportMessage = import("./i-multisig-transport.js").MultisigTransportMessage;
 export type MultisigTransportMessageInput = import("./i-multisig-transport.js").MultisigTransportMessageInput;

@@ -7,7 +7,7 @@
  *
  * @interface
  */
-export interface IWalletAccountReadOnlyBase {
+export interface IWalletAccountReadOnlySimple {
     /**
      * Returns the account's address.
      *

@@ -20,7 +20,7 @@
 
 /** @typedef {import('./wallet-account-multisig.js').MultisigTransactionOptions} MultisigTransactionOptions */
 /** @typedef {import('./wallet-account-multisig.js').MultisigMessageProposal} MultisigMessageProposal */
-/** @typedef {import('./i-multisig-owner-management.js').MultisigOptions} MultisigOptions */
+/** @typedef {import('./multisig-owner-management.js').MultisigOptions} MultisigOptions */
 
 /** @typedef {import('./i-multisig-transport.js').MultisigTransportProposal} MultisigTransportProposal */
 /** @typedef {import('./i-multisig-transport.js').MultisigTransportMessage} MultisigTransportMessage */
@@ -30,7 +30,7 @@ export { IWalletAccountReadOnlyMultisig } from './wallet-account-read-only-multi
 
 export { IWalletAccountMultisig } from './wallet-account-multisig.js'
 
-export { IMultisigOwnerManagement } from './i-multisig-owner-management.js'
+export { IMultisigOwnerManagement } from './multisig-owner-management.js'
 
 export { IMultisigTransport } from './i-multisig-transport.js'
 
