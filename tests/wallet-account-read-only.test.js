@@ -1,6 +1,11 @@
 import { describe, expect, test } from '@jest/globals'
 
-import { WalletAccountReadOnly } from '../index.js'
+import {
+  WalletAccountReadOnly,
+  TransactionFailedError,
+  TransactionDroppedError,
+  TransactionConfirmationTimeoutError
+} from '../index.js'
 
 class DummyWalletAccountReadOnly extends WalletAccountReadOnly {
   async getBalance () {
@@ -24,7 +29,34 @@ class DummyWalletAccountReadOnly extends WalletAccountReadOnly {
   }
 }
 
+/**
+ * A dummy account whose getTransaction returns a scripted sequence of receipts,
+ * so the shared waitForTransaction loop can be exercised deterministically.
+ */
+class ScriptedWalletAccountReadOnly extends DummyWalletAccountReadOnly {
+  constructor (sequence) {
+    super(ADDRESS)
+    this._sequence = sequence
+    this.calls = 0
+  }
+
+  async getTransaction (hash) {
+    const item = this._sequence[Math.min(this.calls, this._sequence.length - 1)]
+    this.calls += 1
+    return item
+  }
+
+  get _defaultWaitInterval () {
+    return 1
+  }
+
+  get _defaultWaitTimeout () {
+    return 50
+  }
+}
+
 const ADDRESS = '0xa460AEbce0d3A4BecAd8ccf9D6D4861296c503Bd'
+const HASH = '0xabc'
 
 describe('WalletAccountReadOnly', () => {
   describe('getAddress', () => {
@@ -39,6 +71,94 @@ describe('WalletAccountReadOnly', () => {
 
       await expect(account.getAddress())
         .rejects.toThrow("The account's address must be set to perform this operation.")
+    })
+  })
+
+  describe('getTransaction', () => {
+    test('should throw NotImplementedError by default', async () => {
+      const account = new DummyWalletAccountReadOnly(ADDRESS)
+      await expect(account.getTransaction(HASH)).rejects.toThrow("Method 'getTransaction(hash)' must be implemented.")
+    })
+  })
+
+  describe('_meetsFinality', () => {
+    const account = new DummyWalletAccountReadOnly(ADDRESS)
+
+    test("target 'confirmed' is met by confirmed and final", () => {
+      expect(account._meetsFinality('confirmed', 'confirmed')).toBe(true)
+      expect(account._meetsFinality('final', 'confirmed')).toBe(true)
+      expect(account._meetsFinality('pending', 'confirmed')).toBe(false)
+    })
+
+    test("target 'final' is met only by final", () => {
+      expect(account._meetsFinality('final', 'final')).toBe(true)
+      expect(account._meetsFinality('confirmed', 'final')).toBe(false)
+      expect(account._meetsFinality('pending', 'final')).toBe(false)
+    })
+  })
+
+  describe('waitForTransaction', () => {
+    test('resolves once the confirmed target is reached', async () => {
+      const confirmed = { id: HASH, finality: 'confirmed', success: true }
+      const account = new ScriptedWalletAccountReadOnly([
+        null,
+        { id: HASH, finality: 'pending', success: null },
+        confirmed
+      ])
+
+      const receipt = await account.waitForTransaction(HASH)
+      expect(receipt).toBe(confirmed)
+      expect(account.calls).toBe(3)
+    })
+
+    test("keeps polling past 'confirmed' when target is 'final'", async () => {
+      const final = { id: HASH, finality: 'final', success: true }
+      const account = new ScriptedWalletAccountReadOnly([
+        { id: HASH, finality: 'confirmed', success: true },
+        final
+      ])
+
+      const receipt = await account.waitForTransaction(HASH, { target: 'final' })
+      expect(receipt).toBe(final)
+    })
+
+    test('throws TransactionFailedError with the receipt on revert', async () => {
+      const failed = { id: HASH, finality: 'final', success: false }
+      const account = new ScriptedWalletAccountReadOnly([failed])
+
+      await expect(account.waitForTransaction(HASH)).rejects.toThrow(TransactionFailedError)
+      await account.waitForTransaction(HASH).catch(err => {
+        expect(err.receipt).toBe(failed)
+      })
+    })
+
+    test('throws TransactionDroppedError with the receipt when dropped', async () => {
+      const dropped = { id: HASH, finality: 'dropped', success: null }
+      const account = new ScriptedWalletAccountReadOnly([dropped])
+
+      await expect(account.waitForTransaction(HASH)).rejects.toThrow(TransactionDroppedError)
+      await account.waitForTransaction(HASH).catch(err => {
+        expect(err.receipt).toBe(dropped)
+      })
+    })
+
+    test('throws TransactionConfirmationTimeoutError carrying the last-seen receipt', async () => {
+      const pending = { id: HASH, finality: 'pending', success: null }
+      const account = new ScriptedWalletAccountReadOnly([pending])
+
+      await account.waitForTransaction(HASH, { timeout: 10, interval: 1 }).catch(err => {
+        expect(err).toBeInstanceOf(TransactionConfirmationTimeoutError)
+        expect(err.receipt).toBe(pending)
+      })
+    })
+
+    test('timeout receipt is null when the tx was never seen', async () => {
+      const account = new ScriptedWalletAccountReadOnly([null])
+
+      await account.waitForTransaction(HASH, { timeout: 10, interval: 1 }).catch(err => {
+        expect(err).toBeInstanceOf(TransactionConfirmationTimeoutError)
+        expect(err.receipt).toBeNull()
+      })
     })
   })
 })

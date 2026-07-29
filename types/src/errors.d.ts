@@ -40,3 +40,40 @@ export class NoSuchElementError extends Error {
      */
     constructor(message: string);
 }
+export class TransactionFailedError extends Error {
+    /**
+     * Create a new transaction failed error. Thrown when a transaction lands on
+     * chain but its execution reverts.
+     *
+     * @param {string} hash - The transaction's hash.
+     * @param {import('./wallet-account-read-only.js').TransactionReceipt} [receipt] - The failed transaction's receipt.
+     */
+    constructor(hash: string, receipt?: import("./wallet-account-read-only.js").TransactionReceipt);
+    /** @type {import('./wallet-account-read-only.js').TransactionReceipt | undefined} */
+    receipt: import("./wallet-account-read-only.js").TransactionReceipt | undefined;
+}
+export class TransactionDroppedError extends Error {
+    /**
+     * Create a new transaction dropped error. Thrown when a transaction is evicted
+     * or replaced and never lands on chain.
+     *
+     * @param {string} hash - The transaction's hash.
+     * @param {import('./wallet-account-read-only.js').TransactionReceipt} [receipt] - The dropped transaction's receipt.
+     */
+    constructor(hash: string, receipt?: import("./wallet-account-read-only.js").TransactionReceipt);
+    /** @type {import('./wallet-account-read-only.js').TransactionReceipt | undefined} */
+    receipt: import("./wallet-account-read-only.js").TransactionReceipt | undefined;
+}
+export class TransactionConfirmationTimeoutError extends Error {
+    /**
+     * Create a new transaction confirmation timeout error. Thrown when a
+     * transaction does not reach the requested finality target within the timeout.
+     *
+     * @param {string} hash - The transaction's hash.
+     * @param {string} target - The requested finality target.
+     * @param {import('./wallet-account-read-only.js').TransactionReceipt | null} [receipt] - The last-seen receipt, or null if never seen.
+     */
+    constructor(hash: string, target: string, receipt?: import("./wallet-account-read-only.js").TransactionReceipt | null);
+    /** @type {import('./wallet-account-read-only.js').TransactionReceipt | null} */
+    receipt: import("./wallet-account-read-only.js").TransactionReceipt | null;
+}
