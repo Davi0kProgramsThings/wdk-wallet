@@ -78,6 +78,16 @@ export class IWalletAccountReadOnlyMultisig extends IWalletAccountReadOnlySimple
   }
 
   /**
+   * Returns a proposal by its identifier.
+   *
+   * @param {string} proposalId - The proposal's identifier.
+   * @returns {Promise<MultisigProposal | null>} The proposal details, or null if it has not been found.
+   */
+  async getProposal (proposalId) {
+    throw new NotImplementedError('getProposal(proposalId)')
+  }
+
+  /**
    * Returns a list of message proposals by their hashes.
    *
    * @param {string[]} messageIds - The list of message hashes
@@ -86,6 +96,16 @@ export class IWalletAccountReadOnlyMultisig extends IWalletAccountReadOnlySimple
    */
   async getMessageProposals (messageIds) {
     throw new NotImplementedError('getMessageProposals(messageIds)')
+  }
+
+  /**
+   * Returns a message proposal by its identifier.
+   *
+   * @param {string} messageId - The message's hash.
+   * @returns {Promise<MultisigMessage | null>} The message details, or null if it has not been found.
+   */
+  async getMessageProposal (messageId) {
+    throw new NotImplementedError('getMessageProposal(messageId)')
   }
 
   /**

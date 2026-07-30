@@ -21,6 +21,13 @@ export interface IWalletAccountReadOnlyMultisig extends IWalletAccountReadOnlySi
      */
     getProposals(proposalIds: string[]): Promise<Record<string, MultisigProposal | null>>;
     /**
+     * Returns a proposal by its identifier.
+     *
+     * @param {string} proposalId - The proposal's identifier.
+     * @returns {Promise<MultisigProposal | null>} The proposal details, or null if it has not been found.
+     */
+    getProposal(proposalId: string): Promise<MultisigProposal | null>;
+    /**
      * Returns a list of message proposals by their hashes.
      *
      * @param {string[]} messageIds - The list of message hashes
@@ -28,6 +35,13 @@ export interface IWalletAccountReadOnlyMultisig extends IWalletAccountReadOnlySi
      *   null if the message has not been found.
      */
     getMessageProposals(messageIds: string[]): Promise<Record<string, MultisigMessage | null>>;
+    /**
+     * Returns a message proposal by its identifier.
+     *
+     * @param {string} messageId - The message's hash.
+     * @returns {Promise<MultisigMessage | null>} The message details, or null if it has not been found.
+     */
+    getMessageProposal(messageId: string): Promise<MultisigMessage | null>;
     /**
      * Quotes the on-chain cost of executing a pending proposal.
      *
