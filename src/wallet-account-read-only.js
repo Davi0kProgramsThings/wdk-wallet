@@ -304,7 +304,7 @@ export default class WalletAccountReadOnly {
    * @param {WaitForTransactionOptions} [options] - The wait options.
    * @returns {Promise<TransactionReceipt>} The terminal receipt once the target is reached.
    * @throws {TransactionFailedError} If the transaction lands but reverts (success === false). The receipt is exposed on `.receipt`.
-   * @throws {TransactionDroppedError} If the transaction is evicted or replaced. The receipt is exposed on `.receipt`.
+   * @throws {TransactionDroppedError} If the transaction is reported dropped on two consecutive polls. The receipt is exposed on `.receipt`.
    * @throws {TransactionConfirmationTimeoutError} If the target is not reached before the timeout. The last-seen receipt (or null) is exposed on `.receipt`.
    */
   async waitForTransaction (hash, options = {}) {
@@ -316,6 +316,7 @@ export default class WalletAccountReadOnly {
 
     const deadline = Date.now() + timeout
     let last = null
+    let droppedStreak = 0
 
     while (true) {
       const receipt = await this.getTransaction(hash)
@@ -324,16 +325,22 @@ export default class WalletAccountReadOnly {
         last = receipt
 
         if (receipt.finality === 'dropped') {
-          throw new TransactionDroppedError(hash, receipt)
+          if (++droppedStreak >= 2) {
+            throw new TransactionDroppedError(hash, receipt)
+          }
+        } else {
+          droppedStreak = 0
+
+          if (receipt.success === false) {
+            throw new TransactionFailedError(hash, receipt)
+          }
+          if (this._meetsFinality(receipt.finality, target)) {
+            return receipt
+          }
         }
-        if (receipt.success === false) {
-          throw new TransactionFailedError(hash, receipt)
-        }
-        if (this._meetsFinality(receipt.finality, target)) {
-          return receipt
-        }
+      } else {
+        droppedStreak = 0
       }
-      // A null receipt (not seen yet) or a 'pending' finality means we keep polling.
 
       if (Date.now() >= deadline) {
         throw new TransactionConfirmationTimeoutError(hash, target, last)

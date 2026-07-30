@@ -157,7 +157,7 @@ export default abstract class WalletAccountReadOnly implements IWalletAccountRea
      * @param {WaitForTransactionOptions} [options] - The wait options.
      * @returns {Promise<TransactionReceipt>} The terminal receipt once the target is reached.
      * @throws {TransactionFailedError} If the transaction lands but reverts (success === false). The receipt is exposed on `.receipt`.
-     * @throws {TransactionDroppedError} If the transaction is evicted or replaced. The receipt is exposed on `.receipt`.
+     * @throws {TransactionDroppedError} If the transaction is reported dropped on two consecutive polls. The receipt is exposed on `.receipt`.
      * @throws {TransactionConfirmationTimeoutError} If the target is not reached before the timeout. The last-seen receipt (or null) is exposed on `.receipt`.
      */
     waitForTransaction(hash: string, options?: WaitForTransactionOptions): Promise<TransactionReceipt>;

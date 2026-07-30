@@ -132,7 +132,7 @@ describe('WalletAccountReadOnly', () => {
       })
     })
 
-    test('throws TransactionDroppedError with the receipt when dropped', async () => {
+    test('throws TransactionDroppedError with the receipt when dropped on consecutive polls', async () => {
       const dropped = { id: HASH, finality: 'dropped', success: null }
       const account = new ScriptedWalletAccountReadOnly([dropped])
 
@@ -140,6 +140,18 @@ describe('WalletAccountReadOnly', () => {
       await account.waitForTransaction(HASH).catch(err => {
         expect(err.receipt).toBe(dropped)
       })
+    })
+
+    test('debounces a transient drop that recovers to confirmed', async () => {
+      const confirmed = { id: HASH, finality: 'confirmed', success: true }
+      const account = new ScriptedWalletAccountReadOnly([
+        { id: HASH, finality: 'dropped', success: null },
+        confirmed
+      ])
+
+      const receipt = await account.waitForTransaction(HASH)
+      expect(receipt).toBe(confirmed)
+      expect(account.calls).toBe(2)
     })
 
     test('throws TransactionConfirmationTimeoutError carrying the last-seen receipt', async () => {
