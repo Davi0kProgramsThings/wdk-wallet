@@ -96,6 +96,7 @@
 /** @typedef {import('./errors.js').BuyErrorOptions} BuyErrorOptions */
 /** @typedef {import('./errors.js').SellErrorOptions} SellErrorOptions */
 /** @typedef {import('./errors.js').SwidgeErrorOptions} SwidgeErrorOptions */
+/** @typedef {import('./errors.js').SdaErrorOptions} SdaErrorOptions */
 
 export { default as SwapProtocol, ISwapProtocol } from './swap-protocol.js'
 
@@ -109,4 +110,4 @@ export { default as SwidgeProtocol, ISwidgeProtocol } from './swidge-protocol.js
 
 export { default as SdaProtocol, ISdaProtocol } from './sda-protocol.js'
 
-export { AccountRequiredError, BorrowError, BorrowErrorReason, BridgeError, BridgeErrorReason, BuyError, BuyErrorReason, InvalidTokenError, MaximumFeeExceededError, NoSuchElementError, NotImplementedError, ProviderError, ProviderRequiredError, ReadOnlyAccountRequiredError, RepayError, RepayErrorReason, SellError, SellErrorReason, SupplyError, SupplyErrorReason, SwapError, SwapErrorReason, SwidgeError, SwidgeErrorReason, UnsupportedOperationError, ValueError, WdkError, WithdrawError, WithdrawErrorReason } from './errors.js'
+export { AccountRequiredError, BorrowError, BorrowErrorReason, BridgeError, BridgeErrorReason, BuyError, BuyErrorReason, InvalidTokenError, MaximumFeeExceededError, NoSuchElementError, NotImplementedError, ProviderError, ProviderRequiredError, ReadOnlyAccountRequiredError, RepayError, RepayErrorReason, SdaError, SdaErrorReason, SellError, SellErrorReason, SupplyError, SupplyErrorReason, SwapError, SwapErrorReason, SwidgeError, SwidgeErrorReason, UnsupportedOperationError, ValueError, WdkError, WithdrawError, WithdrawErrorReason } from './errors.js'

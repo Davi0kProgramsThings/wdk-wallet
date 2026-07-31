@@ -25,6 +25,7 @@ import { NotImplementedError, UnsupportedOperationError } from './errors.js'
 /** @typedef {import('./errors.js').ReadOnlyAccountRequiredError} ReadOnlyAccountRequiredError */
 /** @typedef {import('./errors.js').ProviderError} ProviderError */
 /** @typedef {import('./errors.js').ProviderRequiredError} ProviderRequiredError */
+/** @typedef {import('./errors.js').SdaError} SdaError */
 /** @typedef {import('./errors.js').ValueError} ValueError */
 
 /**
@@ -275,6 +276,7 @@ export class ISdaProtocol {
    * @throws {ValueError} If the create deposit address options are not valid.
    * @throws {ProviderRequiredError} If the method requires a provider.
    * @throws {ProviderError} If the provider fails to create a new deposit address.
+   * @throws {SdaError} If the operation fails with an error.
    */
   async createDepositAddress (options) {
     throw new NotImplementedError('createDepositAddress(options)')
@@ -293,6 +295,7 @@ export class ISdaProtocol {
    * @throws {ValueError} If the create deposit address options are not valid.
    * @throws {ProviderRequiredError} If the method requires a provider.
    * @throws {ProviderError} If the provider fails to derive the deposit address.
+   * @throws {SdaError} If the operation fails with an error.
    */
   async deriveDepositAddress (options) {
     throw new NotImplementedError('deriveDepositAddress(options)')
@@ -326,6 +329,7 @@ export class ISdaProtocol {
    * @throws {NoSuchElementError} If no deposit address exists for the given id.
    * @throws {ProviderRequiredError} If the method requires a provider.
    * @throws {ProviderError} If the provider fails to renew the deposit address.
+   * @throws {SdaError} If the operation fails with an error.
    */
   async renewDepositAddress (id) {
     throw new NotImplementedError('renewDepositAddress(id)')
@@ -388,6 +392,7 @@ export class ISdaProtocol {
    * @throws {NoSuchElementError} If no deposit address exists for the given id or address.
    * @throws {ProviderRequiredError} If the method requires a provider.
    * @throws {ProviderError} If the provider fails to recover the deposit address.
+   * @throws {SdaError} If the operation fails with an error.
    */
   async recoverDepositAddress (options) {
     throw new NotImplementedError('recoverDepositAddress(options)')
@@ -405,6 +410,7 @@ export class ISdaProtocol {
    * @throws {NoSuchElementError} If no deposit address exists for the given id.
    * @throws {ProviderRequiredError} If the method requires a provider.
    * @throws {ProviderError} If the provider fails to disable the deposit address.
+   * @throws {SdaError} If the operation fails with an error.
    */
   async disableDepositAddress (id) {
     throw new NotImplementedError('disableDepositAddress(id)')
@@ -495,6 +501,7 @@ export default class SdaProtocol {
    * @throws {ValueError} If the create deposit address options are not valid.
    * @throws {ProviderRequiredError} If the method requires a provider.
    * @throws {ProviderError} If the provider fails to create a new deposit address.
+   * @throws {SdaError} If the operation fails with an error.
    */
   async createDepositAddress (options) {
     throw new NotImplementedError('createDepositAddress(options)')
@@ -513,6 +520,7 @@ export default class SdaProtocol {
    * @throws {ValueError} If the create deposit address options are not valid.
    * @throws {ProviderRequiredError} If the method requires a provider.
    * @throws {ProviderError} If the provider fails to derive the deposit address.
+   * @throws {SdaError} If the operation fails with an error.
    */
   async deriveDepositAddress (options) {
     throw new UnsupportedOperationError('deriveDepositAddress(options)')
@@ -546,6 +554,7 @@ export default class SdaProtocol {
    * @throws {NoSuchElementError} If no deposit address exists for the given id.
    * @throws {ProviderRequiredError} If the method requires a provider.
    * @throws {ProviderError} If the provider fails to renew the deposit address.
+   * @throws {SdaError} If the operation fails with an error.
    */
   async renewDepositAddress (id) {
     throw new UnsupportedOperationError('renewDepositAddress(id)')
@@ -608,6 +617,7 @@ export default class SdaProtocol {
    * @throws {NoSuchElementError} If no deposit address exists for the given id or address.
    * @throws {ProviderRequiredError} If the method requires a provider.
    * @throws {ProviderError} If the provider fails to recover the deposit address.
+   * @throws {SdaError} If the operation fails with an error.
    */
   async recoverDepositAddress (options) {
     throw new UnsupportedOperationError('recoverDepositAddress(options)')
@@ -625,6 +635,7 @@ export default class SdaProtocol {
    * @throws {NoSuchElementError} If no deposit address exists for the given id.
    * @throws {ProviderRequiredError} If the method requires a provider.
    * @throws {ProviderError} If the provider fails to disable the deposit address.
+   * @throws {SdaError} If the operation fails with an error.
    */
   async disableDepositAddress (id) {
     throw new UnsupportedOperationError('disableDepositAddress(id)')

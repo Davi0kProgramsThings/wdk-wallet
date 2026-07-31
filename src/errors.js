@@ -38,23 +38,23 @@ export const ProviderErrorReason = {
   /**
    * Thrown when the client fails to establish a connection with the provider.
    */
-  NETWORK_ERROR: 0,
+  NETWORK_ERROR: 'NETWORK_ERROR',
   /**
    * Thrown when the client fails to authenticate to the provider.
    */
-  UNAUTHORIZED: 401,
+  UNAUTHORIZED: 'UNAUTHORIZED',
   /**
    * Thrown when the client doesn't have enough permissions to perform an operation.
    */
-  FORBIDDEN: 403,
+  FORBIDDEN: 'FORBIDDEN',
   /**
    * Thrown when the provider times out.
    */
-  REQUEST_TIMEOUT: 408,
+  REQUEST_TIMEOUT: 'REQUEST_TIMEOUT',
   /**
    * Thrown when the provider experiences an internal server error.
    */
-  INTERNAL_SERVER_ERROR: 500
+  INTERNAL_SERVER_ERROR: 'INTERNAL_SERVER_ERROR'
 }
 
 /**

@@ -63,6 +63,11 @@ export { InvalidTokenError, MaximumFeeExceededError, NoSuchElementError, NotImpl
  */
 
 /**
+ * @typedef {Object} SdaErrorOptions
+ * @property {SdaErrorReason} reason - The error's reason.
+ */
+
+/**
  * Enum for swap error reasons.
  *
  * @readonly
@@ -217,6 +222,19 @@ export const SwidgeErrorReason = {
    * Thrown when the actual slippage is higher than the slippage option.
    */
   SLIPPAGE_TOO_HIGH: 'SLIPPAGE_TOO_HIGH'
+}
+
+/**
+ * Enum for SDA error reasons.
+ *
+ * @readonly
+ * @enum {string}
+ */
+export const SdaErrorReason = {
+  /**
+   * Thrown when the protocol doesn't support the given route.
+   */
+  ROUTE_NOT_SUPPORTED: 'ROUTE_NOT_SUPPORTED'
 }
 
 /**
@@ -457,6 +475,30 @@ export class SwidgeError extends WdkError {
     super(message, options)
 
     this.name = 'SwidgeError'
+
+    /**
+     * The error's reason.
+     *
+     * @type {string}
+     */
+    this.reason = options.reason
+  }
+}
+
+/**
+ * Thrown when a SDA fails with an error.
+ */
+export class SdaError extends WdkError {
+  /**
+   * Creates a new SDA error.
+   *
+   * @param {string} message - The error's message.
+   * @param {SdaErrorOptions & ErrorOptions} options - The error's options.
+   */
+  constructor (message, options) {
+    super(message, options)
+
+    this.name = 'SdaError'
 
     /**
      * The error's reason.

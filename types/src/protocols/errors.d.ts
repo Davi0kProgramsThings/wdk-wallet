@@ -86,6 +86,13 @@ export namespace SwidgeErrorReason {
     export let SLIPPAGE_TOO_HIGH: string;
 }
 /**
+ * Enum for SDA error reasons.
+ */
+export type SdaErrorReason = string;
+export namespace SdaErrorReason {
+    let ROUTE_NOT_SUPPORTED: string;
+}
+/**
  * Thrown when an operation requires an account to be set.
  */
 export class AccountRequiredError extends WdkError {
@@ -269,6 +276,24 @@ export class SwidgeError extends WdkError {
      */
     reason: string;
 }
+/**
+ * Thrown when a SDA fails with an error.
+ */
+export class SdaError extends WdkError {
+    /**
+     * Creates a new SDA error.
+     *
+     * @param {string} message - The error's message.
+     * @param {SdaErrorOptions & ErrorOptions} options - The error's options.
+     */
+    constructor(message: string, options: SdaErrorOptions & ErrorOptions);
+    /**
+     * The error's reason.
+     *
+     * @type {string}
+     */
+    reason: string;
+}
 export type SwapErrorOptions = {
     /**
      * - The error's reason.
@@ -322,6 +347,12 @@ export type SwidgeErrorOptions = {
      * - The error's reason.
      */
     reason: SwidgeErrorReason;
+};
+export type SdaErrorOptions = {
+    /**
+     * - The error's reason.
+     */
+    reason: SdaErrorReason;
 };
 import { InvalidTokenError } from '../errors.js';
 import { MaximumFeeExceededError } from '../errors.js';

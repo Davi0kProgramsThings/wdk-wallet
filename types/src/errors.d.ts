@@ -3,11 +3,11 @@
  */
 export type ProviderErrorReason = number;
 export namespace ProviderErrorReason {
-    let NETWORK_ERROR: number;
-    let UNAUTHORIZED: number;
-    let FORBIDDEN: number;
-    let REQUEST_TIMEOUT: number;
-    let INTERNAL_SERVER_ERROR: number;
+    let NETWORK_ERROR: string;
+    let UNAUTHORIZED: string;
+    let FORBIDDEN: string;
+    let REQUEST_TIMEOUT: string;
+    let INTERNAL_SERVER_ERROR: string;
 }
 /**
  * Enum for transaction error reasons.

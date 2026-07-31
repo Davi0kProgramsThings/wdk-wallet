@@ -47,6 +47,7 @@ export interface ISdaProtocol {
      * @throws {ValueError} If the create deposit address options are not valid.
      * @throws {ProviderRequiredError} If the method requires a provider.
      * @throws {ProviderError} If the provider fails to create a new deposit address.
+     * @throws {SdaError} If the operation fails with an error.
      */
     createDepositAddress(options: SdaCreateDepositAddressOptions): Promise<SdaDepositAddress[]>;
     /**
@@ -62,6 +63,7 @@ export interface ISdaProtocol {
      * @throws {ValueError} If the create deposit address options are not valid.
      * @throws {ProviderRequiredError} If the method requires a provider.
      * @throws {ProviderError} If the provider fails to derive the deposit address.
+     * @throws {SdaError} If the operation fails with an error.
      */
     deriveDepositAddress(options: SdaCreateDepositAddressOptions): Promise<string>;
     /**
@@ -89,6 +91,7 @@ export interface ISdaProtocol {
      * @throws {NoSuchElementError} If no deposit address exists for the given id.
      * @throws {ProviderRequiredError} If the method requires a provider.
      * @throws {ProviderError} If the provider fails to renew the deposit address.
+     * @throws {SdaError} If the operation fails with an error.
      */
     renewDepositAddress(id: string): Promise<SdaDepositAddress>;
     /**
@@ -139,6 +142,7 @@ export interface ISdaProtocol {
      * @throws {NoSuchElementError} If no deposit address exists for the given id or address.
      * @throws {ProviderRequiredError} If the method requires a provider.
      * @throws {ProviderError} If the provider fails to recover the deposit address.
+     * @throws {SdaError} If the operation fails with an error.
      */
     recoverDepositAddress(options: SdaRecoveryOptions): Promise<SdaRecoveryResult>;
     /**
@@ -153,6 +157,7 @@ export interface ISdaProtocol {
      * @throws {NoSuchElementError} If no deposit address exists for the given id.
      * @throws {ProviderRequiredError} If the method requires a provider.
      * @throws {ProviderError} If the provider fails to disable the deposit address.
+     * @throws {SdaError} If the operation fails with an error.
      */
     disableDepositAddress(id: string): Promise<void>;
 }
@@ -232,6 +237,7 @@ export default abstract class SdaProtocol implements ISdaProtocol {
      * @throws {ValueError} If the create deposit address options are not valid.
      * @throws {ProviderRequiredError} If the method requires a provider.
      * @throws {ProviderError} If the provider fails to create a new deposit address.
+     * @throws {SdaError} If the operation fails with an error.
      */
     abstract createDepositAddress(options: SdaCreateDepositAddressOptions): Promise<SdaDepositAddress[]>;
     /**
@@ -247,6 +253,7 @@ export default abstract class SdaProtocol implements ISdaProtocol {
      * @throws {ValueError} If the create deposit address options are not valid.
      * @throws {ProviderRequiredError} If the method requires a provider.
      * @throws {ProviderError} If the provider fails to derive the deposit address.
+     * @throws {SdaError} If the operation fails with an error.
      */
     deriveDepositAddress(options: SdaCreateDepositAddressOptions): Promise<string>;
     /**
@@ -274,6 +281,7 @@ export default abstract class SdaProtocol implements ISdaProtocol {
      * @throws {NoSuchElementError} If no deposit address exists for the given id.
      * @throws {ProviderRequiredError} If the method requires a provider.
      * @throws {ProviderError} If the provider fails to renew the deposit address.
+     * @throws {SdaError} If the operation fails with an error.
      */
     renewDepositAddress(id: string): Promise<SdaDepositAddress>;
     /**
@@ -324,6 +332,7 @@ export default abstract class SdaProtocol implements ISdaProtocol {
      * @throws {NoSuchElementError} If no deposit address exists for the given id or address.
      * @throws {ProviderRequiredError} If the method requires a provider.
      * @throws {ProviderError} If the provider fails to recover the deposit address.
+     * @throws {SdaError} If the operation fails with an error.
      */
     recoverDepositAddress(options: SdaRecoveryOptions): Promise<SdaRecoveryResult>;
     /**
@@ -338,6 +347,7 @@ export default abstract class SdaProtocol implements ISdaProtocol {
      * @throws {NoSuchElementError} If no deposit address exists for the given id.
      * @throws {ProviderRequiredError} If the method requires a provider.
      * @throws {ProviderError} If the provider fails to disable the deposit address.
+     * @throws {SdaError} If the operation fails with an error.
      */
     disableDepositAddress(id: string): Promise<void>;
 }
@@ -349,6 +359,7 @@ export type NoSuchElementError = import("./errors.js").NoSuchElementError;
 export type ReadOnlyAccountRequiredError = import("./errors.js").ReadOnlyAccountRequiredError;
 export type ProviderError = import("./errors.js").ProviderError;
 export type ProviderRequiredError = import("./errors.js").ProviderRequiredError;
+export type SdaError = import("./errors.js").SdaError;
 export type ValueError = import("./errors.js").ValueError;
 /**
  * A blockchain identifier: a numeric chain id (e.g. `1`) or a protocol-specific chain name (e.g. `'ethereum'`).
