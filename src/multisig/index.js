@@ -15,11 +15,11 @@
 
 /** @typedef {import('./wallet-account-read-only-multisig.js').MultisigInfo} MultisigInfo */
 /** @typedef {import('./wallet-account-read-only-multisig.js').MultisigProposal} MultisigProposal */
-/** @typedef {import('./wallet-account-read-only-multisig.js').MultisigMessage} MultisigMessage */
+/** @typedef {import('./wallet-account-read-only-multisig.js').MultisigMessageProposal} MultisigMessageProposal */
 /** @typedef {import('../wallet-account.js').KeyPair} KeyPair */
 
 /** @typedef {import('./wallet-account-multisig.js').MultisigTransactionOptions} MultisigTransactionOptions */
-/** @typedef {import('./wallet-account-multisig.js').MultisigMessageProposal} MultisigMessageProposal */
+/** @typedef {import('./wallet-account-multisig.js').MultisigSignature} MultisigSignature */
 /** @typedef {import('./multisig-owner-management.js').MultisigOptions} MultisigOptions */
 
 /** @typedef {import('./i-multisig-transport.js').MultisigTransportProposal} MultisigTransportProposal */

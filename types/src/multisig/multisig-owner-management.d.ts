@@ -10,7 +10,7 @@ export interface IMultisigOwnerManagement {
      * @param {string} owner - The owner's address.
      * @param {MultisigOptions} [options] - The multisig options.
      * @returns {Promise<MultisigProposal>} The multisig proposal.
-     * @throws {Error} If the signer is not an owner of the multisig account.
+     * @throws {Error} If the account is not an owner of the multisig wallet.
      */
     addOwner(owner: string, options?: MultisigOptions): Promise<MultisigProposal>;
     /**
@@ -19,7 +19,7 @@ export interface IMultisigOwnerManagement {
      * @param {string} owner - The owner's address.
      * @param {MultisigOptions} [options] - The multisig options.
      * @returns {Promise<MultisigProposal>} The multisig proposal.
-     * @throws {Error} If the signer is not an owner of the multisig account.
+     * @throws {Error} If the account is not an owner of the multisig wallet.
      */
     removeOwner(owner: string, options?: MultisigOptions): Promise<MultisigProposal>;
     /**
@@ -28,7 +28,7 @@ export interface IMultisigOwnerManagement {
      * @param {string} oldOwner - The old owner.
      * @param {string} newOwner - The new owner.
      * @returns {Promise<MultisigProposal>} The multisig proposal.
-     * @throws {Error} If the signer is not an owner of the multisig account.
+     * @throws {Error} If the account is not an owner of the multisig wallet.
      */
     swapOwner(oldOwner: string, newOwner: string): Promise<MultisigProposal>;
     /**
@@ -36,7 +36,7 @@ export interface IMultisigOwnerManagement {
      *
      * @param {number} newThreshold - The new threshold.
      * @returns {Promise<MultisigProposal>} The multisig proposal.
-     * @throws {Error} If the signer is not an owner of the multisig account.
+     * @throws {Error} If the account is not an owner of the multisig wallet.
      */
     changeThreshold(newThreshold: number): Promise<MultisigProposal>;
 }

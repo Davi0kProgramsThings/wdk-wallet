@@ -23,6 +23,7 @@ import { NotImplementedError } from '../errors.js'
 /** @typedef {import('../wallet-account.js').KeyPair} KeyPair */
 
 /** @typedef {import('./wallet-account-read-only-multisig.js').MultisigProposal} MultisigProposal */
+/** @typedef {import('./wallet-account-read-only-multisig.js').MultisigMessageProposal} MultisigMessageProposal */
 
 /** @typedef {import('../errors.js').NoSuchElementError} NoSuchElementError */
 /** @typedef {import('../errors.js').ValueError} ValueError */
@@ -33,18 +34,14 @@ import { NotImplementedError } from '../errors.js'
  */
 
 /**
- * @typedef {Object} MultisigMessageProposal
- * @property {string} messageId - The message's hash.
- * @property {string} signature - The signature of the caller.
- * @property {number} confirmations - The current number of confirmations.
- * @property {number} threshold - The minimum amount of confirmations to sign the message.
- * @property {string | null} combinedSignature - The final combined signature when the threshold is met.
+ * @typedef {Object} MultisigSignature
+ * @property {string} signature - The caller's signature.
  */
 
 /** @interface */
 export class IWalletAccountMultisig extends IWalletAccountReadOnlyMultisig {
   /**
-   * The derivation path's index of the signer associated with this account.
+   * The derivation path's index of this account.
    *
    * @type {number}
    */
@@ -53,7 +50,7 @@ export class IWalletAccountMultisig extends IWalletAccountReadOnlyMultisig {
   }
 
   /**
-   * The derivation path of the signer associated with this account (see [BIP-44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki)).
+   * The derivation path of this account (see [BIP-44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki)).
    *
    * @type {string}
    */
@@ -62,7 +59,7 @@ export class IWalletAccountMultisig extends IWalletAccountReadOnlyMultisig {
   }
 
   /**
-   * The key pair of the signer associated with this account.
+   * The key pair of this account.
    *
    * @type {KeyPair}
    */
@@ -78,7 +75,7 @@ export class IWalletAccountMultisig extends IWalletAccountReadOnlyMultisig {
    * @param {Transaction} tx - The transaction.
    * @param {MultisigTransactionOptions} [transactionOptions] - The multisig transaction's options.
    * @returns {Promise<MultisigProposal>} The created proposal; its `status` is `'executed'` when `autoExecute` ran to completion, otherwise `'pending'`.
-   * @throws {Error} If the signer is not an owner of the multisig account.
+   * @throws {Error} If the account is not an owner of the multisig wallet.
    */
   async propose (tx, transactionOptions) {
     throw new NotImplementedError('propose(tx, transactionOptions)')
@@ -88,8 +85,8 @@ export class IWalletAccountMultisig extends IWalletAccountReadOnlyMultisig {
    * Proposes signing a message.
    *
    * @param {string} message - The message to sign.
-   * @returns {Promise<MultisigMessageProposal>} The multisig message proposal.
-   * @throws {Error} If the signer is not an owner of the multisig account.
+   * @returns {Promise<MultisigMessageProposal & MultisigSignature>} The multisig message proposal.
+   * @throws {Error} If the account is not an owner of the multisig wallet.
    */
   async proposeMessage (message) {
     throw new NotImplementedError('proposeMessage(message)')
@@ -99,8 +96,8 @@ export class IWalletAccountMultisig extends IWalletAccountReadOnlyMultisig {
    * Approves an existing message proposal.
    *
    * @param {string} messageId - The message's hash.
-   * @returns {Promise<MultisigMessageProposal>} The multisig message proposal.
-   * @throws {Error} If the signer is not an owner of the multisig account.
+   * @returns {Promise<MultisigMessageProposal & MultisigSignature>} The multisig message proposal.
+   * @throws {Error} If the account is not an owner of the multisig wallet.
    * @throws {NoSuchElementError} If no message exists for the given id.
    */
   async approveMessageProposal (messageId) {
@@ -112,7 +109,7 @@ export class IWalletAccountMultisig extends IWalletAccountReadOnlyMultisig {
    *
    * @param {string} proposalId - The proposal's id.
    * @returns {Promise<MultisigProposal>} The multisig proposal.
-   * @throws {Error} If the signer is not an owner of the multisig account.
+   * @throws {Error} If the account is not an owner of the multisig wallet.
    * @throws {NoSuchElementError} If no proposal exists for the given id.
    */
   async approveProposal (proposalId) {

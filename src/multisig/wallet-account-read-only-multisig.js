@@ -38,7 +38,7 @@ import { NotImplementedError } from '../errors.js'
  */
 
 /**
- * @typedef {Object} MultisigMessage
+ * @typedef {Object} MultisigMessageProposal
  * @property {string} messageId - The message's hash.
  * @property {string} message - The original message.
  * @property {number} confirmations - The current number of confirmations.
@@ -91,7 +91,7 @@ export class IWalletAccountReadOnlyMultisig extends IWalletAccountReadOnlySimple
    * Returns a list of message proposals by their hashes.
    *
    * @param {string[]} messageIds - The list of message hashes
-   * @returns {Promise<Record<string, MultisigMessage | null>>} For each message hash, the message details or
+   * @returns {Promise<Record<string, MultisigMessageProposal | null>>} For each message hash, the message details or
    *   null if the message has not been found.
    */
   async getMessageProposals (messageIds) {
@@ -102,7 +102,7 @@ export class IWalletAccountReadOnlyMultisig extends IWalletAccountReadOnlySimple
    * Returns a message proposal by its identifier.
    *
    * @param {string} messageId - The message's hash.
-   * @returns {Promise<MultisigMessage | null>} The message details, or null if it has not been found.
+   * @returns {Promise<MultisigMessageProposal | null>} The message details, or null if it has not been found.
    */
   async getMessageProposal (messageId) {
     throw new NotImplementedError('getMessageProposal(messageId)')

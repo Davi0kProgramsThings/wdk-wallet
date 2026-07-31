@@ -1,19 +1,19 @@
 /** @interface */
 export interface IWalletAccountMultisig extends IWalletAccountReadOnlyMultisig {
     /**
-     * The derivation path's index of the signer associated with this account.
+     * The derivation path's index of this account.
      *
      * @type {number}
      */
     get index(): number;
     /**
-     * The derivation path of the signer associated with this account (see [BIP-44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki)).
+     * The derivation path of this account (see [BIP-44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki)).
      *
      * @type {string}
      */
     get path(): string;
     /**
-     * The key pair of the signer associated with this account.
+     * The key pair of this account.
      *
      * @type {KeyPair}
      */
@@ -26,32 +26,32 @@ export interface IWalletAccountMultisig extends IWalletAccountReadOnlyMultisig {
      * @param {Transaction} tx - The transaction.
      * @param {MultisigTransactionOptions} [transactionOptions] - The multisig transaction's options.
      * @returns {Promise<MultisigProposal>} The created proposal; its `status` is `'executed'` when `autoExecute` ran to completion, otherwise `'pending'`.
-     * @throws {Error} If the signer is not an owner of the multisig account.
+     * @throws {Error} If the account is not an owner of the multisig wallet.
      */
     propose(tx: Transaction, transactionOptions?: MultisigTransactionOptions): Promise<MultisigProposal>;
     /**
      * Proposes signing a message.
      *
      * @param {string} message - The message to sign.
-     * @returns {Promise<MultisigMessageProposal>} The multisig message proposal.
-     * @throws {Error} If the signer is not an owner of the multisig account.
+     * @returns {Promise<MultisigMessageProposal & MultisigSignature>} The multisig message proposal.
+     * @throws {Error} If the account is not an owner of the multisig wallet.
      */
-    proposeMessage(message: string): Promise<MultisigMessageProposal>;
+    proposeMessage(message: string): Promise<MultisigMessageProposal & MultisigSignature>;
     /**
      * Approves an existing message proposal.
      *
      * @param {string} messageId - The message's hash.
-     * @returns {Promise<MultisigMessageProposal>} The multisig message proposal.
-     * @throws {Error} If the signer is not an owner of the multisig account.
+     * @returns {Promise<MultisigMessageProposal & MultisigSignature>} The multisig message proposal.
+     * @throws {Error} If the account is not an owner of the multisig wallet.
      * @throws {NoSuchElementError} If no message exists for the given id.
      */
-    approveMessageProposal(messageId: string): Promise<MultisigMessageProposal>;
+    approveMessageProposal(messageId: string): Promise<MultisigMessageProposal & MultisigSignature>;
     /**
      * Approves a pending proposal.
      *
      * @param {string} proposalId - The proposal's id.
      * @returns {Promise<MultisigProposal>} The multisig proposal.
-     * @throws {Error} If the signer is not an owner of the multisig account.
+     * @throws {Error} If the account is not an owner of the multisig wallet.
      * @throws {NoSuchElementError} If no proposal exists for the given id.
      */
     approveProposal(proposalId: string): Promise<MultisigProposal>;
@@ -84,25 +84,10 @@ export type MultisigTransactionOptions = {
      */
     autoExecute?: boolean;
 };
-export type MultisigMessageProposal = {
+export type MultisigSignature = {
     /**
-     * - The message's hash.
-     */
-    messageId: string;
-    /**
-     * - The signature of the caller.
+     * - The caller's signature.
      */
     signature: string;
-    /**
-     * - The current number of confirmations.
-     */
-    confirmations: number;
-    /**
-     * - The minimum amount of confirmations to sign the message.
-     */
-    threshold: number;
-    /**
-     * - The final combined signature when the threshold is met.
-     */
-    combinedSignature: string | null;
 };
+export type MultisigMessageProposal = import("./wallet-account-read-only-multisig.js").MultisigMessageProposal;

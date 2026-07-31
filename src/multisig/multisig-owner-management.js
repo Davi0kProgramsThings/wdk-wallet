@@ -34,7 +34,7 @@ export class IMultisigOwnerManagement {
    * @param {string} owner - The owner's address.
    * @param {MultisigOptions} [options] - The multisig options.
    * @returns {Promise<MultisigProposal>} The multisig proposal.
-   * @throws {Error} If the signer is not an owner of the multisig account.
+   * @throws {Error} If the account is not an owner of the multisig wallet.
    */
   async addOwner (owner, options) {
     throw new NotImplementedError('addOwner(owner, options)')
@@ -46,7 +46,7 @@ export class IMultisigOwnerManagement {
    * @param {string} owner - The owner's address.
    * @param {MultisigOptions} [options] - The multisig options.
    * @returns {Promise<MultisigProposal>} The multisig proposal.
-   * @throws {Error} If the signer is not an owner of the multisig account.
+   * @throws {Error} If the account is not an owner of the multisig wallet.
    */
   async removeOwner (owner, options) {
     throw new NotImplementedError('removeOwner(owner, options)')
@@ -58,7 +58,7 @@ export class IMultisigOwnerManagement {
    * @param {string} oldOwner - The old owner.
    * @param {string} newOwner - The new owner.
    * @returns {Promise<MultisigProposal>} The multisig proposal.
-   * @throws {Error} If the signer is not an owner of the multisig account.
+   * @throws {Error} If the account is not an owner of the multisig wallet.
    */
   async swapOwner (oldOwner, newOwner) {
     throw new NotImplementedError('swapOwner(oldOwner, newOwner)')
@@ -69,7 +69,7 @@ export class IMultisigOwnerManagement {
    *
    * @param {number} newThreshold - The new threshold.
    * @returns {Promise<MultisigProposal>} The multisig proposal.
-   * @throws {Error} If the signer is not an owner of the multisig account.
+   * @throws {Error} If the account is not an owner of the multisig wallet.
    */
   async changeThreshold (newThreshold) {
     throw new NotImplementedError('changeThreshold(newThreshold)')
