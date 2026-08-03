@@ -22,16 +22,8 @@
 /** @typedef {import('./wallet-account-multisig.js').MultisigSignature} MultisigSignature */
 /** @typedef {import('./multisig-owner-management.js').MultisigOptions} MultisigOptions */
 
-/** @typedef {import('./i-multisig-transport.js').MultisigTransportProposal} MultisigTransportProposal */
-/** @typedef {import('./i-multisig-transport.js').MultisigTransportMessage} MultisigTransportMessage */
-/** @typedef {import('./i-multisig-transport.js').MultisigTransportMessageInput} MultisigTransportMessageInput */
-
 export { IWalletAccountReadOnlyMultisig } from './wallet-account-read-only-multisig.js'
 
 export { IWalletAccountMultisig } from './wallet-account-multisig.js'
 
 export { IMultisigOwnerManagement } from './multisig-owner-management.js'
-
-export { IMultisigTransport } from './i-multisig-transport.js'
-
-export { toTransportJson } from './transport-serialization.js'
