@@ -40,7 +40,7 @@ export class IWalletAccountReadOnlySimple {
    * @param {string} message - The original message.
    * @param {string} signature - The signature to verify.
    * @returns {Promise<boolean>} True if the signature is valid.
-   * @throws {Error} If the read-only wallet account class is not able to provide an implementation for the method.
+   * @throws {UnsupportedOperationError} If the read-only wallet account class is not able to provide an implementation for the method.
    */
   async verify (message, signature) {
     throw new NotImplementedError('verify(message, signature)')
@@ -50,6 +50,8 @@ export class IWalletAccountReadOnlySimple {
    * Returns the account's native token balance.
    *
    * @returns {Promise<bigint>} The native token balance.
+   * @throws {ProviderRequiredError} If the method requires a provider.
+   * @throws {ProviderError} If the provider fails to fetch the account's balance.
    */
   async getBalance () {
     throw new NotImplementedError('getBalance()')
@@ -60,6 +62,10 @@ export class IWalletAccountReadOnlySimple {
    *
    * @param {string} tokenAddress - The smart contract address of the token.
    * @returns {Promise<bigint>} The token balance.
+   * @throws {ValueError} If the token's address is not valid.
+   * @throws {InvalidTokenError} If the token's address doesn't match an existing ERC 20 token.
+   * @throws {ProviderRequiredError} If the method requires a provider.
+   * @throws {ProviderError} If the provider fails to fetch the account's token balance.
    */
   async getTokenBalance (tokenAddress) {
     throw new NotImplementedError('getTokenBalance(tokenAddress)')
@@ -70,6 +76,9 @@ export class IWalletAccountReadOnlySimple {
    *
    * @param {string} hash - The transaction's hash.
    * @returns {Promise<unknown | null>} The receipt, or null if the transaction has not been included in a block yet.
+   * @throws {ValueError} If the hash is not valid.
+   * @throws {ProviderRequiredError} If the method requires a provider.
+   * @throws {ProviderError} If the provider fails to fetch the transaction's receipt.
    */
   async getTransactionReceipt (hash) {
     throw new NotImplementedError('getTransactionReceipt(hash)')
