@@ -80,6 +80,7 @@ import {
  * @property {WaitForTransactionTarget} [target] - The finality target to wait for (default: 'confirmed').
  * @property {number} [timeout] - The total time budget in milliseconds before giving up (default: per-module).
  * @property {number} [interval] - The poll cadence in milliseconds (default: per-module).
+ * @property {number} [maxPollErrors] - How many consecutive getTransaction() failures to tolerate before rethrowing (default: 3).
  */
 
 /** @interface */
@@ -311,15 +312,26 @@ export default class WalletAccountReadOnly {
     const {
       target = 'confirmed',
       interval = this._defaultWaitInterval,
-      timeout = this._defaultWaitTimeout
+      timeout = this._defaultWaitTimeout,
+      maxPollErrors = 3
     } = options
 
     const deadline = Date.now() + timeout
     let last = null
     let droppedStreak = 0
+    let errorStreak = 0
 
     while (true) {
-      const receipt = await this.getTransaction(hash)
+      let receipt = null
+
+      try {
+        receipt = await this.getTransaction(hash)
+        errorStreak = 0
+      } catch (error) {
+        if (++errorStreak > maxPollErrors) {
+          throw error
+        }
+      }
 
       if (receipt) {
         last = receipt
