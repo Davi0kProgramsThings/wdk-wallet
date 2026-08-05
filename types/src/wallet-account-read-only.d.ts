@@ -253,13 +253,13 @@ export type TransactionReceipt = {
      */
     finality: Finality;
     /**
-     * - The execution result, or null while pending/dropped.
+     * - The execution's result (not set if the transaction is still pending or it has been dropped).
      */
-    success: boolean | null;
+    success?: boolean;
     /**
      * - A reference to the including block (block hash / slot / masterchain seqno).
      */
-    blockRef?: string | number;
+    block?: string | number;
     /**
      * - The fee paid, when known.
      */
