@@ -15,9 +15,7 @@
 
 import {
   NotImplementedError,
-  TransactionFailedError,
-  TransactionDroppedError,
-  TransactionConfirmationTimeoutError
+  TimeoutError
 } from './errors.js'
 
 /**
@@ -296,17 +294,20 @@ export default class WalletAccountReadOnly {
   }
 
   /**
-   * Blocks until a transaction reaches the requested finality target, fails, is dropped, or times out.
+   * Blocks until a transaction reaches a terminal state (the requested finality
+   * target or `dropped`), or times out.
    *
    * The polling loop and target resolution are chain-agnostic: this method only
    * interprets the normalized receipt returned by {@link getTransaction}.
    *
+   * A reverted transaction still reaches its finality target, so it is returned
+   * like any other; callers dispatch on the receipt's `finality` and `success`
+   * fields to tell success, revert, and drop apart. Only a timeout throws.
+   *
    * @param {string} hash - The transaction's identifier.
    * @param {WaitForTransactionOptions} [options] - The wait options.
-   * @returns {Promise<TransactionReceipt>} The terminal receipt once the target is reached.
-   * @throws {TransactionFailedError} If the transaction lands but reverts (success === false). The receipt is exposed on `.receipt`.
-   * @throws {TransactionDroppedError} If the transaction is reported dropped on two consecutive polls. The receipt is exposed on `.receipt`.
-   * @throws {TransactionConfirmationTimeoutError} If the target is not reached before the timeout. The last-seen receipt (or null) is exposed on `.receipt`.
+   * @returns {Promise<TransactionReceipt>} The terminal receipt: the finality target reached (inspect `success` to tell success from revert), or `dropped`.
+   * @throws {TimeoutError} If the target is not reached before the timeout. The last-seen receipt (or null) is exposed on `.receipt`.
    */
   async waitForTransaction (hash, options = {}) {
     const {
@@ -337,15 +338,15 @@ export default class WalletAccountReadOnly {
         last = receipt
 
         if (receipt.finality === 'dropped') {
+          // Debounce a transient drop; only treat it as terminal once it persists.
           if (++droppedStreak >= 2) {
-            throw new TransactionDroppedError(hash, receipt)
+            return receipt
           }
         } else {
           droppedStreak = 0
 
-          if (receipt.success === false) {
-            throw new TransactionFailedError(hash, receipt)
-          }
+          // A reverted transaction still reaches its finality target: it is
+          // returned like any other, and the caller inspects `success`.
           if (this._meetsFinality(receipt.finality, target)) {
             return receipt
           }
@@ -355,7 +356,7 @@ export default class WalletAccountReadOnly {
       }
 
       if (Date.now() >= deadline) {
-        throw new TransactionConfirmationTimeoutError(hash, target, last)
+        throw new TimeoutError(hash, target, last)
       }
 
       await new Promise(resolve => setTimeout(resolve, interval))

@@ -2,9 +2,7 @@ import { describe, expect, test } from '@jest/globals'
 
 import {
   WalletAccountReadOnly,
-  TransactionFailedError,
-  TransactionDroppedError,
-  TransactionConfirmationTimeoutError
+  TimeoutError
 } from '../index.js'
 
 class DummyWalletAccountReadOnly extends WalletAccountReadOnly {
@@ -122,24 +120,20 @@ describe('WalletAccountReadOnly', () => {
       expect(receipt).toBe(final)
     })
 
-    test('throws TransactionFailedError with the receipt on revert', async () => {
+    test('returns the receipt when the transaction reverts, without throwing', async () => {
       const failed = { id: HASH, finality: 'final', success: false }
       const account = new ScriptedWalletAccountReadOnly([failed])
 
-      await expect(account.waitForTransaction(HASH)).rejects.toThrow(TransactionFailedError)
-      await account.waitForTransaction(HASH).catch(err => {
-        expect(err.receipt).toBe(failed)
-      })
+      const receipt = await account.waitForTransaction(HASH)
+      expect(receipt).toBe(failed)
     })
 
-    test('throws TransactionDroppedError with the receipt when dropped on consecutive polls', async () => {
+    test('returns the receipt when the transaction is dropped on consecutive polls', async () => {
       const dropped = { id: HASH, finality: 'dropped', success: undefined }
       const account = new ScriptedWalletAccountReadOnly([dropped])
 
-      await expect(account.waitForTransaction(HASH)).rejects.toThrow(TransactionDroppedError)
-      await account.waitForTransaction(HASH).catch(err => {
-        expect(err.receipt).toBe(dropped)
-      })
+      const receipt = await account.waitForTransaction(HASH)
+      expect(receipt).toBe(dropped)
     })
 
     test('debounces a transient drop that recovers to confirmed', async () => {
@@ -154,12 +148,12 @@ describe('WalletAccountReadOnly', () => {
       expect(account.calls).toBe(2)
     })
 
-    test('throws TransactionConfirmationTimeoutError carrying the last-seen receipt', async () => {
+    test('throws TimeoutError carrying the last-seen receipt', async () => {
       const pending = { id: HASH, finality: 'pending', success: undefined }
       const account = new ScriptedWalletAccountReadOnly([pending])
 
       await account.waitForTransaction(HASH, { timeout: 10, interval: 1 }).catch(err => {
-        expect(err).toBeInstanceOf(TransactionConfirmationTimeoutError)
+        expect(err).toBeInstanceOf(TimeoutError)
         expect(err.receipt).toBe(pending)
       })
     })
@@ -168,7 +162,7 @@ describe('WalletAccountReadOnly', () => {
       const account = new ScriptedWalletAccountReadOnly([null])
 
       await account.waitForTransaction(HASH, { timeout: 10, interval: 1 }).catch(err => {
-        expect(err).toBeInstanceOf(TransactionConfirmationTimeoutError)
+        expect(err).toBeInstanceOf(TimeoutError)
         expect(err.receipt).toBeNull()
       })
     })

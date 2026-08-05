@@ -42,9 +42,7 @@ export {
   UnsupportedOperationError,
   ValueError,
   NoSuchElementError,
-  TransactionFailedError,
-  TransactionDroppedError,
-  TransactionConfirmationTimeoutError
+  TimeoutError
 } from './src/errors.js'
 
 export { ISigner } from './src/signer.js'

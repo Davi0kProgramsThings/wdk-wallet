@@ -13,4 +13,4 @@ export type WaitForTransactionTarget = import("./src/wallet-account-read-only.js
 export type WaitForTransactionOptions = import("./src/wallet-account-read-only.js").WaitForTransactionOptions;
 export type KeyPair = import("./src/wallet-account.js").KeyPair;
 export { default as WalletAccountReadOnly, IWalletAccountReadOnly } from "./src/wallet-account-read-only.js";
-export { NotImplementedError, SignerError, UnsupportedOperationError, ValueError, NoSuchElementError, TransactionFailedError, TransactionDroppedError, TransactionConfirmationTimeoutError } from "./src/errors.js";
+export { NotImplementedError, SignerError, UnsupportedOperationError, ValueError, NoSuchElementError, TimeoutError } from "./src/errors.js";

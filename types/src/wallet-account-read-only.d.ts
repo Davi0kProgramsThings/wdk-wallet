@@ -58,7 +58,7 @@ export interface IWalletAccountReadOnly {
      */
     getTransaction(hash: string): Promise<TransactionReceipt | null>;
     /**
-     * Blocks until a transaction reaches the requested finality target, fails, is dropped, or times out.
+     * Blocks until a transaction reaches a terminal state (the requested finality target or `dropped`), or times out.
      *
      * @param {string} hash - The transaction's identifier.
      * @param {WaitForTransactionOptions} [options] - The wait options.
@@ -151,14 +151,17 @@ export default abstract class WalletAccountReadOnly implements IWalletAccountRea
      */
     abstract getTransaction(hash: string): Promise<TransactionReceipt | null>;
     /**
-     * Blocks until a transaction reaches the requested finality target, fails, is dropped, or times out.
+     * Blocks until a transaction reaches a terminal state (the requested finality
+     * target or `dropped`), or times out.
+     *
+     * A reverted transaction still reaches its finality target, so it is returned
+     * like any other; callers dispatch on the receipt's `finality` and `success`
+     * fields to tell success, revert, and drop apart. Only a timeout throws.
      *
      * @param {string} hash - The transaction's identifier.
      * @param {WaitForTransactionOptions} [options] - The wait options.
-     * @returns {Promise<TransactionReceipt>} The terminal receipt once the target is reached.
-     * @throws {TransactionFailedError} If the transaction lands but reverts (success === false). The receipt is exposed on `.receipt`.
-     * @throws {TransactionDroppedError} If the transaction is reported dropped on two consecutive polls. The receipt is exposed on `.receipt`.
-     * @throws {TransactionConfirmationTimeoutError} If the target is not reached before the timeout. The last-seen receipt (or null) is exposed on `.receipt`.
+     * @returns {Promise<TransactionReceipt>} The terminal receipt: the finality target reached (inspect `success` to tell success from revert), or `dropped`.
+     * @throws {TimeoutError} If the target is not reached before the timeout. The last-seen receipt (or null) is exposed on `.receipt`.
      */
     waitForTransaction(hash: string, options?: WaitForTransactionOptions): Promise<TransactionReceipt>;
     /**
