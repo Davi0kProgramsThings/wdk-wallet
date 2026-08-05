@@ -223,7 +223,7 @@ export type TransactionReceipt = {
     /**
      * - The transaction's identifier (hash / signature / lt:hash).
      */
-    id: string;
+    hash: string;
     /**
      * - The transaction's finality level.
      */
