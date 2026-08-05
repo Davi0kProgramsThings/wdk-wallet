@@ -65,7 +65,7 @@ import { IWalletAccountReadOnlySimple } from './wallet-account-read-only-simple.
  * @property {string} id - The transaction's identifier (hash / signature / lt:hash).
  * @property {Finality} finality - The transaction's finality level.
  * @property {boolean} [success] - The execution's result (not set if the transaction is still pending or it has been dropped).
- * @property {string | number} [block] - A reference to the including block (block hash / slot / masterchain seqno).
+ * @property {number} [block] - A reference to the including block (block number / height / slot / masterchain seqno).
  * @property {bigint} [fee] - The fee paid, when known.
  */
 

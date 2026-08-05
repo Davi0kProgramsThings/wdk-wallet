@@ -233,9 +233,9 @@ export type TransactionReceipt = {
      */
     success?: boolean;
     /**
-     * - A reference to the including block (block hash / slot / masterchain seqno).
+     * - A reference to the including block (block number / height / slot / masterchain seqno).
      */
-    block?: string | number;
+    block?: number;
     /**
      * - The fee paid, when known.
      */
