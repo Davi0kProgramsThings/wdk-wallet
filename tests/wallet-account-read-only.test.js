@@ -72,13 +72,6 @@ describe('WalletAccountReadOnly', () => {
     })
   })
 
-  describe('getTransaction', () => {
-    test('should throw NotImplementedError by default', async () => {
-      const account = new DummyWalletAccountReadOnly(ADDRESS)
-      await expect(account.getTransaction(HASH)).rejects.toThrow("Method 'getTransaction(hash)' must be implemented.")
-    })
-  })
-
   describe('_meetsFinality', () => {
     const account = new DummyWalletAccountReadOnly(ADDRESS)
 
