@@ -63,6 +63,7 @@ export interface IWalletAccountReadOnly {
      * @param {string} hash - The transaction's identifier.
      * @param {WaitForTransactionOptions} [options] - The wait options.
      * @returns {Promise<TransactionReceipt>} The terminal receipt.
+     * @throws {TimeoutError} If the target is not reached before the timeout.
      */
     waitForTransaction(hash: string, options?: WaitForTransactionOptions): Promise<TransactionReceipt>;
 }

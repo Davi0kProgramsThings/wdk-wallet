@@ -165,11 +165,12 @@ export class IWalletAccountReadOnly {
   }
 
   /**
-   * Blocks until a transaction reaches the requested finality target, fails, is dropped, or times out.
+   * Blocks until a transaction reaches a terminal state (the requested finality target or `dropped`), or times out.
    *
    * @param {string} hash - The transaction's identifier.
    * @param {WaitForTransactionOptions} [options] - The wait options.
    * @returns {Promise<TransactionReceipt>} The terminal receipt.
+   * @throws {TimeoutError} If the target is not reached before the timeout.
    */
   async waitForTransaction (hash, options) {
     throw new NotImplementedError('waitForTransaction(hash, options)')
