@@ -300,14 +300,10 @@ export default class WalletAccountReadOnly {
    * The polling loop and target resolution are chain-agnostic: this method only
    * interprets the normalized receipt returned by {@link getTransaction}.
    *
-   * A reverted transaction still reaches its finality target, so it is returned
-   * like any other; callers dispatch on the receipt's `finality` and `success`
-   * fields to tell success, revert, and drop apart. Only a timeout throws.
-   *
    * @param {string} hash - The transaction's identifier.
    * @param {WaitForTransactionOptions} [options] - The wait options.
    * @returns {Promise<TransactionReceipt>} The terminal receipt: the finality target reached (inspect `success` to tell success from revert), or `dropped`.
-   * @throws {TimeoutError} If the target is not reached before the timeout. The last-seen receipt (or null) is exposed on `.receipt`.
+   * @throws {TimeoutError} If the target is not reached before the timeout.
    */
   async waitForTransaction (hash, options = {}) {
     const {
@@ -318,7 +314,6 @@ export default class WalletAccountReadOnly {
     } = options
 
     const deadline = Date.now() + timeout
-    let last = null
     let droppedStreak = 0
     let errorStreak = 0
 
@@ -335,18 +330,13 @@ export default class WalletAccountReadOnly {
       }
 
       if (receipt) {
-        last = receipt
-
         if (receipt.finality === 'dropped') {
-          // Debounce a transient drop; only treat it as terminal once it persists.
           if (++droppedStreak >= 2) {
             return receipt
           }
         } else {
           droppedStreak = 0
 
-          // A reverted transaction still reaches its finality target: it is
-          // returned like any other, and the caller inspects `success`.
           if (this._meetsFinality(receipt.finality, target)) {
             return receipt
           }
@@ -356,7 +346,7 @@ export default class WalletAccountReadOnly {
       }
 
       if (Date.now() >= deadline) {
-        throw new TimeoutError(hash, target, last)
+        throw new TimeoutError(`Transaction '${hash}' did not reach '${target}' within the timeout.`)
       }
 
       await new Promise(resolve => setTimeout(resolve, interval))

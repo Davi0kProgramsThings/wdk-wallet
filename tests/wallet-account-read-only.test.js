@@ -148,23 +148,19 @@ describe('WalletAccountReadOnly', () => {
       expect(account.calls).toBe(2)
     })
 
-    test('throws TimeoutError carrying the last-seen receipt', async () => {
+    test('throws TimeoutError when the target is not reached in time', async () => {
       const pending = { id: HASH, finality: 'pending', success: undefined }
       const account = new ScriptedWalletAccountReadOnly([pending])
 
-      await account.waitForTransaction(HASH, { timeout: 10, interval: 1 }).catch(err => {
-        expect(err).toBeInstanceOf(TimeoutError)
-        expect(err.receipt).toBe(pending)
-      })
+      await expect(account.waitForTransaction(HASH, { timeout: 10, interval: 1 }))
+        .rejects.toThrow(TimeoutError)
     })
 
-    test('timeout receipt is null when the tx was never seen', async () => {
+    test('throws TimeoutError when the transaction is never seen', async () => {
       const account = new ScriptedWalletAccountReadOnly([null])
 
-      await account.waitForTransaction(HASH, { timeout: 10, interval: 1 }).catch(err => {
-        expect(err).toBeInstanceOf(TimeoutError)
-        expect(err.receipt).toBeNull()
-      })
+      await expect(account.waitForTransaction(HASH, { timeout: 10, interval: 1 }))
+        .rejects.toThrow(TimeoutError)
     })
   })
 })

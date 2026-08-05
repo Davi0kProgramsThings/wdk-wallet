@@ -161,7 +161,7 @@ export default abstract class WalletAccountReadOnly implements IWalletAccountRea
      * @param {string} hash - The transaction's identifier.
      * @param {WaitForTransactionOptions} [options] - The wait options.
      * @returns {Promise<TransactionReceipt>} The terminal receipt: the finality target reached (inspect `success` to tell success from revert), or `dropped`.
-     * @throws {TimeoutError} If the target is not reached before the timeout. The last-seen receipt (or null) is exposed on `.receipt`.
+     * @throws {TimeoutError} If the target is not reached before the timeout.
      */
     waitForTransaction(hash: string, options?: WaitForTransactionOptions): Promise<TransactionReceipt>;
     /**

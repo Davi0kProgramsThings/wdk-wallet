@@ -42,14 +42,10 @@ export class NoSuchElementError extends Error {
 }
 export class TimeoutError extends Error {
     /**
-     * Create a new timeout error. Thrown when a transaction does not reach the
-     * requested finality target within the timeout.
+     * Create a new timeout error. Thrown when an operation does not complete
+     * within its allotted time.
      *
-     * @param {string} hash - The transaction's hash.
-     * @param {string} target - The requested finality target.
-     * @param {import('./wallet-account-read-only.js').TransactionReceipt | null} [receipt] - The last-seen receipt, or null if never seen.
+     * @param {string} message - The error's message.
      */
-    constructor(hash: string, target: string, receipt?: import("./wallet-account-read-only.js").TransactionReceipt | null);
-    /** @type {import('./wallet-account-read-only.js').TransactionReceipt | null} */
-    receipt: import("./wallet-account-read-only.js").TransactionReceipt | null;
+    constructor(message: string);
 }
