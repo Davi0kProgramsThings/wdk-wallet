@@ -370,16 +370,15 @@ export default class WalletAccountReadOnly {
     return finality === 'confirmed' || finality === 'final'
   }
 
-  /**
-   * The default poll cadence for {@link waitForTransaction}, in milliseconds.
-   * Modules override this to match their block cadence.
-   *
-   * @protected
-   * @type {number}
-   */
-  get _defaultWaitInterval () {
-    return 4000
-  }
+ /**
+  * The default poll cadence for {@link waitForTransaction}, in milliseconds.
+  *
+  * @protected
+  * @type {number}
+  */
+ get _defaultWaitInterval () {
+   return 4000
+ }
 
   /**
    * The default total time budget for {@link waitForTransaction}, in milliseconds.
