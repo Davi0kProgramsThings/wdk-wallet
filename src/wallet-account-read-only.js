@@ -18,6 +18,8 @@ import {
   TimeoutError
 } from './errors.js'
 
+import { IWalletAccountReadOnlySimple } from './wallet-account-read-only-simple.js'
+
 /**
  * @typedef {Object} Transaction
  * @property {string} to - The transaction's recipient.
@@ -82,47 +84,7 @@ import {
  */
 
 /** @interface */
-export class IWalletAccountReadOnly {
-  /**
-   * Returns the account's address.
-   *
-   * @returns {Promise<string>} The account's address.
-   */
-  async getAddress () {
-    throw new NotImplementedError('getAddress()')
-  }
-
-  /**
-   * Verifies a message's signature.
-   *
-   * @param {string} message - The original message.
-   * @param {string} signature - The signature to verify.
-   * @returns {Promise<boolean>} True if the signature is valid.
-   * @throws {Error} If the read-only wallet account class is not able to provide an implementation for the method.
-   */
-  async verify (message, signature) {
-    throw new NotImplementedError('verify(message, signature)')
-  }
-
-  /**
-   * Returns the account's native token balance.
-   *
-   * @returns {Promise<bigint>} The native token balance.
-   */
-  async getBalance () {
-    throw new NotImplementedError('getBalance()')
-  }
-
-  /**
-   * Returns the account balance for a specific token.
-   *
-   * @param {string} tokenAddress - The smart contract address of the token.
-   * @returns {Promise<bigint>} The token balance.
-   */
-  async getTokenBalance (tokenAddress) {
-    throw new NotImplementedError('getTokenBalance(tokenAddress)')
-  }
-
+export class IWalletAccountReadOnly extends IWalletAccountReadOnlySimple {
   /**
    * Quotes the costs of a send transaction operation.
    *

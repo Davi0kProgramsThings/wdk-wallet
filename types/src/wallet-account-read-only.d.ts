@@ -1,33 +1,5 @@
 /** @interface */
-export interface IWalletAccountReadOnly {
-    /**
-     * Returns the account's address.
-     *
-     * @returns {Promise<string>} The account's address.
-     */
-    getAddress(): Promise<string>;
-    /**
-     * Verifies a message's signature.
-     *
-     * @param {string} message - The original message.
-     * @param {string} signature - The signature to verify.
-     * @returns {Promise<boolean>} True if the signature is valid.
-     * @throws {Error} If the read-only wallet account class is not able to provide an implementation for the method.
-     */
-    verify(message: string, signature: string): Promise<boolean>;
-    /**
-     * Returns the account's native token balance.
-     *
-     * @returns {Promise<bigint>} The native token balance.
-     */
-    getBalance(): Promise<bigint>;
-    /**
-     * Returns the account balance for a specific token.
-     *
-     * @param {string} tokenAddress - The smart contract address of the token.
-     * @returns {Promise<bigint>} The token balance.
-     */
-    getTokenBalance(tokenAddress: string): Promise<bigint>;
+export interface IWalletAccountReadOnly extends IWalletAccountReadOnlySimple {
     /**
      * Quotes the costs of a send transaction operation.
      *
@@ -287,3 +259,4 @@ export type WaitForTransactionOptions = {
      */
     interval?: number;
 };
+import { IWalletAccountReadOnlySimple } from './wallet-account-read-only-simple.js';
