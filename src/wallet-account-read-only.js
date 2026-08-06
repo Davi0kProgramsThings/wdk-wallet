@@ -15,6 +15,7 @@
 
 import {
   NotImplementedError,
+  NoSuchElementError,
   TimeoutError
 } from './errors.js'
 
@@ -134,7 +135,9 @@ export class IWalletAccountReadOnly extends IWalletAccountReadOnlySimple {
    * Returns a normalized, finality-based receipt for a transaction.
    *
    * @param {string} hash - The transaction's identifier (hash / signature / lt:hash).
-   * @returns {Promise<TransactionReceipt | null>} The normalized receipt, or null if the transaction is not known.
+   * @returns {Promise<TransactionReceipt>} The normalized receipt.
+   * @throws {ValueError} If the hash is not a valid identifier.
+   * @throws {NoSuchElementError} If no transaction has been found for the given hash.
    */
   async getTransaction (hash) {
     throw new NotImplementedError('getTransaction(hash)')
@@ -264,7 +267,9 @@ export default class WalletAccountReadOnly {
    *
    * @abstract
    * @param {string} hash - The transaction's identifier (hash / signature / lt:hash).
-   * @returns {Promise<TransactionReceipt | null>} The normalized receipt, or null if the transaction is not known.
+   * @returns {Promise<TransactionReceipt>} The normalized receipt.
+   * @throws {ValueError} If the hash is not a valid identifier.
+   * @throws {NoSuchElementError} If no transaction has been found for the given hash.
    */
   async getTransaction (hash) {
     throw new NotImplementedError('getTransaction(hash)')
@@ -275,7 +280,9 @@ export default class WalletAccountReadOnly {
    * target or `dropped`), or times out.
    *
    * The polling loop and target resolution are chain-agnostic: this method only
-   * interprets the normalized receipt returned by {@link getTransaction}.
+   * interprets the normalized receipt returned by {@link getTransaction}. A
+   * {@link NoSuchElementError} is treated as a transient not-found, so the loop
+   * keeps polling until the timeout.
    *
    * @param {string} hash - The transaction's identifier.
    * @param {WaitForTransactionOptions} [options] - The wait options.
@@ -301,7 +308,9 @@ export default class WalletAccountReadOnly {
         receipt = await this.getTransaction(hash)
         errorStreak = 0
       } catch (error) {
-        if (++errorStreak > maxPollErrors) {
+        if (error instanceof NoSuchElementError) {
+          errorStreak = 0
+        } else if (++errorStreak > maxPollErrors) {
           throw error
         }
       }

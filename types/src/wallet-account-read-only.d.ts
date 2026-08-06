@@ -36,9 +36,11 @@ export interface IWalletAccountReadOnly extends IWalletAccountReadOnlySimple {
      * Returns a normalized, finality-based receipt for a transaction.
      *
      * @param {string} hash - The transaction's identifier (hash / signature / lt:hash).
-     * @returns {Promise<TransactionReceipt | null>} The normalized receipt, or null if the transaction is not known.
+     * @returns {Promise<TransactionReceipt>} The normalized receipt.
+     * @throws {ValueError} If the hash is not a valid identifier.
+     * @throws {NoSuchElementError} If no transaction has been found for the given hash.
      */
-    getTransaction(hash: string): Promise<TransactionReceipt | null>;
+    getTransaction(hash: string): Promise<TransactionReceipt>;
     /**
      * Blocks until a transaction reaches a terminal state (the requested finality target or `dropped`), or times out.
      *
@@ -130,9 +132,11 @@ export default abstract class WalletAccountReadOnly implements IWalletAccountRea
      *
      * @abstract
      * @param {string} hash - The transaction's identifier (hash / signature / lt:hash).
-     * @returns {Promise<TransactionReceipt | null>} The normalized receipt, or null if the transaction is not known.
+     * @returns {Promise<TransactionReceipt>} The normalized receipt.
+     * @throws {ValueError} If the hash is not a valid identifier.
+     * @throws {NoSuchElementError} If no transaction has been found for the given hash.
      */
-    abstract getTransaction(hash: string): Promise<TransactionReceipt | null>;
+    abstract getTransaction(hash: string): Promise<TransactionReceipt>;
     /**
      * Blocks until a transaction reaches a terminal state (the requested finality
      * target or `dropped`), or times out.

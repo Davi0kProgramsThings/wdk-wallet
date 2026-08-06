@@ -3,6 +3,7 @@ import { describe, expect, test } from '@jest/globals'
 import {
   WalletAccountReadOnly,
   TimeoutError,
+  NoSuchElementError,
   FINALITY
 } from '../index.js'
 
@@ -42,6 +43,9 @@ class ScriptedWalletAccountReadOnly extends DummyWalletAccountReadOnly {
   async getTransaction (hash) {
     const item = this._sequence[Math.min(this.calls, this._sequence.length - 1)]
     this.calls += 1
+    if (item === null) {
+      throw new NoSuchElementError(`No transaction found for '${hash}'.`)
+    }
     return item
   }
 
