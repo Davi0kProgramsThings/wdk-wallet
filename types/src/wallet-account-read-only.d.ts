@@ -153,18 +153,20 @@ export default abstract class WalletAccountReadOnly implements IWalletAccountRea
     waitForTransaction(hash: string, options?: WaitForTransactionOptions): Promise<TransactionReceipt>;
     /**
      * The default poll cadence for {@link waitForTransaction}, in milliseconds.
+     * Subclasses may override this to match their finality expectations.
      *
      * @protected
      * @type {number}
      */
-    protected get _defaultWaitInterval(): number;
+    protected static _DEFAULT_WAIT_INTERVAL: number;
     /**
      * The default total time budget for {@link waitForTransaction}, in milliseconds.
+     * Subclasses may override this to match their finality expectations.
      *
      * @protected
      * @type {number}
      */
-    protected get _defaultWaitTimeout(): number;
+    protected static _DEFAULT_WAIT_TIMEOUT: number;
 }
 export type Transaction = {
     /**
@@ -256,11 +258,11 @@ export type WaitForTransactionOptions = {
      */
     target?: WaitForTransactionTarget;
     /**
-     * - The total time budget in milliseconds before giving up (default: per-module).
+     * - The total time budget in milliseconds before giving up (default: 60000).
      */
     timeout?: number;
     /**
-     * - The poll cadence in milliseconds (default: per-module).
+     * - The poll cadence in milliseconds (default: 4000).
      */
     interval?: number;
 };

@@ -93,8 +93,8 @@ export const FINALITY = {
 /**
  * @typedef {Object} WaitForTransactionOptions
  * @property {WaitForTransactionTarget} [target] - The finality target to wait for (default: 'confirmed').
- * @property {number} [timeout] - The total time budget in milliseconds before giving up (default: per-module).
- * @property {number} [interval] - The poll cadence in milliseconds (default: per-module).
+ * @property {number} [timeout] - The total time budget in milliseconds before giving up (default: 60000).
+ * @property {number} [interval] - The poll cadence in milliseconds (default: 4000).
  * @property {number} [maxPollErrors] - How many consecutive getTransaction() failures to tolerate before rethrowing (default: 3).
  */
 
@@ -161,6 +161,24 @@ export class IWalletAccountReadOnly extends IWalletAccountReadOnlySimple {
  * @implements {IWalletAccountReadOnly}
  */
 export default class WalletAccountReadOnly {
+  /**
+   * The default poll cadence for {@link waitForTransaction}, in milliseconds.
+   * Subclasses may override this to match their finality expectations.
+   *
+   * @protected
+   * @type {number}
+   */
+  static _DEFAULT_WAIT_INTERVAL = 4000
+
+  /**
+   * The default total time budget for {@link waitForTransaction}, in milliseconds.
+   * Subclasses may override this to match their finality expectations.
+   *
+   * @protected
+   * @type {number}
+   */
+  static _DEFAULT_WAIT_TIMEOUT = 60000
+
   /**
    * Creates a new read-only wallet account.
    *
@@ -292,8 +310,8 @@ export default class WalletAccountReadOnly {
   async waitForTransaction (hash, options = {}) {
     const {
       target = 'confirmed',
-      interval = this._defaultWaitInterval,
-      timeout = this._defaultWaitTimeout,
+      interval = this.constructor._DEFAULT_WAIT_INTERVAL,
+      timeout = this.constructor._DEFAULT_WAIT_TIMEOUT,
       maxPollErrors = 3
     } = options
 
@@ -337,26 +355,5 @@ export default class WalletAccountReadOnly {
 
       await new Promise(resolve => setTimeout(resolve, interval))
     }
-  }
-
-  /**
-  * The default poll cadence for {@link waitForTransaction}, in milliseconds.
-  *
-  * @protected
-  * @type {number}
-  */
-  get _defaultWaitInterval () {
-    return 4000
-  }
-
-  /**
-   * The default total time budget for {@link waitForTransaction}, in milliseconds.
-   * Modules override this to match their finality expectations.
-   *
-   * @protected
-   * @type {number}
-   */
-  get _defaultWaitTimeout () {
-    return 60000
   }
 }

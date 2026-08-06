@@ -49,13 +49,8 @@ class ScriptedWalletAccountReadOnly extends DummyWalletAccountReadOnly {
     return item
   }
 
-  get _defaultWaitInterval () {
-    return 1
-  }
-
-  get _defaultWaitTimeout () {
-    return 50
-  }
+  static _DEFAULT_WAIT_INTERVAL = 1
+  static _DEFAULT_WAIT_TIMEOUT = 50
 }
 
 const ADDRESS = '0xa460AEbce0d3A4BecAd8ccf9D6D4861296c503Bd'
