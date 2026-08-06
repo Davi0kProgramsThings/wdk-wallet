@@ -68,6 +68,15 @@ export class IWalletAccountMultisig extends IWalletAccountReadOnlyMultisig {
   }
 
   /**
+   * Returns the signer's address.
+   *
+   * @returns {Promise<string>} The signer's address.
+   */
+  async getSignerAddress () {
+    throw new NotImplementedError('getSignerAddress()')
+  }
+
+  /**
    * Proposes sending a transaction for the other owners to approve. Does not execute on-chain:
    * the returned proposal must be approved up to the threshold and then executed via
    * {@link executeProposal}.
