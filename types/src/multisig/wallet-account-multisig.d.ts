@@ -19,6 +19,12 @@ export interface IWalletAccountMultisig extends IWalletAccountReadOnlyMultisig {
      */
     get keyPair(): KeyPair;
     /**
+     * Returns the signer's address.
+     *
+     * @returns {Promise<string>} The signer's address.
+     */
+    getSignerAddress(): Promise<string>;
+    /**
      * Proposes sending a transaction for the other owners to approve. Does not execute on-chain:
      * the returned proposal must be approved up to the threshold and then executed via
      * {@link executeProposal}.
