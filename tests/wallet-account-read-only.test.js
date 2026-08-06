@@ -2,7 +2,8 @@ import { describe, expect, test } from '@jest/globals'
 
 import {
   WalletAccountReadOnly,
-  TimeoutError
+  TimeoutError,
+  FINALITY
 } from '../index.js'
 
 class DummyWalletAccountReadOnly extends WalletAccountReadOnly {
@@ -72,19 +73,10 @@ describe('WalletAccountReadOnly', () => {
     })
   })
 
-  describe('_meetsFinality', () => {
-    const account = new DummyWalletAccountReadOnly(ADDRESS)
-
-    test("target 'confirmed' is met by confirmed and final", () => {
-      expect(account._meetsFinality('confirmed', 'confirmed')).toBe(true)
-      expect(account._meetsFinality('final', 'confirmed')).toBe(true)
-      expect(account._meetsFinality('pending', 'confirmed')).toBe(false)
-    })
-
-    test("target 'final' is met only by final", () => {
-      expect(account._meetsFinality('final', 'final')).toBe(true)
-      expect(account._meetsFinality('confirmed', 'final')).toBe(false)
-      expect(account._meetsFinality('pending', 'final')).toBe(false)
+  describe('FINALITY', () => {
+    test('orders finalities so stronger settlement compares higher', () => {
+      expect(FINALITY.pending).toBeLessThan(FINALITY.confirmed)
+      expect(FINALITY.confirmed).toBeLessThan(FINALITY.final)
     })
   })
 

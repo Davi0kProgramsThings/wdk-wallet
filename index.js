@@ -31,7 +31,8 @@ export { default } from './src/wallet-manager.js'
 
 export {
   default as WalletAccountReadOnly,
-  IWalletAccountReadOnly
+  IWalletAccountReadOnly,
+  FINALITY
 } from './src/wallet-account-read-only.js'
 
 export { IWalletAccount } from './src/wallet-account.js'

@@ -57,6 +57,20 @@ import { IWalletAccountReadOnlySimple } from './wallet-account-read-only-simple.
  */
 
 /**
+ * Enum that assigns a comparable ordinal to each finality level, used to check
+ * whether an observed finality satisfies a requested target.
+ *
+ * @readonly
+ * @enum {number}
+ */
+export const FINALITY = {
+  pending: 0,
+  dropped: 1,
+  confirmed: 2,
+  final: 3
+}
+
+/**
  * A normalized, cross-chain transaction receipt. Blockchain modules extend this
  * type with their own native receipt fields (e.g. `confirmations`, the raw
  * transaction and receipt objects, etc.).
@@ -300,7 +314,7 @@ export default class WalletAccountReadOnly {
         } else {
           droppedStreak = 0
 
-          if (this._meetsFinality(receipt.finality, target)) {
+          if (FINALITY[receipt.finality] >= FINALITY[target]) {
             return receipt
           }
         }
@@ -314,22 +328,6 @@ export default class WalletAccountReadOnly {
 
       await new Promise(resolve => setTimeout(resolve, interval))
     }
-  }
-
-  /**
-   * Decides whether a finality level satisfies the requested target.
-   *
-   * @protected
-   * @param {Finality} finality - The observed finality level.
-   * @param {WaitForTransactionTarget} target - The requested finality target.
-   * @returns {boolean} True if the observed finality satisfies the target.
-   */
-  _meetsFinality (finality, target) {
-    if (target === 'final') {
-      return finality === 'final'
-    }
-
-    return finality === 'confirmed' || finality === 'final'
   }
 
   /**

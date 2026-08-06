@@ -1,3 +1,13 @@
+/**
+ * Enum that assigns a comparable ordinal to each finality level, used to check
+ * whether an observed finality satisfies a requested target.
+ */
+export namespace FINALITY {
+    let pending: number;
+    let dropped: number;
+    let confirmed: number;
+    let final: number;
+}
 /** @interface */
 export interface IWalletAccountReadOnly extends IWalletAccountReadOnlySimple {
     /**
@@ -137,15 +147,6 @@ export default abstract class WalletAccountReadOnly implements IWalletAccountRea
      * @throws {TimeoutError} If the target is not reached before the timeout.
      */
     waitForTransaction(hash: string, options?: WaitForTransactionOptions): Promise<TransactionReceipt>;
-    /**
-     * Decides whether a finality level satisfies the requested target.
-     *
-     * @protected
-     * @param {Finality} finality - The observed finality level.
-     * @param {WaitForTransactionTarget} target - The requested finality target.
-     * @returns {boolean} True if the observed finality satisfies the target.
-     */
-    protected _meetsFinality(finality: Finality, target: WaitForTransactionTarget): boolean;
     /**
      * The default poll cadence for {@link waitForTransaction}, in milliseconds.
      *
