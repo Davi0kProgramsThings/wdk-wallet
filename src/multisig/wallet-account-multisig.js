@@ -34,6 +34,11 @@ import { NotImplementedError } from '../errors.js'
  */
 
 /**
+ * @typedef {Object} MultisigAutoExecuteResult
+ * @property {TransactionResult} [transaction] - If auto execute is set to true and the method call triggers the execution of the proposal, this field is set to the corresponding transaction's result (i.e., hash and fee).
+ */
+
+/**
  * @typedef {Object} MultisigSignature
  * @property {string} signature - The caller's signature.
  */
@@ -74,7 +79,7 @@ export class IWalletAccountMultisig extends IWalletAccountReadOnlyMultisig {
    *
    * @param {Transaction} tx - The transaction.
    * @param {MultisigTransactionOptions} [transactionOptions] - The multisig transaction's options.
-   * @returns {Promise<MultisigProposal>} The created proposal; its `status` is `'executed'` when `autoExecute` ran to completion, otherwise `'pending'`.
+   * @returns {Promise<MultisigProposal & MultisigAutoExecuteResult>} The created proposal; its `status` is `'executed'` when `autoExecute` ran to completion, otherwise `'pending'`.
    * @throws {Error} If the account is not an owner of the multisig wallet.
    */
   async propose (tx, transactionOptions) {
@@ -108,7 +113,7 @@ export class IWalletAccountMultisig extends IWalletAccountReadOnlyMultisig {
    * Approves a pending proposal.
    *
    * @param {string} proposalId - The proposal's id.
-   * @returns {Promise<MultisigProposal>} The multisig proposal.
+   * @returns {Promise<MultisigProposal & MultisigAutoExecuteResult>} The multisig proposal.
    * @throws {Error} If the account is not an owner of the multisig wallet.
    * @throws {NoSuchElementError} If no proposal exists for the given id.
    */

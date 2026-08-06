@@ -25,10 +25,10 @@ export interface IWalletAccountMultisig extends IWalletAccountReadOnlyMultisig {
      *
      * @param {Transaction} tx - The transaction.
      * @param {MultisigTransactionOptions} [transactionOptions] - The multisig transaction's options.
-     * @returns {Promise<MultisigProposal>} The created proposal; its `status` is `'executed'` when `autoExecute` ran to completion, otherwise `'pending'`.
+     * @returns {Promise<MultisigProposal & MultisigAutoExecuteResult>} The created proposal; its `status` is `'executed'` when `autoExecute` ran to completion, otherwise `'pending'`.
      * @throws {Error} If the account is not an owner of the multisig wallet.
      */
-    propose(tx: Transaction, transactionOptions?: MultisigTransactionOptions): Promise<MultisigProposal>;
+    propose(tx: Transaction, transactionOptions?: MultisigTransactionOptions): Promise<MultisigProposal & MultisigAutoExecuteResult>;
     /**
      * Proposes signing a message.
      *
@@ -50,11 +50,11 @@ export interface IWalletAccountMultisig extends IWalletAccountReadOnlyMultisig {
      * Approves a pending proposal.
      *
      * @param {string} proposalId - The proposal's id.
-     * @returns {Promise<MultisigProposal>} The multisig proposal.
+     * @returns {Promise<MultisigProposal & MultisigAutoExecuteResult>} The multisig proposal.
      * @throws {Error} If the account is not an owner of the multisig wallet.
      * @throws {NoSuchElementError} If no proposal exists for the given id.
      */
-    approveProposal(proposalId: string): Promise<MultisigProposal>;
+    approveProposal(proposalId: string): Promise<MultisigProposal & MultisigAutoExecuteResult>;
     /**
      * Rejects a pending proposal.
      *
@@ -75,14 +75,22 @@ export interface IWalletAccountMultisig extends IWalletAccountReadOnlyMultisig {
 }
 export type Transaction = import("../wallet-account-read-only.js").Transaction;
 export type TransactionResult = import("../wallet-account-read-only.js").TransactionResult;
-export type IWalletAccountReadOnlyMultisig = import("./wallet-account-read-only-multisig.js").IWalletAccountReadOnlyMultisig;
-export type MultisigProposal = import("./wallet-account-read-only-multisig.js").MultisigProposal;
 export type KeyPair = import("../wallet-account.js").KeyPair;
+export type MultisigProposal = import("./wallet-account-read-only-multisig.js").MultisigProposal;
+export type MultisigMessageProposal = import("./wallet-account-read-only-multisig.js").MultisigMessageProposal;
+export type NoSuchElementError = import("../errors.js").NoSuchElementError;
+export type ValueError = import("../errors.js").ValueError;
 export type MultisigTransactionOptions = {
     /**
      * - If true, automatically executes the transaction when the approval threshold is met (only takes effect if this signer's approval is the last one required).
      */
     autoExecute?: boolean;
+};
+export type MultisigAutoExecuteResult = {
+    /**
+     * - If auto execute is set to true and the method call triggers the execution of the proposal, this field is set to the corresponding transaction's result (i.e., hash and fee).
+     */
+    transaction?: TransactionResult;
 };
 export type MultisigSignature = {
     /**
@@ -90,4 +98,4 @@ export type MultisigSignature = {
      */
     signature: string;
 };
-export type MultisigMessageProposal = import("./wallet-account-read-only-multisig.js").MultisigMessageProposal;
+import { IWalletAccountReadOnlyMultisig } from './wallet-account-read-only-multisig.js';
