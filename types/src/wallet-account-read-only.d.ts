@@ -24,38 +24,28 @@ export interface IWalletAccountReadOnly extends IWalletAccountReadOnlySimple {
      * @returns {Promise<Omit<TransferResult, 'hash'>>} The transfer's quotes.
      */
     quoteTransfer(options: TransferOptions): Promise<Omit<TransferResult, "hash">>;
-    /**
-     * Returns a transaction's receipt.
-     *
-     * @deprecated Use {@link getTransaction} instead, which returns a normalized, finality-based receipt. The native receipt fields remain available on each module's extended return type.
-     * @param {string} hash - The transaction's hash.
-     * @returns {Promise<unknown | null>} The receipt, or null if the transaction has not been included in a block yet.
-     */
-    getTransactionReceipt(hash: string): Promise<unknown | null>;
-    /**
-     * Returns a normalized, finality-based receipt for a transaction.
-     *
-     * @param {string} hash - The transaction's identifier (hash / signature / lt:hash).
-     * @returns {Promise<TransactionReceipt>} The normalized receipt.
-     * @throws {ValueError} If the hash is not a valid identifier.
-     * @throws {NoSuchElementError} If no transaction has been found for the given hash.
-     */
-    getTransaction(hash: string): Promise<TransactionReceipt>;
-    /**
-     * Blocks until a transaction reaches a terminal state (the requested finality target or `dropped`), or times out.
-     *
-     * @param {string} hash - The transaction's identifier.
-     * @param {WaitForTransactionOptions} [options] - The wait options.
-     * @returns {Promise<TransactionReceipt>} The terminal receipt.
-     * @throws {TimeoutError} If the target is not reached before the timeout.
-     */
-    waitForTransaction(hash: string, options?: WaitForTransactionOptions): Promise<TransactionReceipt>;
 }
 /**
  * @abstract
  * @implements {IWalletAccountReadOnly}
  */
 export default abstract class WalletAccountReadOnly implements IWalletAccountReadOnly {
+    /**
+     * The default poll cadence for {@link waitForTransaction}, in milliseconds.
+     * Subclasses may override this to match their finality expectations.
+     *
+     * @protected
+     * @type {number}
+     */
+    protected static _DEFAULT_WAIT_INTERVAL: number;
+    /**
+     * The default total time budget for {@link waitForTransaction}, in milliseconds.
+     * Subclasses may override this to match their finality expectations.
+     *
+     * @protected
+     * @type {number}
+     */
+    protected static _DEFAULT_WAIT_TIMEOUT: number;
     /**
      * Creates a new read-only wallet account.
      *
@@ -141,9 +131,10 @@ export default abstract class WalletAccountReadOnly implements IWalletAccountRea
      * Blocks until a transaction reaches a terminal state (the requested finality
      * target or `dropped`), or times out.
      *
-     * A reverted transaction still reaches its finality target, so it is returned
-     * like any other; callers dispatch on the receipt's `finality` and `success`
-     * fields to tell success, revert, and drop apart. Only a timeout throws.
+     * The polling loop and target resolution are chain-agnostic: this method only
+     * interprets the normalized receipt returned by {@link getTransaction}. A
+     * {@link NoSuchElementError} is treated as a transient not-found, so the loop
+     * keeps polling until the timeout.
      *
      * @param {string} hash - The transaction's identifier.
      * @param {WaitForTransactionOptions} [options] - The wait options.
@@ -151,22 +142,6 @@ export default abstract class WalletAccountReadOnly implements IWalletAccountRea
      * @throws {TimeoutError} If the target is not reached before the timeout.
      */
     waitForTransaction(hash: string, options?: WaitForTransactionOptions): Promise<TransactionReceipt>;
-    /**
-     * The default poll cadence for {@link waitForTransaction}, in milliseconds.
-     * Subclasses may override this to match their finality expectations.
-     *
-     * @protected
-     * @type {number}
-     */
-    protected static _DEFAULT_WAIT_INTERVAL: number;
-    /**
-     * The default total time budget for {@link waitForTransaction}, in milliseconds.
-     * Subclasses may override this to match their finality expectations.
-     *
-     * @protected
-     * @type {number}
-     */
-    protected static _DEFAULT_WAIT_TIMEOUT: number;
 }
 export type Transaction = {
     /**
@@ -212,58 +187,4 @@ export type TransferResult = {
      */
     fee: bigint;
 };
-/**
- * A normalized, cross-chain transaction finality level.
- *
- * - `pending`: seen, not settled (mempool / processed / in-flight).
- * - `confirmed`: settled, reversible only under extreme conditions.
- * - `final`: irreversible per the chain's own guarantees.
- * - `dropped`: evicted / replaced, never landed.
- */
-export type Finality = "pending" | "confirmed" | "final" | "dropped";
-/**
- * A normalized, cross-chain transaction receipt. Blockchain modules extend this
- * type with their own native receipt fields (e.g. `confirmations`, the raw
- * transaction and receipt objects, etc.).
- */
-export type TransactionReceipt = {
-    /**
-     * - The transaction's identifier (hash / signature / lt:hash).
-     */
-    hash: string;
-    /**
-     * - The transaction's finality level.
-     */
-    finality: Finality;
-    /**
-     * - The execution's result (not set if the transaction is still pending or it has been dropped).
-     */
-    success?: boolean;
-    /**
-     * - A reference to the including block (block number / height / slot / masterchain seqno).
-     */
-    block?: number;
-    /**
-     * - The fee paid, when known.
-     */
-    fee?: bigint;
-};
-/**
- * The finality level to wait for.
- */
-export type WaitForTransactionTarget = "confirmed" | "final";
-export type WaitForTransactionOptions = {
-    /**
-     * - The finality target to wait for (default: 'confirmed').
-     */
-    target?: WaitForTransactionTarget;
-    /**
-     * - The total time budget in milliseconds before giving up (default: 60000).
-     */
-    timeout?: number;
-    /**
-     * - The poll cadence in milliseconds (default: 4000).
-     */
-    interval?: number;
-};
-import { IWalletAccountReadOnlySimple } from './wallet-account-read-only-simple.js';
+import { IWalletAccountReadOnlySimple, TransactionReceipt, WaitForTransactionOptions } from './wallet-account-read-only-simple.js';

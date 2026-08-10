@@ -16,6 +16,44 @@
 import { NotImplementedError } from './errors.js'
 
 /**
+ * A normalized, cross-chain transaction finality level.
+ *
+ * - `pending`: seen, not settled (mempool / processed / in-flight).
+ * - `confirmed`: settled, reversible only under extreme conditions.
+ * - `final`: irreversible per the chain's own guarantees.
+ * - `dropped`: evicted / replaced, never landed.
+ *
+ * @typedef {'pending' | 'confirmed' | 'final' | 'dropped'} Finality
+ */
+
+/**
+ * A normalized, cross-chain transaction receipt. Blockchain modules extend this
+ * type with their own native receipt fields (e.g. `confirmations`, the raw
+ * transaction and receipt objects, etc.).
+ *
+ * @typedef {Object} TransactionReceipt
+ * @property {string} hash - The transaction's identifier (hash / signature / lt:hash).
+ * @property {Finality} finality - The transaction's finality level.
+ * @property {boolean} [success] - The execution's result (not set if the transaction is still pending or it has been dropped).
+ * @property {number} [block] - A reference to the including block (block number / height / slot / masterchain seqno).
+ * @property {bigint} [fee] - The fee paid, when known.
+ */
+
+/**
+ * The finality level to wait for.
+ *
+ * @typedef {'confirmed' | 'final'} WaitForTransactionTarget
+ */
+
+/**
+ * @typedef {Object} WaitForTransactionOptions
+ * @property {WaitForTransactionTarget} [target] - The finality target to wait for (default: 'confirmed').
+ * @property {number} [timeout] - The total time budget in milliseconds before giving up (default: 60000).
+ * @property {number} [interval] - The poll cadence in milliseconds (default: 4000).
+ * @property {number} [maxPollErrors] - How many consecutive getTransaction() failures to tolerate before rethrowing (default: 3).
+ */
+
+/**
  * The read-only members shared by every wallet account, single-signer or multisig.
  *
  * This is an internal base interface: it is not exported from the package entry point.
@@ -68,10 +106,35 @@ export class IWalletAccountReadOnlySimple {
   /**
    * Returns a transaction's receipt.
    *
+   * @deprecated Use {@link getTransaction} instead, which returns a normalized, finality-based receipt. The native receipt fields remain available on each module's extended return type.
    * @param {string} hash - The transaction's hash.
    * @returns {Promise<unknown | null>} The receipt, or null if the transaction has not been included in a block yet.
    */
   async getTransactionReceipt (hash) {
     throw new NotImplementedError('getTransactionReceipt(hash)')
+  }
+
+  /**
+   * Returns a normalized, finality-based receipt for a transaction.
+   *
+   * @param {string} hash - The transaction's identifier (hash / signature / lt:hash).
+   * @returns {Promise<TransactionReceipt>} The normalized receipt.
+   * @throws {ValueError} If the hash is not a valid identifier.
+   * @throws {NoSuchElementError} If no transaction has been found for the given hash.
+   */
+  async getTransaction (hash) {
+    throw new NotImplementedError('getTransaction(hash)')
+  }
+
+  /**
+   * Blocks until a transaction reaches a terminal state (the requested finality target or `dropped`), or times out.
+   *
+   * @param {string} hash - The transaction's identifier.
+   * @param {WaitForTransactionOptions} [options] - The wait options.
+   * @returns {Promise<TransactionReceipt>} The terminal receipt.
+   * @throws {TimeoutError} If the target is not reached before the timeout.
+   */
+  async waitForTransaction (hash, options) {
+    throw new NotImplementedError('waitForTransaction(hash, options)')
   }
 }
