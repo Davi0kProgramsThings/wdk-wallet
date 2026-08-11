@@ -36,23 +36,6 @@ export interface IWalletAccountMultisig extends IWalletAccountReadOnlyMultisig {
      */
     propose(tx: Transaction, transactionOptions?: MultisigTransactionOptions): Promise<MultisigProposal & MultisigAutoExecuteResult>;
     /**
-     * Proposes signing a message.
-     *
-     * @param {string} message - The message to sign.
-     * @returns {Promise<MultisigMessageProposal & MultisigSignature>} The multisig message proposal.
-     * @throws {Error} If the account is not an owner of the multisig wallet.
-     */
-    proposeMessage(message: string): Promise<MultisigMessageProposal & MultisigSignature>;
-    /**
-     * Approves an existing message proposal.
-     *
-     * @param {string} messageId - The message's hash.
-     * @returns {Promise<MultisigMessageProposal & MultisigSignature>} The multisig message proposal.
-     * @throws {Error} If the account is not an owner of the multisig wallet.
-     * @throws {NoSuchElementError} If no message exists for the given id.
-     */
-    approveMessageProposal(messageId: string): Promise<MultisigMessageProposal & MultisigSignature>;
-    /**
      * Approves a pending proposal.
      *
      * @param {string} proposalId - The proposal's id.
@@ -83,7 +66,6 @@ export type Transaction = import("../wallet-account-read-only.js").Transaction;
 export type TransactionResult = import("../wallet-account-read-only.js").TransactionResult;
 export type KeyPair = import("../wallet-account.js").KeyPair;
 export type MultisigProposal = import("./wallet-account-read-only-multisig.js").MultisigProposal;
-export type MultisigMessageProposal = import("./wallet-account-read-only-multisig.js").MultisigMessageProposal;
 export type NoSuchElementError = import("../errors.js").NoSuchElementError;
 export type ValueError = import("../errors.js").ValueError;
 export type MultisigTransactionOptions = {
@@ -97,11 +79,5 @@ export type MultisigAutoExecuteResult = {
      * - If auto execute is set to true and the method call triggers the execution of the proposal, this field is set to the corresponding transaction's result (i.e., hash and fee).
      */
     transaction?: TransactionResult;
-};
-export type MultisigSignature = {
-    /**
-     * - The caller's signature.
-     */
-    signature: string;
 };
 import { IWalletAccountReadOnlyMultisig } from './wallet-account-read-only-multisig.js';
