@@ -31,27 +31,27 @@ export interface IWalletAccountReadOnly extends IWalletAccountReadOnlySimple {
  */
 export default abstract class WalletAccountReadOnly implements IWalletAccountReadOnly {
     /**
-     * The default poll cadence for {@link waitForTransaction}, in milliseconds.
-     * Subclasses may override this to match their finality expectations.
-     *
-     * @protected
-     * @type {number}
-     */
-    protected static _DEFAULT_WAIT_INTERVAL: number;
-    /**
-     * The default total time budget for {@link waitForTransaction}, in milliseconds.
-     * Subclasses may override this to match their finality expectations.
-     *
-     * @protected
-     * @type {number}
-     */
-    protected static _DEFAULT_WAIT_TIMEOUT: number;
-    /**
      * Creates a new read-only wallet account.
      *
      * @param {string} [address] - The account's address.
      */
     constructor(address?: string);
+    /**
+     * The default poll cadence for {@link waitForTransaction}, in milliseconds,
+     * applied when the caller doesn't provide an `interval`. Subclasses override
+     * it to match their chain's block time.
+     *
+     * @type {number}
+     */
+    get defaultWaitInterval(): number;
+    /**
+     * The default time budget for {@link waitForTransaction}, in milliseconds,
+     * applied when the caller doesn't provide a `timeout`. Subclasses override it
+     * to match their chain's finality expectations.
+     *
+     * @type {number}
+     */
+    get defaultWaitTimeout(): number;
     /** @private */
     private __address;
     /**

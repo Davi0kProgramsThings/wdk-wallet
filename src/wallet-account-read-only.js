@@ -103,22 +103,26 @@ export class IWalletAccountReadOnly extends IWalletAccountReadOnlySimple {
  */
 export default class WalletAccountReadOnly {
   /**
-   * The default poll cadence for {@link waitForTransaction}, in milliseconds.
-   * Subclasses may override this to match their finality expectations.
+   * The default poll cadence for {@link waitForTransaction}, in milliseconds,
+   * applied when the caller doesn't provide an `interval`. Subclasses override
+   * it to match their chain's block time.
    *
-   * @protected
    * @type {number}
    */
-  static _DEFAULT_WAIT_INTERVAL = 4000
+  get defaultWaitInterval () {
+    return 4000
+  }
 
   /**
-   * The default total time budget for {@link waitForTransaction}, in milliseconds.
-   * Subclasses may override this to match their finality expectations.
+   * The default time budget for {@link waitForTransaction}, in milliseconds,
+   * applied when the caller doesn't provide a `timeout`. Subclasses override it
+   * to match their chain's finality expectations.
    *
-   * @protected
    * @type {number}
    */
-  static _DEFAULT_WAIT_TIMEOUT = 60000
+  get defaultWaitTimeout () {
+    return 60000
+  }
 
   /**
    * Creates a new read-only wallet account.
@@ -251,8 +255,8 @@ export default class WalletAccountReadOnly {
   async waitForTransaction (hash, options = {}) {
     const {
       target = 'confirmed',
-      interval = this.constructor._DEFAULT_WAIT_INTERVAL,
-      timeout = this.constructor._DEFAULT_WAIT_TIMEOUT,
+      interval = this.defaultWaitInterval,
+      timeout = this.defaultWaitTimeout,
       maxPollErrors = 3
     } = options
 

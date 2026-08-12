@@ -48,8 +48,8 @@ import { NotImplementedError } from './errors.js'
 /**
  * @typedef {Object} WaitForTransactionOptions
  * @property {WaitForTransactionTarget} [target] - The finality target to wait for (default: 'confirmed').
- * @property {number} [timeout] - The total time budget in milliseconds before giving up (default: 60000).
- * @property {number} [interval] - The poll cadence in milliseconds (default: 4000).
+ * @property {number} [timeout] - The total time budget in milliseconds before giving up. If omitted, the account's `defaultWaitTimeout` is used.
+ * @property {number} [interval] - The poll cadence in milliseconds. If omitted, the account's `defaultWaitInterval` is used.
  * @property {number} [maxPollErrors] - How many consecutive getTransaction() failures to tolerate before rethrowing (default: 3).
  */
 

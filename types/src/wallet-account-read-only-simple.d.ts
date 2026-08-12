@@ -44,11 +44,11 @@ export type WaitForTransactionOptions = {
      */
     target?: WaitForTransactionTarget;
     /**
-     * - The total time budget in milliseconds before giving up (default: 60000).
+     * - The total time budget in milliseconds before giving up. If omitted, the account's `defaultWaitTimeout` is used.
      */
     timeout?: number;
     /**
-     * - The poll cadence in milliseconds (default: 4000).
+     * - The poll cadence in milliseconds. If omitted, the account's `defaultWaitInterval` is used.
      */
     interval?: number;
     /**
