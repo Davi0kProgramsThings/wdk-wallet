@@ -1,10 +1,11 @@
 export { IWalletAccountReadOnlyMultisig } from "./wallet-account-read-only-multisig.js";
 export { IWalletAccountMultisig } from "./wallet-account-multisig.js";
 export { IMultisigOwnerManagement } from "./multisig-owner-management.js";
-export { IMultisigReadOnlyMessageSigning, IMultisigMessageSigning } from "./multisig-message-signing.js";
+export { IMultisigMessageSigningReadOnly } from "./multisig-message-signing-read-only.js";
+export { IMultisigMessageSigning } from "./multisig-message-signing.js";
 export type MultisigInfo = import("./wallet-account-read-only-multisig.js").MultisigInfo;
 export type MultisigProposal = import("./wallet-account-read-only-multisig.js").MultisigProposal;
-export type MultisigMessageProposal = import("./multisig-message-signing.js").MultisigMessageProposal;
+export type MultisigMessageProposal = import("./multisig-message-signing-read-only.js").MultisigMessageProposal;
 export type KeyPair = import("../wallet-account.js").KeyPair;
 export type MultisigTransactionOptions = import("./wallet-account-multisig.js").MultisigTransactionOptions;
 export type MultisigAutoExecuteResult = import("./wallet-account-multisig.js").MultisigAutoExecuteResult;

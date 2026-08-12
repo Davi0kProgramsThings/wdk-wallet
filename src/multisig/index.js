@@ -15,7 +15,7 @@
 
 /** @typedef {import('./wallet-account-read-only-multisig.js').MultisigInfo} MultisigInfo */
 /** @typedef {import('./wallet-account-read-only-multisig.js').MultisigProposal} MultisigProposal */
-/** @typedef {import('./multisig-message-signing.js').MultisigMessageProposal} MultisigMessageProposal */
+/** @typedef {import('./multisig-message-signing-read-only.js').MultisigMessageProposal} MultisigMessageProposal */
 /** @typedef {import('../wallet-account.js').KeyPair} KeyPair */
 
 /** @typedef {import('./wallet-account-multisig.js').MultisigTransactionOptions} MultisigTransactionOptions */
@@ -29,4 +29,6 @@ export { IWalletAccountMultisig } from './wallet-account-multisig.js'
 
 export { IMultisigOwnerManagement } from './multisig-owner-management.js'
 
-export { IMultisigReadOnlyMessageSigning, IMultisigMessageSigning } from './multisig-message-signing.js'
+export { IMultisigMessageSigningReadOnly } from './multisig-message-signing-read-only.js'
+
+export { IMultisigMessageSigning } from './multisig-message-signing.js'

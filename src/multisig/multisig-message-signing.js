@@ -13,18 +13,13 @@
 // limitations under the License.
 'use strict'
 
+import { IMultisigMessageSigningReadOnly } from './multisig-message-signing-read-only.js'
+
 import { NotImplementedError } from '../errors.js'
 
 /** @typedef {import('../errors.js').NoSuchElementError} NoSuchElementError */
 
-/**
- * @typedef {Object} MultisigMessageProposal
- * @property {string} messageId - The message's hash.
- * @property {string} message - The original message.
- * @property {number} confirmations - The current number of confirmations.
- * @property {number} threshold - The minimum amount of confirmations to sign the message.
- * @property {string | null} combinedSignature - The final combined signature when the threshold is met.
- */
+/** @typedef {import('./multisig-message-signing-read-only.js').MultisigMessageProposal} MultisigMessageProposal */
 
 /**
  * @typedef {Object} MultisigSignature
@@ -32,39 +27,11 @@ import { NotImplementedError } from '../errors.js'
  */
 
 /**
- * Adds the read-only message-signing queries to a multisig wallet.
- *
- * @interface
- */
-export class IMultisigReadOnlyMessageSigning {
-  /**
-   * Returns a list of message proposals by their hashes.
-   *
-   * @param {string[]} messageIds - The list of message hashes
-   * @returns {Promise<Record<string, MultisigMessageProposal | null>>} For each message hash, the message details or
-   *   null if the message has not been found.
-   */
-  async getMessageProposals (messageIds) {
-    throw new NotImplementedError('getMessageProposals(messageIds)')
-  }
-
-  /**
-   * Returns a message proposal by its identifier.
-   *
-   * @param {string} messageId - The message's hash.
-   * @returns {Promise<MultisigMessageProposal | null>} The message details, or null if it has not been found.
-   */
-  async getMessageProposal (messageId) {
-    throw new NotImplementedError('getMessageProposal(messageId)')
-  }
-}
-
-/**
  * Adds message-signing features to a multisig wallet.
  *
  * @interface
  */
-export class IMultisigMessageSigning extends IMultisigReadOnlyMessageSigning {
+export class IMultisigMessageSigning extends IMultisigMessageSigningReadOnly {
   /**
    * Proposes signing a message.
    *
