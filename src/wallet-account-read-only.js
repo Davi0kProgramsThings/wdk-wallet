@@ -306,13 +306,11 @@ export default class WalletAccountReadOnly {
       } catch (error) {
         if (error instanceof NoSuchElementError) {
           errorStreak = 0
-        }
-        else if (error instanceof ProviderError) {
+        } else if (error instanceof ProviderError) {
           if (++errorStreak > maxPollErrors) {
             throw error
           }
-        }
-        else {
+        } else {
           throw error
         }
       }
