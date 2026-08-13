@@ -12,5 +12,8 @@ export type TransactionReceipt = import("./src/wallet-account-read-only-simple.j
 export type WaitForTransactionTarget = import("./src/wallet-account-read-only-simple.js").WaitForTransactionTarget;
 export type WaitForTransactionOptions = import("./src/wallet-account-read-only-simple.js").WaitForTransactionOptions;
 export type KeyPair = import("./src/wallet-account.js").KeyPair;
+export type ProviderErrorOptions = import("./src/errors.js").ProviderErrorOptions;
+export type TransactionErrorOptions = import("./src/errors.js").TransactionErrorOptions;
+export type TransferErrorOptions = import("./src/errors.js").TransferErrorOptions;
 export { default as WalletAccountReadOnly, IWalletAccountReadOnly, FINALITY } from "./src/wallet-account-read-only.js";
-export { NotImplementedError, SignerError, UnsupportedOperationError, ValueError, NoSuchElementError, TimeoutError } from "./src/errors.js";
+export { AssertionError, InvalidTokenError, InvalidSignerError, MaximumFeeExceededError, NoSuchElementError, NotImplementedError, ProviderError, ProviderErrorReason, ProviderRequiredError, TimeoutError, TransactionError, TransactionErrorReason, TransferError, TransferErrorReason, UnsupportedOperationError, ValueError, WdkError } from "./src/errors.js";

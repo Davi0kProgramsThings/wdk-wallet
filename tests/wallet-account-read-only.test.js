@@ -1,11 +1,6 @@
 import { describe, expect, test } from '@jest/globals'
 
-import {
-  WalletAccountReadOnly,
-  TimeoutError,
-  NoSuchElementError,
-  FINALITY
-} from '../index.js'
+import { AssertionError, FINALITY, TimeoutError, NoSuchElementError, WalletAccountReadOnly } from '../index.js'
 
 class DummyWalletAccountReadOnly extends WalletAccountReadOnly {
   async getBalance () {
@@ -73,7 +68,7 @@ describe('WalletAccountReadOnly', () => {
       const account = new DummyWalletAccountReadOnly()
 
       await expect(account.getAddress())
-        .rejects.toThrow("The account's address must be set to perform this operation.")
+        .rejects.toThrow(new AssertionError("The account's address must be set to perform this operation."))
     })
   })
 

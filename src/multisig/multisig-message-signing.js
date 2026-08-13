@@ -15,11 +15,15 @@
 
 import { IMultisigMessageSigningReadOnly } from './multisig-message-signing-read-only.js'
 
-import { NotImplementedError } from '../errors.js'
-
-/** @typedef {import('../errors.js').NoSuchElementError} NoSuchElementError */
+import { NotImplementedError } from './errors.js'
 
 /** @typedef {import('./multisig-message-signing-read-only.js').MultisigMessageProposal} MultisigMessageProposal */
+
+/** @typedef {import('./errors.js').AccountNotOwnerError} AccountNotOwnerError */
+/** @typedef {import('./errors.js').NoSuchElementError} NoSuchElementError */
+/** @typedef {import('./errors.js').ProviderError} ProviderError */
+/** @typedef {import('./errors.js').ProviderRequiredError} ProviderRequiredError */
+/** @typedef {import('./errors.js').ValueError} ValueError */
 
 /**
  * @typedef {Object} MultisigSignature
@@ -37,7 +41,9 @@ export class IMultisigMessageSigning extends IMultisigMessageSigningReadOnly {
    *
    * @param {string} message - The message to sign.
    * @returns {Promise<MultisigMessageProposal & MultisigSignature>} The multisig message proposal.
-   * @throws {Error} If the account is not an owner of the multisig wallet.
+   * @throws {ProviderRequiredError} If the method requires a provider.
+   * @throws {ProviderError} If the provider fails to propose the message.
+   * @throws {AccountNotOwnerError} If the account is not an owner of the multisig wallet.
    */
   async proposeMessage (message) {
     throw new NotImplementedError('proposeMessage(message)')
@@ -48,8 +54,9 @@ export class IMultisigMessageSigning extends IMultisigMessageSigningReadOnly {
    *
    * @param {string} messageId - The message's hash.
    * @returns {Promise<MultisigMessageProposal & MultisigSignature>} The multisig message proposal.
-   * @throws {Error} If the account is not an owner of the multisig wallet.
+   * @throws {ValueError} If the message's identifier is not a valid id.
    * @throws {NoSuchElementError} If no message exists for the given id.
+   * @throws {AccountNotOwnerError} If the account is not an owner of the multisig wallet.
    */
   async approveMessageProposal (messageId) {
     throw new NotImplementedError('approveMessageProposal(messageId)')

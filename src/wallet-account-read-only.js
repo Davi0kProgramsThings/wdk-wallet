@@ -13,17 +13,19 @@
 // limitations under the License.
 'use strict'
 
-import {
-  NotImplementedError,
-  NoSuchElementError,
-  TimeoutError
-} from './errors.js'
-
 import { IWalletAccountReadOnlySimple } from './wallet-account-read-only-simple.js'
+
+import { AssertionError, NoSuchElementError, NotImplementedError, ProviderError, TimeoutError, UnsupportedOperationError } from './errors.js'
 
 /** @typedef {import('./wallet-account-read-only-simple.js').Finality} Finality */
 /** @typedef {import('./wallet-account-read-only-simple.js').TransactionReceipt} TransactionReceipt */
 /** @typedef {import('./wallet-account-read-only-simple.js').WaitForTransactionOptions} WaitForTransactionOptions */
+
+/** @typedef {import('./errors.js').InvalidTokenError} InvalidTokenError */
+/** @typedef {import('./errors.js').ProviderRequiredError} ProviderRequiredError */
+/** @typedef {import('./errors.js').TransactionError} TransactionError */
+/** @typedef {import('./errors.js').TransferError} TransferError */
+/** @typedef {import('./errors.js').ValueError} ValueError */
 
 /**
  * @typedef {Object} Transaction
@@ -81,6 +83,10 @@ export class IWalletAccountReadOnly extends IWalletAccountReadOnlySimple {
    *
    * @param {Transaction} tx - The transaction.
    * @returns {Promise<Omit<TransactionResult, 'hash'>>} The transaction's quotes.
+   * @throws {ValueError} If the transaction is not valid.
+   * @throws {ProviderRequiredError} If the method requires a provider.
+   * @throws {ProviderError} If the provider fails to estimate the costs of the transaction.
+   * @throws {TransactionError} If the transaction fails with an error.
    */
   async quoteSendTransaction (tx) {
     throw new NotImplementedError('quoteSendTransaction(tx)')
@@ -91,6 +97,11 @@ export class IWalletAccountReadOnly extends IWalletAccountReadOnlySimple {
    *
    * @param {TransferOptions} options - The transfer's options.
    * @returns {Promise<Omit<TransferResult, 'hash'>>} The transfer's quotes.
+   * @throws {ValueError} If the transfer options are not valid.
+   * @throws {InvalidTokenError} If the token is not a valid ERC 20 token's address.
+   * @throws {ProviderRequiredError} If the method requires a provider.
+   * @throws {ProviderError} If the provider fails to estimate the costs of the transfer.
+   * @throws {TransferError} If the transfer fails with an error.
    */
   async quoteTransfer (options) {
     throw new NotImplementedError('quoteTransfer(options)')
@@ -151,7 +162,7 @@ export default class WalletAccountReadOnly {
    */
   async getAddress () {
     if (!this._address) {
-      throw new Error("The account's address must be set to perform this operation.")
+      throw new AssertionError("The account's address must be set to perform this operation.")
     }
 
     return this._address
@@ -160,14 +171,13 @@ export default class WalletAccountReadOnly {
   /**
    * Verifies a message's signature.
    *
-   * @abstract
    * @param {string} message - The original message.
    * @param {string} signature - The signature to verify.
    * @returns {Promise<boolean>} True if the signature is valid.
-   * @throws {Error} If the read-only wallet account class is not able to provide an implementation for the method.
+   * @throws {UnsupportedOperationError} If the read-only wallet account class is not able to provide an implementation for the method.
    */
   async verify (message, signature) {
-    throw new NotImplementedError('verify(message, signature)')
+    throw new UnsupportedOperationError('verify(message, signature)')
   }
 
   /**
@@ -175,6 +185,8 @@ export default class WalletAccountReadOnly {
    *
    * @abstract
    * @returns {Promise<bigint>} The native token balance.
+   * @throws {ProviderRequiredError} If the method requires a provider.
+   * @throws {ProviderError} If the provider fails to fetch the account's balance.
    */
   async getBalance () {
     throw new NotImplementedError('getBalance()')
@@ -186,6 +198,10 @@ export default class WalletAccountReadOnly {
    * @abstract
    * @param {string} tokenAddress - The smart contract address of the token.
    * @returns {Promise<bigint>} The token balance.
+   * @throws {ValueError} If the token's address is not valid.
+   * @throws {InvalidTokenError} If the token's address doesn't match an existing ERC 20 token.
+   * @throws {ProviderRequiredError} If the method requires a provider.
+   * @throws {ProviderError} If the provider fails to fetch the account's token balance.
    */
   async getTokenBalance (tokenAddress) {
     throw new NotImplementedError('getTokenBalance(tokenAddress)')
@@ -197,6 +213,10 @@ export default class WalletAccountReadOnly {
    * @abstract
    * @param {Transaction} tx - The transaction.
    * @returns {Promise<Omit<TransactionResult, 'hash'>>} The transaction's quotes.
+   * @throws {ValueError} If the transaction is not valid.
+   * @throws {ProviderRequiredError} If the method requires a provider.
+   * @throws {ProviderError} If the provider fails to estimate the costs of the transaction.
+   * @throws {TransactionError} If the transaction fails with an error.
    */
   async quoteSendTransaction (tx) {
     throw new NotImplementedError('quoteSendTransaction(tx)')
@@ -208,6 +228,11 @@ export default class WalletAccountReadOnly {
    * @abstract
    * @param {TransferOptions} options - The transfer's options.
    * @returns {Promise<Omit<TransferResult, 'hash'>>} The transfer's quotes.
+   * @throws {ValueError} If the transfer options are not valid.
+   * @throws {InvalidTokenError} If the token is not a valid ERC 20 token's address.
+   * @throws {ProviderRequiredError} If the method requires a provider.
+   * @throws {ProviderError} If the provider fails to estimate the costs of the transfer.
+   * @throws {TransferError} If the transfer fails with an error.
    */
   async quoteTransfer (options) {
     throw new NotImplementedError('quoteTransfer(options)')
@@ -220,6 +245,9 @@ export default class WalletAccountReadOnly {
    * @abstract
    * @param {string} hash - The transaction's hash.
    * @returns {Promise<unknown | null>} The receipt, or null if the transaction has not been included in a block yet.
+   * @throws {ValueError} If the hash is not valid.
+   * @throws {ProviderRequiredError} If the method requires a provider.
+   * @throws {ProviderError} If the provider fails to fetch the transaction's receipt.
    */
   async getTransactionReceipt (hash) {
     throw new NotImplementedError('getTransactionReceipt(hash)')
@@ -233,6 +261,8 @@ export default class WalletAccountReadOnly {
    * @returns {Promise<TransactionReceipt>} The normalized receipt.
    * @throws {ValueError} If the hash is not a valid identifier.
    * @throws {NoSuchElementError} If no transaction has been found for the given hash.
+   * @throws {ProviderRequiredError} If the method requires a provider.
+   * @throws {ProviderError} If the provider fails to fetch the transaction.
    */
   async getTransaction (hash) {
     throw new NotImplementedError('getTransaction(hash)')
@@ -250,7 +280,10 @@ export default class WalletAccountReadOnly {
    * @param {string} hash - The transaction's identifier.
    * @param {WaitForTransactionOptions} [options] - The wait options.
    * @returns {Promise<TransactionReceipt>} The terminal receipt: the finality target reached (inspect `success` to tell success from revert), or `dropped`.
-   * @throws {TimeoutError} If the target is not reached before the timeout.
+   * @throws {ValueError} If the hash is not a valid identifier.
+   * @throws {ProviderRequiredError} If the method requires a provider.
+   * @throws {ProviderError} If the provider fails to fetch the transaction.
+   * @throws {TimeoutError} If the operation times out.
    */
   async waitForTransaction (hash, options = {}) {
     const {
@@ -273,7 +306,11 @@ export default class WalletAccountReadOnly {
       } catch (error) {
         if (error instanceof NoSuchElementError) {
           errorStreak = 0
-        } else if (++errorStreak > maxPollErrors) {
+        } else if (error instanceof ProviderError) {
+          if (++errorStreak > maxPollErrors) {
+            throw error
+          }
+        } else {
           throw error
         }
       }

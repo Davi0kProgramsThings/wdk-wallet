@@ -2,6 +2,7 @@
  * Enum that assigns a comparable ordinal to each finality level, used to check
  * whether an observed finality satisfies a requested target.
  */
+export type FINALITY = number;
 export namespace FINALITY {
     let pending: number;
     let dropped: number;
@@ -15,6 +16,10 @@ export interface IWalletAccountReadOnly extends IWalletAccountReadOnlySimple {
      *
      * @param {Transaction} tx - The transaction.
      * @returns {Promise<Omit<TransactionResult, 'hash'>>} The transaction's quotes.
+     * @throws {ValueError} If the transaction is not valid.
+     * @throws {ProviderRequiredError} If the method requires a provider.
+     * @throws {ProviderError} If the provider fails to estimate the costs of the transaction.
+     * @throws {TransactionError} If the transaction fails with an error.
      */
     quoteSendTransaction(tx: Transaction): Promise<Omit<TransactionResult, "hash">>;
     /**
@@ -22,6 +27,11 @@ export interface IWalletAccountReadOnly extends IWalletAccountReadOnlySimple {
      *
      * @param {TransferOptions} options - The transfer's options.
      * @returns {Promise<Omit<TransferResult, 'hash'>>} The transfer's quotes.
+     * @throws {ValueError} If the transfer options are not valid.
+     * @throws {InvalidTokenError} If the token is not a valid ERC 20 token's address.
+     * @throws {ProviderRequiredError} If the method requires a provider.
+     * @throws {ProviderError} If the provider fails to estimate the costs of the transfer.
+     * @throws {TransferError} If the transfer fails with an error.
      */
     quoteTransfer(options: TransferOptions): Promise<Omit<TransferResult, "hash">>;
 }
@@ -70,18 +80,19 @@ export default abstract class WalletAccountReadOnly implements IWalletAccountRea
     /**
      * Verifies a message's signature.
      *
-     * @abstract
      * @param {string} message - The original message.
      * @param {string} signature - The signature to verify.
      * @returns {Promise<boolean>} True if the signature is valid.
-     * @throws {Error} If the read-only wallet account class is not able to provide an implementation for the method.
+     * @throws {UnsupportedOperationError} If the read-only wallet account class is not able to provide an implementation for the method.
      */
-    abstract verify(message: string, signature: string): Promise<boolean>;
+    verify(message: string, signature: string): Promise<boolean>;
     /**
      * Returns the account's native token balance.
      *
      * @abstract
      * @returns {Promise<bigint>} The native token balance.
+     * @throws {ProviderRequiredError} If the method requires a provider.
+     * @throws {ProviderError} If the provider fails to fetch the account's balance.
      */
     abstract getBalance(): Promise<bigint>;
     /**
@@ -90,6 +101,10 @@ export default abstract class WalletAccountReadOnly implements IWalletAccountRea
      * @abstract
      * @param {string} tokenAddress - The smart contract address of the token.
      * @returns {Promise<bigint>} The token balance.
+     * @throws {ValueError} If the token's address is not valid.
+     * @throws {InvalidTokenError} If the token's address doesn't match an existing ERC 20 token.
+     * @throws {ProviderRequiredError} If the method requires a provider.
+     * @throws {ProviderError} If the provider fails to fetch the account's token balance.
      */
     abstract getTokenBalance(tokenAddress: string): Promise<bigint>;
     /**
@@ -98,6 +113,10 @@ export default abstract class WalletAccountReadOnly implements IWalletAccountRea
      * @abstract
      * @param {Transaction} tx - The transaction.
      * @returns {Promise<Omit<TransactionResult, 'hash'>>} The transaction's quotes.
+     * @throws {ValueError} If the transaction is not valid.
+     * @throws {ProviderRequiredError} If the method requires a provider.
+     * @throws {ProviderError} If the provider fails to estimate the costs of the transaction.
+     * @throws {TransactionError} If the transaction fails with an error.
      */
     abstract quoteSendTransaction(tx: Transaction): Promise<Omit<TransactionResult, "hash">>;
     /**
@@ -106,6 +125,11 @@ export default abstract class WalletAccountReadOnly implements IWalletAccountRea
      * @abstract
      * @param {TransferOptions} options - The transfer's options.
      * @returns {Promise<Omit<TransferResult, 'hash'>>} The transfer's quotes.
+     * @throws {ValueError} If the transfer options are not valid.
+     * @throws {InvalidTokenError} If the token is not a valid ERC 20 token's address.
+     * @throws {ProviderRequiredError} If the method requires a provider.
+     * @throws {ProviderError} If the provider fails to estimate the costs of the transfer.
+     * @throws {TransferError} If the transfer fails with an error.
      */
     abstract quoteTransfer(options: TransferOptions): Promise<Omit<TransferResult, "hash">>;
     /**
@@ -115,6 +139,9 @@ export default abstract class WalletAccountReadOnly implements IWalletAccountRea
      * @abstract
      * @param {string} hash - The transaction's hash.
      * @returns {Promise<unknown | null>} The receipt, or null if the transaction has not been included in a block yet.
+     * @throws {ValueError} If the hash is not valid.
+     * @throws {ProviderRequiredError} If the method requires a provider.
+     * @throws {ProviderError} If the provider fails to fetch the transaction's receipt.
      */
     abstract getTransactionReceipt(hash: string): Promise<unknown | null>;
     /**
@@ -125,6 +152,8 @@ export default abstract class WalletAccountReadOnly implements IWalletAccountRea
      * @returns {Promise<TransactionReceipt>} The normalized receipt.
      * @throws {ValueError} If the hash is not a valid identifier.
      * @throws {NoSuchElementError} If no transaction has been found for the given hash.
+     * @throws {ProviderRequiredError} If the method requires a provider.
+     * @throws {ProviderError} If the provider fails to fetch the transaction.
      */
     abstract getTransaction(hash: string): Promise<TransactionReceipt>;
     /**
@@ -139,10 +168,21 @@ export default abstract class WalletAccountReadOnly implements IWalletAccountRea
      * @param {string} hash - The transaction's identifier.
      * @param {WaitForTransactionOptions} [options] - The wait options.
      * @returns {Promise<TransactionReceipt>} The terminal receipt: the finality target reached (inspect `success` to tell success from revert), or `dropped`.
-     * @throws {TimeoutError} If the target is not reached before the timeout.
+     * @throws {ValueError} If the hash is not a valid identifier.
+     * @throws {ProviderRequiredError} If the method requires a provider.
+     * @throws {ProviderError} If the provider fails to fetch the transaction.
+     * @throws {TimeoutError} If the operation times out.
      */
     waitForTransaction(hash: string, options?: WaitForTransactionOptions): Promise<TransactionReceipt>;
 }
+export type Finality = import("./wallet-account-read-only-simple.js").Finality;
+export type TransactionReceipt = import("./wallet-account-read-only-simple.js").TransactionReceipt;
+export type WaitForTransactionOptions = import("./wallet-account-read-only-simple.js").WaitForTransactionOptions;
+export type InvalidTokenError = import("./errors.js").InvalidTokenError;
+export type ProviderRequiredError = import("./errors.js").ProviderRequiredError;
+export type TransactionError = import("./errors.js").TransactionError;
+export type TransferError = import("./errors.js").TransferError;
+export type ValueError = import("./errors.js").ValueError;
 export type Transaction = {
     /**
      * - The transaction's recipient.
@@ -187,4 +227,4 @@ export type TransferResult = {
      */
     fee: bigint;
 };
-import { IWalletAccountReadOnlySimple, TransactionReceipt, WaitForTransactionOptions } from './wallet-account-read-only-simple.js';
+import { IWalletAccountReadOnlySimple } from './wallet-account-read-only-simple.js';

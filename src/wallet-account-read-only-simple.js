@@ -15,6 +15,14 @@
 
 import { NotImplementedError } from './errors.js'
 
+/** @typedef {import('./errors.js').InvalidTokenError} InvalidTokenError */
+/** @typedef {import('./errors.js').NoSuchElementError} NoSuchElementError */
+/** @typedef {import('./errors.js').ProviderError} ProviderError */
+/** @typedef {import('./errors.js').ProviderRequiredError} ProviderRequiredError */
+/** @typedef {import('./errors.js').TimeoutError} TimeoutError */
+/** @typedef {import('./errors.js').ValueError} ValueError */
+/** @typedef {import('./errors.js').UnsupportedOperationError} UnsupportedOperationError */
+
 /**
  * A normalized, cross-chain transaction finality level.
  *
@@ -78,7 +86,7 @@ export class IWalletAccountReadOnlySimple {
    * @param {string} message - The original message.
    * @param {string} signature - The signature to verify.
    * @returns {Promise<boolean>} True if the signature is valid.
-   * @throws {Error} If the read-only wallet account class is not able to provide an implementation for the method.
+   * @throws {UnsupportedOperationError} If the read-only wallet account class is not able to provide an implementation for the method.
    */
   async verify (message, signature) {
     throw new NotImplementedError('verify(message, signature)')
@@ -88,6 +96,8 @@ export class IWalletAccountReadOnlySimple {
    * Returns the account's native token balance.
    *
    * @returns {Promise<bigint>} The native token balance.
+   * @throws {ProviderRequiredError} If the method requires a provider.
+   * @throws {ProviderError} If the provider fails to fetch the account's balance.
    */
   async getBalance () {
     throw new NotImplementedError('getBalance()')
@@ -98,6 +108,10 @@ export class IWalletAccountReadOnlySimple {
    *
    * @param {string} tokenAddress - The smart contract address of the token.
    * @returns {Promise<bigint>} The token balance.
+   * @throws {ValueError} If the token's address is not valid.
+   * @throws {InvalidTokenError} If the token's address doesn't match an existing ERC 20 token.
+   * @throws {ProviderRequiredError} If the method requires a provider.
+   * @throws {ProviderError} If the provider fails to fetch the account's token balance.
    */
   async getTokenBalance (tokenAddress) {
     throw new NotImplementedError('getTokenBalance(tokenAddress)')
@@ -109,6 +123,9 @@ export class IWalletAccountReadOnlySimple {
    * @deprecated Use {@link getTransaction} instead, which returns a normalized, finality-based receipt. The native receipt fields remain available on each module's extended return type.
    * @param {string} hash - The transaction's hash.
    * @returns {Promise<unknown | null>} The receipt, or null if the transaction has not been included in a block yet.
+   * @throws {ValueError} If the hash is not valid.
+   * @throws {ProviderRequiredError} If the method requires a provider.
+   * @throws {ProviderError} If the provider fails to fetch the transaction's receipt.
    */
   async getTransactionReceipt (hash) {
     throw new NotImplementedError('getTransactionReceipt(hash)')
@@ -121,6 +138,8 @@ export class IWalletAccountReadOnlySimple {
    * @returns {Promise<TransactionReceipt>} The normalized receipt.
    * @throws {ValueError} If the hash is not a valid identifier.
    * @throws {NoSuchElementError} If no transaction has been found for the given hash.
+   * @throws {ProviderRequiredError} If the method requires a provider.
+   * @throws {ProviderError} If the provider fails to fetch the transaction.
    */
   async getTransaction (hash) {
     throw new NotImplementedError('getTransaction(hash)')
@@ -131,8 +150,11 @@ export class IWalletAccountReadOnlySimple {
    *
    * @param {string} hash - The transaction's identifier.
    * @param {WaitForTransactionOptions} [options] - The wait options.
-   * @returns {Promise<TransactionReceipt>} The terminal receipt.
-   * @throws {TimeoutError} If the target is not reached before the timeout.
+   * @returns {Promise<TransactionReceipt>} The terminal receipt: the finality target reached (inspect `success` to tell success from revert), or `dropped`.
+   * @throws {ValueError} If the hash is not a valid identifier.
+   * @throws {ProviderRequiredError} If the method requires a provider.
+   * @throws {ProviderError} If the provider fails to fetch the transaction.
+   * @throws {TimeoutError} If the operation times out.
    */
   async waitForTransaction (hash, options) {
     throw new NotImplementedError('waitForTransaction(hash, options)')

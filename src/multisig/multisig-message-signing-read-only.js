@@ -13,7 +13,11 @@
 // limitations under the License.
 'use strict'
 
-import { NotImplementedError } from '../errors.js'
+import { NotImplementedError } from './errors.js'
+
+/** @typedef {import('./errors.js').ProviderError} ProviderError */
+/** @typedef {import('./errors.js').ProviderRequiredError} ProviderRequiredError */
+/** @typedef {import('./errors.js').ValueError} ValueError */
 
 /**
  * @typedef {Object} MultisigMessageProposal
@@ -33,9 +37,12 @@ export class IMultisigMessageSigningReadOnly {
   /**
    * Returns a list of message proposals by their hashes.
    *
-   * @param {string[]} messageIds - The list of message hashes
+   * @param {string[]} messageIds - The list of message's hashes.
    * @returns {Promise<Record<string, MultisigMessageProposal | null>>} For each message hash, the message details or
    *   null if the message has not been found.
+   * @throws {ValueError} If the list of message's identifiers contains an invalid id.
+   * @throws {ProviderRequiredError} If the method requires a provider.
+   * @throws {ProviderError} If the provider fails to fetch the messages.
    */
   async getMessageProposals (messageIds) {
     throw new NotImplementedError('getMessageProposals(messageIds)')
@@ -46,6 +53,9 @@ export class IMultisigMessageSigningReadOnly {
    *
    * @param {string} messageId - The message's hash.
    * @returns {Promise<MultisigMessageProposal | null>} The message details, or null if it has not been found.
+   * @throws {ValueError} If the message's identifier is not a valid id.
+   * @throws {ProviderRequiredError} If the method requires a provider.
+   * @throws {ProviderError} If the provider fails to fetch the message.
    */
   async getMessageProposal (messageId) {
     throw new NotImplementedError('getMessageProposal(messageId)')
