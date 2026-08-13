@@ -1,7 +1,7 @@
 /**
  * Enum for provider error reasons.
  */
-export type ProviderErrorReason = number;
+export type ProviderErrorReason = string;
 export namespace ProviderErrorReason {
     let NETWORK_ERROR: string;
     let UNAUTHORIZED: string;
@@ -143,9 +143,9 @@ export class ProviderError extends WdkError {
     /**
      * The error's reason.
      *
-     * @type {number}
+     * @type {string}
      */
-    reason: number;
+    reason: string;
 }
 /**
  * Thrown when a transaction fails with an error.

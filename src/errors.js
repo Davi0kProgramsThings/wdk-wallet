@@ -32,7 +32,7 @@
  * Enum for provider error reasons.
  *
  * @readonly
- * @enum {number}
+ * @enum {string}
  */
 export const ProviderErrorReason = {
   /**
@@ -254,7 +254,7 @@ export class ProviderError extends WdkError {
     /**
      * The error's reason.
      *
-     * @type {number}
+     * @type {string}
      */
     this.reason = options.reason
   }
