@@ -13,9 +13,17 @@
 // limitations under the License.
 'use strict'
 
-import { NotImplementedError } from './errors.js'
+import {
+  NotImplementedError,
+  NoSuchElementError,
+  TimeoutError
+} from './errors.js'
 
 import { IWalletAccountReadOnlySimple } from './wallet-account-read-only-simple.js'
+
+/** @typedef {import('./wallet-account-read-only-simple.js').Finality} Finality */
+/** @typedef {import('./wallet-account-read-only-simple.js').TransactionReceipt} TransactionReceipt */
+/** @typedef {import('./wallet-account-read-only-simple.js').WaitForTransactionOptions} WaitForTransactionOptions */
 
 /**
  * @typedef {Object} Transaction
@@ -41,6 +49,30 @@ import { IWalletAccountReadOnlySimple } from './wallet-account-read-only-simple.
  * @property {string} hash - The hash of the transfer operation.
  * @property {bigint} fee - The gas cost.
  */
+
+/**
+ * Enum that assigns a comparable ordinal to each finality level, used to check
+ * whether an observed finality satisfies a requested target.
+ *
+ * @readonly
+ * @enum {number}
+ */
+export const FINALITY = {
+  pending: 0,
+  dropped: 1,
+  confirmed: 2,
+  final: 3
+}
+
+/**
+ * Resolves after the given number of milliseconds.
+ *
+ * @param {number} amount - The delay, in milliseconds.
+ * @returns {Promise<void>} A promise that resolves once the delay elapses.
+ */
+async function sleep (amount) {
+  await new Promise(resolve => setTimeout(resolve, amount))
+}
 
 /** @interface */
 export class IWalletAccountReadOnly extends IWalletAccountReadOnlySimple {
@@ -70,6 +102,28 @@ export class IWalletAccountReadOnly extends IWalletAccountReadOnlySimple {
  * @implements {IWalletAccountReadOnly}
  */
 export default class WalletAccountReadOnly {
+  /**
+   * The default poll cadence for {@link waitForTransaction}, in milliseconds,
+   * applied when the caller doesn't provide an `interval`. Subclasses override
+   * it to match their chain's block time.
+   *
+   * @type {number}
+   */
+  get defaultWaitInterval () {
+    return 4000
+  }
+
+  /**
+   * The default time budget for {@link waitForTransaction}, in milliseconds,
+   * applied when the caller doesn't provide a `timeout`. Subclasses override it
+   * to match their chain's finality expectations.
+   *
+   * @type {number}
+   */
+  get defaultWaitTimeout () {
+    return 60000
+  }
+
   /**
    * Creates a new read-only wallet account.
    *
@@ -162,11 +216,89 @@ export default class WalletAccountReadOnly {
   /**
    * Returns a transaction's receipt.
    *
+   * @deprecated Use {@link getTransaction} instead, which returns a normalized, finality-based receipt. The native receipt fields remain available on each module's extended return type.
    * @abstract
    * @param {string} hash - The transaction's hash.
    * @returns {Promise<unknown | null>} The receipt, or null if the transaction has not been included in a block yet.
    */
   async getTransactionReceipt (hash) {
     throw new NotImplementedError('getTransactionReceipt(hash)')
+  }
+
+  /**
+   * Returns a normalized, finality-based receipt for a transaction.
+   *
+   * @abstract
+   * @param {string} hash - The transaction's identifier (hash / signature / lt:hash).
+   * @returns {Promise<TransactionReceipt>} The normalized receipt.
+   * @throws {ValueError} If the hash is not a valid identifier.
+   * @throws {NoSuchElementError} If no transaction has been found for the given hash.
+   */
+  async getTransaction (hash) {
+    throw new NotImplementedError('getTransaction(hash)')
+  }
+
+  /**
+   * Blocks until a transaction reaches a terminal state (the requested finality
+   * target or `dropped`), or times out.
+   *
+   * The polling loop and target resolution are chain-agnostic: this method only
+   * interprets the normalized receipt returned by {@link getTransaction}. A
+   * {@link NoSuchElementError} is treated as a transient not-found, so the loop
+   * keeps polling until the timeout.
+   *
+   * @param {string} hash - The transaction's identifier.
+   * @param {WaitForTransactionOptions} [options] - The wait options.
+   * @returns {Promise<TransactionReceipt>} The terminal receipt: the finality target reached (inspect `success` to tell success from revert), or `dropped`.
+   * @throws {TimeoutError} If the target is not reached before the timeout.
+   */
+  async waitForTransaction (hash, options = {}) {
+    const {
+      target = 'confirmed',
+      interval = this.defaultWaitInterval,
+      timeout = this.defaultWaitTimeout,
+      maxPollErrors = 3
+    } = options
+
+    const deadline = Date.now() + timeout
+    let droppedStreak = 0
+    let errorStreak = 0
+
+    while (true) {
+      let receipt = null
+
+      try {
+        receipt = await this.getTransaction(hash)
+        errorStreak = 0
+      } catch (error) {
+        if (error instanceof NoSuchElementError) {
+          errorStreak = 0
+        } else if (++errorStreak > maxPollErrors) {
+          throw error
+        }
+      }
+
+      if (receipt) {
+        if (receipt.finality === 'dropped') {
+          if (++droppedStreak >= 2) {
+            return receipt
+          }
+        } else {
+          droppedStreak = 0
+
+          if (FINALITY[receipt.finality] >= FINALITY[target]) {
+            return receipt
+          }
+        }
+      } else {
+        droppedStreak = 0
+      }
+
+      if (Date.now() >= deadline) {
+        throw new TimeoutError(`Transaction '${hash}' did not reach '${target}' within the timeout.`)
+      }
+
+      await sleep(interval)
+    }
   }
 }

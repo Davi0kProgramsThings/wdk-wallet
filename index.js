@@ -20,6 +20,10 @@
 /** @typedef {import('./src/wallet-account-read-only.js').TransactionResult} TransactionResult */
 /** @typedef {import('./src/wallet-account-read-only.js').TransferOptions} TransferOptions */
 /** @typedef {import('./src/wallet-account-read-only.js').TransferResult} TransferResult */
+/** @typedef {import('./src/wallet-account-read-only-simple.js').Finality} Finality */
+/** @typedef {import('./src/wallet-account-read-only-simple.js').TransactionReceipt} TransactionReceipt */
+/** @typedef {import('./src/wallet-account-read-only-simple.js').WaitForTransactionTarget} WaitForTransactionTarget */
+/** @typedef {import('./src/wallet-account-read-only-simple.js').WaitForTransactionOptions} WaitForTransactionOptions */
 
 /** @typedef {import('./src/wallet-account.js').KeyPair} KeyPair */
 
@@ -27,7 +31,8 @@ export { default } from './src/wallet-manager.js'
 
 export {
   default as WalletAccountReadOnly,
-  IWalletAccountReadOnly
+  IWalletAccountReadOnly,
+  FINALITY
 } from './src/wallet-account-read-only.js'
 
 export { IWalletAccount } from './src/wallet-account.js'
@@ -37,7 +42,8 @@ export {
   SignerError,
   UnsupportedOperationError,
   ValueError,
-  NoSuchElementError
+  NoSuchElementError,
+  TimeoutError
 } from './src/errors.js'
 
 export { ISigner } from './src/signer.js'

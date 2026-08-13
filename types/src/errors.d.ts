@@ -40,3 +40,12 @@ export class NoSuchElementError extends Error {
      */
     constructor(message: string);
 }
+export class TimeoutError extends Error {
+    /**
+     * Create a new timeout error. Thrown when an operation does not complete
+     * within its allotted time.
+     *
+     * @param {string} message - The error's message.
+     */
+    constructor(message: string);
+}
