@@ -1,3 +1,13 @@
+/**
+ * Enum that assigns a comparable ordinal to each finality level, used to check
+ * whether an observed finality satisfies a requested target.
+ */
+export namespace FINALITY {
+    let pending: number;
+    let dropped: number;
+    let confirmed: number;
+    let final: number;
+}
 /** @interface */
 export interface IWalletAccountReadOnly extends IWalletAccountReadOnlySimple {
     /**
@@ -35,6 +45,22 @@ export default abstract class WalletAccountReadOnly implements IWalletAccountRea
      * @param {string} [address] - The account's address.
      */
     constructor(address?: string);
+    /**
+     * The default poll cadence for {@link waitForTransaction}, in milliseconds,
+     * applied when the caller doesn't provide an `interval`. Subclasses override
+     * it to match their chain's block time.
+     *
+     * @type {number}
+     */
+    get defaultWaitInterval(): number;
+    /**
+     * The default time budget for {@link waitForTransaction}, in milliseconds,
+     * applied when the caller doesn't provide a `timeout`. Subclasses override it
+     * to match their chain's finality expectations.
+     *
+     * @type {number}
+     */
+    get defaultWaitTimeout(): number;
     /** @private */
     private __address;
     /**
@@ -108,6 +134,7 @@ export default abstract class WalletAccountReadOnly implements IWalletAccountRea
     /**
      * Returns a transaction's receipt.
      *
+     * @deprecated Use {@link getTransaction} instead, which returns a normalized, finality-based receipt. The native receipt fields remain available on each module's extended return type.
      * @abstract
      * @param {string} hash - The transaction's hash.
      * @returns {Promise<unknown | null>} The receipt, or null if the transaction has not been included in a block yet.
@@ -116,6 +143,31 @@ export default abstract class WalletAccountReadOnly implements IWalletAccountRea
      * @throws {ProviderError} If the provider fails to fetch the transaction's receipt.
      */
     abstract getTransactionReceipt(hash: string): Promise<unknown | null>;
+    /**
+     * Returns a normalized, finality-based receipt for a transaction.
+     *
+     * @abstract
+     * @param {string} hash - The transaction's identifier (hash / signature / lt:hash).
+     * @returns {Promise<TransactionReceipt>} The normalized receipt.
+     * @throws {ValueError} If the hash is not a valid identifier.
+     * @throws {NoSuchElementError} If no transaction has been found for the given hash.
+     */
+    abstract getTransaction(hash: string): Promise<TransactionReceipt>;
+    /**
+     * Blocks until a transaction reaches a terminal state (the requested finality
+     * target or `dropped`), or times out.
+     *
+     * The polling loop and target resolution are chain-agnostic: this method only
+     * interprets the normalized receipt returned by {@link getTransaction}. A
+     * {@link NoSuchElementError} is treated as a transient not-found, so the loop
+     * keeps polling until the timeout.
+     *
+     * @param {string} hash - The transaction's identifier.
+     * @param {WaitForTransactionOptions} [options] - The wait options.
+     * @returns {Promise<TransactionReceipt>} The terminal receipt: the finality target reached (inspect `success` to tell success from revert), or `dropped`.
+     * @throws {TimeoutError} If the target is not reached before the timeout.
+     */
+    waitForTransaction(hash: string, options?: WaitForTransactionOptions): Promise<TransactionReceipt>;
 }
 export type InvalidTokenError = import("./errors.js").InvalidTokenError;
 export type ProviderError = import("./errors.js").ProviderError;
@@ -167,4 +219,4 @@ export type TransferResult = {
      */
     fee: bigint;
 };
-import { IWalletAccountReadOnlySimple } from './wallet-account-read-only-simple.js';
+import { IWalletAccountReadOnlySimple, TransactionReceipt, WaitForTransactionOptions } from './wallet-account-read-only-simple.js';

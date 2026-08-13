@@ -443,7 +443,6 @@ export default class SwidgeProtocol {
    * @abstract
    * @param {SwidgeOptions} options - The swidge options.
    * @returns {Promise<SwidgeQuote>} The quoted swidge details.
-   * @throws {Error} If no account was given at construction.
    * @throws {ReadOnlyAccountRequiredError} If the protocol requires a read-only or full account to quote the costs of a swidge.
    * @throws {ValueError} If the swidge options are not valid.
    * @throws {InvalidTokenError} If the from or to tokens are not valid ERC 20 token's addresses.
@@ -462,7 +461,6 @@ export default class SwidgeProtocol {
    * @param {SwidgeOptions} options - The swidge options.
    * @param {SwidgeProtocolConfig} [config] - Optional provider-specific execution configuration.
    * @returns {Promise<SwidgeResult>} The swidge execution result.
-   * @throws {Error} If no account, or a read-only account was given at construction.
    * @throws {AccountRequiredError} If the protocol requires a full account to perform a swidge.
    * @throws {ValueError} If the swidge options are not valid.
    * @throws {InvalidTokenError} If the from or to tokens are not valid ERC 20 token's addresses.

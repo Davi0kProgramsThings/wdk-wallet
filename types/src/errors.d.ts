@@ -195,6 +195,17 @@ export class MaximumFeeExceededError extends WdkError {
      */
     constructor(message: string, options: ErrorOptions);
 }
+/**
+ * Thrown when an operation times out.
+ */
+export class TimeoutError extends WdkError {
+    /**
+     * Create a new timeout error.
+     *
+     * @param {string} message - The error's message.
+     */
+    constructor(message: string);
+}
 export type ProviderErrorOptions = {
     /**
      * - The error's reason.

@@ -23,7 +23,6 @@ import { NotImplementedError } from './errors.js'
 /** @typedef {import('../wallet-account.js').KeyPair} KeyPair */
 
 /** @typedef {import('./wallet-account-read-only-multisig.js').MultisigProposal} MultisigProposal */
-/** @typedef {import('./wallet-account-read-only-multisig.js').MultisigMessageProposal} MultisigMessageProposal */
 
 /** @typedef {import('./errors.js').AccountNotOwnerError} AccountNotOwnerError */
 /** @typedef {import('./errors.js').MaximumFeeExceededError} MaximumFeeExceededError */
@@ -40,8 +39,8 @@ import { NotImplementedError } from './errors.js'
  */
 
 /**
- * @typedef {Object} MultisigSignature
- * @property {string} signature - The caller's signature.
+ * @typedef {Object} MultisigAutoExecuteResult
+ * @property {TransactionResult} [transaction] - If auto execute is set to true and the method call triggers the execution of the proposal, this field is set to the corresponding transaction's result (i.e., hash and fee).
  */
 
 /** @interface */
@@ -74,6 +73,15 @@ export class IWalletAccountMultisig extends IWalletAccountReadOnlyMultisig {
   }
 
   /**
+   * Returns the signer's address.
+   *
+   * @returns {Promise<string>} The signer's address.
+   */
+  async getSignerAddress () {
+    throw new NotImplementedError('getSignerAddress()')
+  }
+
+  /**
    * Proposes sending a transaction for the other owners to approve. Does not execute on-chain:
    * the returned proposal must be approved up to the threshold and then executed via
    * {@link executeProposal}.
@@ -88,32 +96,6 @@ export class IWalletAccountMultisig extends IWalletAccountReadOnlyMultisig {
    */
   async propose (tx, transactionOptions) {
     throw new NotImplementedError('propose(tx, transactionOptions)')
-  }
-
-  /**
-   * Proposes signing a message.
-   *
-   * @param {string} message - The message to sign.
-   * @returns {Promise<MultisigMessageProposal & MultisigSignature>} The multisig message proposal.
-   * @throws {ProviderRequiredError} If the method requires a provider.
-   * @throws {ProviderError} If the provider fails to propose the message.
-   * @throws {AccountNotOwnerError} If the account is not an owner of the multisig wallet.
-   */
-  async proposeMessage (message) {
-    throw new NotImplementedError('proposeMessage(message)')
-  }
-
-  /**
-   * Approves an existing message proposal.
-   *
-   * @param {string} messageId - The message's hash.
-   * @returns {Promise<MultisigMessageProposal & MultisigSignature>} The multisig message proposal.
-   * @throws {ValueError} If the message's identifier is not a valid id.
-   * @throws {NoSuchElementError} If no message exists for the given id.
-   * @throws {AccountNotOwnerError} If the account is not an owner of the multisig wallet.
-   */
-  async approveMessageProposal (messageId) {
-    throw new NotImplementedError('approveMessageProposal(messageId)')
   }
 
   /**

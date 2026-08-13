@@ -324,3 +324,19 @@ export class MaximumFeeExceededError extends WdkError {
     this.name = 'MaximumFeeExceededError'
   }
 }
+
+/**
+ * Thrown when an operation times out.
+ */
+export class TimeoutError extends WdkError {
+  /**
+   * Create a new timeout error.
+   *
+   * @param {string} message - The error's message.
+   */
+  constructor (message) {
+    super(message)
+
+    this.name = 'TimeoutError'
+  }
+}
