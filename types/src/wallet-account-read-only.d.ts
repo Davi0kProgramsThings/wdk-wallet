@@ -2,6 +2,7 @@
  * Enum that assigns a comparable ordinal to each finality level, used to check
  * whether an observed finality satisfies a requested target.
  */
+export type FINALITY = number;
 export namespace FINALITY {
     let pending: number;
     let dropped: number;
@@ -151,6 +152,8 @@ export default abstract class WalletAccountReadOnly implements IWalletAccountRea
      * @returns {Promise<TransactionReceipt>} The normalized receipt.
      * @throws {ValueError} If the hash is not a valid identifier.
      * @throws {NoSuchElementError} If no transaction has been found for the given hash.
+     * @throws {ProviderRequiredError} If the method requires a provider.
+     * @throws {ProviderError} If the provider fails to fetch the transaction.
      */
     abstract getTransaction(hash: string): Promise<TransactionReceipt>;
     /**
@@ -165,12 +168,17 @@ export default abstract class WalletAccountReadOnly implements IWalletAccountRea
      * @param {string} hash - The transaction's identifier.
      * @param {WaitForTransactionOptions} [options] - The wait options.
      * @returns {Promise<TransactionReceipt>} The terminal receipt: the finality target reached (inspect `success` to tell success from revert), or `dropped`.
-     * @throws {TimeoutError} If the target is not reached before the timeout.
+     * @throws {ValueError} If the hash is not a valid identifier.
+     * @throws {ProviderRequiredError} If the method requires a provider.
+     * @throws {ProviderError} If the provider fails to fetch the transaction.
+     * @throws {TimeoutError} If the operation times out.
      */
     waitForTransaction(hash: string, options?: WaitForTransactionOptions): Promise<TransactionReceipt>;
 }
+export type Finality = import("./wallet-account-read-only-simple.js").Finality;
+export type TransactionReceipt = import("./wallet-account-read-only-simple.js").TransactionReceipt;
+export type WaitForTransactionOptions = import("./wallet-account-read-only-simple.js").WaitForTransactionOptions;
 export type InvalidTokenError = import("./errors.js").InvalidTokenError;
-export type ProviderError = import("./errors.js").ProviderError;
 export type ProviderRequiredError = import("./errors.js").ProviderRequiredError;
 export type TransactionError = import("./errors.js").TransactionError;
 export type TransferError = import("./errors.js").TransferError;
@@ -219,4 +227,4 @@ export type TransferResult = {
      */
     fee: bigint;
 };
-import { IWalletAccountReadOnlySimple, TransactionReceipt, WaitForTransactionOptions } from './wallet-account-read-only-simple.js';
+import { IWalletAccountReadOnlySimple } from './wallet-account-read-only-simple.js';

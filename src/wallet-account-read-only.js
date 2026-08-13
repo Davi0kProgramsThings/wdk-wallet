@@ -15,14 +15,13 @@
 
 import { IWalletAccountReadOnlySimple } from './wallet-account-read-only-simple.js'
 
-import { AssertionError, NoSuchElementError, NotImplementedError, TimeoutError, UnsupportedOperationError } from './errors.js'
+import { AssertionError, NoSuchElementError, NotImplementedError, ProviderError, TimeoutError, UnsupportedOperationError } from './errors.js'
 
 /** @typedef {import('./wallet-account-read-only-simple.js').Finality} Finality */
 /** @typedef {import('./wallet-account-read-only-simple.js').TransactionReceipt} TransactionReceipt */
 /** @typedef {import('./wallet-account-read-only-simple.js').WaitForTransactionOptions} WaitForTransactionOptions */
 
 /** @typedef {import('./errors.js').InvalidTokenError} InvalidTokenError */
-/** @typedef {import('./errors.js').ProviderError} ProviderError */
 /** @typedef {import('./errors.js').ProviderRequiredError} ProviderRequiredError */
 /** @typedef {import('./errors.js').TransactionError} TransactionError */
 /** @typedef {import('./errors.js').TransferError} TransferError */
@@ -262,6 +261,8 @@ export default class WalletAccountReadOnly {
    * @returns {Promise<TransactionReceipt>} The normalized receipt.
    * @throws {ValueError} If the hash is not a valid identifier.
    * @throws {NoSuchElementError} If no transaction has been found for the given hash.
+   * @throws {ProviderRequiredError} If the method requires a provider.
+   * @throws {ProviderError} If the provider fails to fetch the transaction.
    */
   async getTransaction (hash) {
     throw new NotImplementedError('getTransaction(hash)')
@@ -279,7 +280,10 @@ export default class WalletAccountReadOnly {
    * @param {string} hash - The transaction's identifier.
    * @param {WaitForTransactionOptions} [options] - The wait options.
    * @returns {Promise<TransactionReceipt>} The terminal receipt: the finality target reached (inspect `success` to tell success from revert), or `dropped`.
-   * @throws {TimeoutError} If the target is not reached before the timeout.
+   * @throws {ValueError} If the hash is not a valid identifier.
+   * @throws {ProviderRequiredError} If the method requires a provider.
+   * @throws {ProviderError} If the provider fails to fetch the transaction.
+   * @throws {TimeoutError} If the operation times out.
    */
   async waitForTransaction (hash, options = {}) {
     const {
@@ -302,7 +306,13 @@ export default class WalletAccountReadOnly {
       } catch (error) {
         if (error instanceof NoSuchElementError) {
           errorStreak = 0
-        } else if (++errorStreak > maxPollErrors) {
+        }
+        else if (error instanceof ProviderError) {
+          if (++errorStreak > maxPollErrors) {
+            throw error
+          }
+        }
+        else {
           throw error
         }
       }
