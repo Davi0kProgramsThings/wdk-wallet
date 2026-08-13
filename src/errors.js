@@ -100,6 +100,11 @@ export class WdkError extends Error {
   constructor (message, options) {
     super(message, options)
 
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
     this.name = 'WdkError'
   }
 }
@@ -116,6 +121,11 @@ export class NotImplementedError extends WdkError {
   constructor (methodName) {
     super(`Method '${methodName}' is not implemented.`)
 
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
     this.name = 'NotImplementedError'
   }
 }
@@ -132,6 +142,11 @@ export class AssertionError extends WdkError {
   constructor (message) {
     super(message)
 
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
     this.name = 'AssertionError'
   }
 }
@@ -148,6 +163,11 @@ export class UnsupportedOperationError extends WdkError {
   constructor (method) {
     super(`Method '${method}' is not supported.`)
 
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
     this.name = 'UnsupportedOperationError'
   }
 }
@@ -165,6 +185,11 @@ export class ValueError extends WdkError {
   constructor (message, options) {
     super(message, options)
 
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
     this.name = 'ValueError'
   }
 }
@@ -182,6 +207,11 @@ export class NoSuchElementError extends WdkError {
   constructor (message, options) {
     super(message, options)
 
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
     this.name = 'NoSuchElementError'
   }
 }
@@ -199,6 +229,11 @@ export class InvalidSignerError extends WdkError {
   constructor (message, options) {
     super(message, options)
 
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
     this.name = 'InvalidSignerError'
   }
 }
@@ -216,6 +251,11 @@ export class InvalidTokenError extends WdkError {
   constructor (message, options) {
     super(message, options)
 
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
     this.name = 'InvalidTokenError'
   }
 }
@@ -232,6 +272,11 @@ export class ProviderRequiredError extends WdkError {
   constructor (message) {
     super(message)
 
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
     this.name = 'ProviderRequiredError'
   }
 }
@@ -249,6 +294,11 @@ export class ProviderError extends WdkError {
   constructor (message, options) {
     super(message, options)
 
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
     this.name = 'ProviderError'
 
     /**
@@ -273,6 +323,11 @@ export class TransactionError extends WdkError {
   constructor (message, options) {
     super(message, options)
 
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
     this.name = 'TransactionError'
 
     /**
@@ -297,6 +352,11 @@ export class TransferError extends WdkError {
   constructor (message, options) {
     super(message, options)
 
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
     this.name = 'TransferError'
 
     /**
@@ -321,6 +381,11 @@ export class MaximumFeeExceededError extends WdkError {
   constructor (message, options) {
     super(message, options)
 
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
     this.name = 'MaximumFeeExceededError'
   }
 }
@@ -337,6 +402,11 @@ export class TimeoutError extends WdkError {
   constructor (message) {
     super(message)
 
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
     this.name = 'TimeoutError'
   }
 }

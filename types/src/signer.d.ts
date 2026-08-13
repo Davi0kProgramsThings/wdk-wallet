@@ -1,9 +1,10 @@
+// This file has been automatically generated with jsdoc-to-d-ts
 /**
  * A minimal, cross-chain signer interface.
  *
  * @interface
  */
-export class ISigner {
+export interface ISigner {
     /**
      * Derive a child signer using a relative path (e.g., "0'/0/0").
      *
@@ -22,7 +23,7 @@ export class ISigner {
     /**
      * Disposes the signer and clears any secret material from memory.
      */
-    dispose(): void;
+    dispose(): any;
 }
-export type UnsupportedOperationError = import("./errors.js").UnsupportedOperationError;
-export type ValueError = import("./errors.js").ValueError;
+export type UnsupportedOperationError = import('./errors.js').UnsupportedOperationError;
+export type ValueError = import('./errors.js').ValueError;

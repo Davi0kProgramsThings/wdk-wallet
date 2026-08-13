@@ -1,101 +1,174 @@
+// This file has been automatically generated with jsdoc-to-d-ts
 /**
  * Enum for swap error reasons.
+ *
+ * @readonly
+ * @enum {string}
  */
-export type SwapErrorReason = string;
-export namespace SwapErrorReason {
-    let INSUFFICIENT_BALANCE: string;
-    let INSUFFICIENT_TOKEN_BALANCE: string;
-    let COULD_NOT_MET_THRESHOLD: string;
+export enum SwapErrorReason {
+  /**
+   * Thrown when the account doesn't have enough funds to cover the costs of the swap.
+   */
+  INSUFFICIENT_BALANCE = 'INSUFFICIENT_BALANCE',
+  /**
+   * Thrown when the account doesn't have enough funds to perform the swap.
+   */
+  INSUFFICIENT_TOKEN_BALANCE = 'INSUFFICIENT_TOKEN_BALANCE',
+  /**
+   * Thrown when the output amount is lower than the min. amount out option.
+   */
+  COULD_NOT_MET_THRESHOLD = 'COULD_NOT_MET_THRESHOLD'
 }
 /**
  * Enum for bridge error reasons.
+ *
+ * @readonly
+ * @enum {string}
  */
-export type BridgeErrorReason = string;
-export namespace BridgeErrorReason {
-    let INSUFFICIENT_BALANCE_1: string;
-    export { INSUFFICIENT_BALANCE_1 as INSUFFICIENT_BALANCE };
-    let INSUFFICIENT_TOKEN_BALANCE_1: string;
-    export { INSUFFICIENT_TOKEN_BALANCE_1 as INSUFFICIENT_TOKEN_BALANCE };
+export enum BridgeErrorReason {
+  /**
+   * Thrown when the account doesn't have enough funds to cover the costs of the bridge.
+   */
+  INSUFFICIENT_BALANCE = 'INSUFFICIENT_BALANCE',
+  /**
+   * Thrown when the account doesn't have enough funds to perform the bridge.
+   */
+  INSUFFICIENT_TOKEN_BALANCE = 'INSUFFICIENT_TOKEN_BALANCE'
 }
 /**
  * Enum for supply error reasons.
+ *
+ * @readonly
+ * @enum {string}
  */
-export type SupplyErrorReason = string;
-export namespace SupplyErrorReason {
-    let INSUFFICIENT_BALANCE_2: string;
-    export { INSUFFICIENT_BALANCE_2 as INSUFFICIENT_BALANCE };
-    let INSUFFICIENT_TOKEN_BALANCE_2: string;
-    export { INSUFFICIENT_TOKEN_BALANCE_2 as INSUFFICIENT_TOKEN_BALANCE };
+export enum SupplyErrorReason {
+  /**
+   * Thrown when the account doesn't have enough funds to cover the costs of the supply.
+   */
+  INSUFFICIENT_BALANCE = 'INSUFFICIENT_BALANCE',
+  /**
+   * Thrown when the account doesn't have enough funds to perform the supply.
+   */
+  INSUFFICIENT_TOKEN_BALANCE = 'INSUFFICIENT_TOKEN_BALANCE'
 }
 /**
  * Enum for withdraw error reasons.
+ *
+ * @readonly
+ * @enum {string}
  */
-export type WithdrawErrorReason = string;
-export namespace WithdrawErrorReason {
-    let INSUFFICIENT_BALANCE_3: string;
-    export { INSUFFICIENT_BALANCE_3 as INSUFFICIENT_BALANCE };
-    let INSUFFICIENT_TOKEN_BALANCE_3: string;
-    export { INSUFFICIENT_TOKEN_BALANCE_3 as INSUFFICIENT_TOKEN_BALANCE };
+export enum WithdrawErrorReason {
+  /**
+   * Thrown when the account doesn't have enough funds to cover the costs of the withdraw.
+   */
+  INSUFFICIENT_BALANCE = 'INSUFFICIENT_BALANCE',
+  /**
+   * Thrown when the account doesn't have enough funds to perform the withdraw.
+   */
+  INSUFFICIENT_TOKEN_BALANCE = 'INSUFFICIENT_TOKEN_BALANCE'
 }
 /**
  * Enum for borrow error reasons.
+ *
+ * @readonly
+ * @enum {string}
  */
-export type BorrowErrorReason = string;
-export namespace BorrowErrorReason {
-    let INSUFFICIENT_BALANCE_4: string;
-    export { INSUFFICIENT_BALANCE_4 as INSUFFICIENT_BALANCE };
-    let INSUFFICIENT_TOKEN_BALANCE_4: string;
-    export { INSUFFICIENT_TOKEN_BALANCE_4 as INSUFFICIENT_TOKEN_BALANCE };
+export enum BorrowErrorReason {
+  /**
+   * Thrown when the account doesn't have enough funds to cover the costs of the borrow.
+   */
+  INSUFFICIENT_BALANCE = 'INSUFFICIENT_BALANCE',
+  /**
+   * Thrown when the account doesn't have enough funds to perform the borrow.
+   */
+  INSUFFICIENT_TOKEN_BALANCE = 'INSUFFICIENT_TOKEN_BALANCE'
 }
 /**
  * Enum for repay error reasons.
+ *
+ * @readonly
+ * @enum {string}
  */
-export type RepayErrorReason = string;
-export namespace RepayErrorReason {
-    let INSUFFICIENT_BALANCE_5: string;
-    export { INSUFFICIENT_BALANCE_5 as INSUFFICIENT_BALANCE };
-    let INSUFFICIENT_TOKEN_BALANCE_5: string;
-    export { INSUFFICIENT_TOKEN_BALANCE_5 as INSUFFICIENT_TOKEN_BALANCE };
+export enum RepayErrorReason {
+  /**
+   * Thrown when the account doesn't have enough funds to cover the costs of the repay.
+   */
+  INSUFFICIENT_BALANCE = 'INSUFFICIENT_BALANCE',
+  /**
+   * Thrown when the account doesn't have enough funds to perform the repay.
+   */
+  INSUFFICIENT_TOKEN_BALANCE = 'INSUFFICIENT_TOKEN_BALANCE'
 }
 /**
  * Enum for buy error reasons.
+ *
+ * @readonly
+ * @enum {string}
  */
-export type BuyErrorReason = string;
-export namespace BuyErrorReason {
-    let INSUFFICIENT_FUNDS: string;
+export enum BuyErrorReason {
+  /**
+   * Thrown when the user doesn't have enough funds to perform the purchase.
+   */
+  INSUFFICIENT_FUNDS = 'INSUFFICIENT_FUNDS'
 }
 /**
  * Enum for sell error reasons.
+ *
+ * @readonly
+ * @enum {string}
  */
-export type SellErrorReason = string;
-export namespace SellErrorReason {
-    let INSUFFICIENT_FUNDS_1: string;
-    export { INSUFFICIENT_FUNDS_1 as INSUFFICIENT_FUNDS };
+export enum SellErrorReason {
+  /**
+   * Thrown when the user doesn't have enough funds to perform the sale.
+   */
+  INSUFFICIENT_FUNDS = 'INSUFFICIENT_FUNDS'
 }
 /**
  * Enum for swidge error reasons.
+ *
+ * @readonly
+ * @enum {string}
  */
-export type SwidgeErrorReason = string;
-export namespace SwidgeErrorReason {
-    let INSUFFICIENT_BALANCE_6: string;
-    export { INSUFFICIENT_BALANCE_6 as INSUFFICIENT_BALANCE };
-    let INSUFFICIENT_TOKEN_BALANCE_6: string;
-    export { INSUFFICIENT_TOKEN_BALANCE_6 as INSUFFICIENT_TOKEN_BALANCE };
-    let COULD_NOT_MET_THRESHOLD_1: string;
-    export { COULD_NOT_MET_THRESHOLD_1 as COULD_NOT_MET_THRESHOLD };
-    export let SLIPPAGE_TOO_HIGH: string;
+export enum SwidgeErrorReason {
+  /**
+   * Thrown when the account doesn't have enough funds to cover the costs of the swidge.
+   */
+  INSUFFICIENT_BALANCE = 'INSUFFICIENT_BALANCE',
+  /**
+   * Thrown when the account doesn't have enough funds to perform the swidge.
+   */
+  INSUFFICIENT_TOKEN_BALANCE = 'INSUFFICIENT_TOKEN_BALANCE',
+  /**
+   * Thrown when the output amount is lower than the min. amount out option.
+   */
+  COULD_NOT_MET_THRESHOLD = 'COULD_NOT_MET_THRESHOLD',
+  /**
+   * Thrown when the actual slippage is higher than the slippage option.
+   */
+  SLIPPAGE_TOO_HIGH = 'SLIPPAGE_TOO_HIGH'
 }
 /**
  * Enum for SDA error reasons.
+ *
+ * @readonly
+ * @enum {string}
  */
-export type SdaErrorReason = string;
-export namespace SdaErrorReason {
-    let ROUTE_NOT_SUPPORTED: string;
+export enum SdaErrorReason {
+  /**
+   * Thrown when the protocol doesn't support the given route.
+   */
+  ROUTE_NOT_SUPPORTED = 'ROUTE_NOT_SUPPORTED'
 }
 /**
  * Thrown when an operation requires an account to be set.
  */
 export class AccountRequiredError extends WdkError {
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
+    name: string;
     /**
      * Creates a new account required error.
      *
@@ -108,6 +181,12 @@ export class AccountRequiredError extends WdkError {
  */
 export class ReadOnlyAccountRequiredError extends AccountRequiredError {
     /**
+     * The error's name.
+     *
+     * @type {string}
+     */
+    name: string;
+    /**
      * Creates a new read-only account required error.
      *
      * @param {string} message - The error's message.
@@ -119,23 +198,41 @@ export class ReadOnlyAccountRequiredError extends AccountRequiredError {
  */
 export class SwapError extends WdkError {
     /**
-     * Creates a new swap error.
+     * The error's name.
      *
-     * @param {string} message - The error's message.
-     * @param {SwapErrorOptions & ErrorOptions} options - The error's options.
+     * @type {string}
      */
-    constructor(message: string, options: SwapErrorOptions & ErrorOptions);
+    name: string;
     /**
      * The error's reason.
      *
      * @type {string}
      */
     reason: string;
+    /**
+     * Creates a new swap error.
+     *
+     * @param {string} message - The error's message.
+     * @param {SwapErrorOptions & ErrorOptions} options - The error's options.
+     */
+    constructor(message: string, options: SwapErrorOptions & ErrorOptions);
 }
 /**
  * Thrown when a bridge fails with an error.
  */
 export class BridgeError extends WdkError {
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
+    name: string;
+    /**
+     * The error's reason.
+     *
+     * @type {string}
+     */
+    reason: string;
     /**
      * Creates a new bridge error.
      *
@@ -143,17 +240,23 @@ export class BridgeError extends WdkError {
      * @param {BridgeErrorOptions & ErrorOptions} options - The error's options.
      */
     constructor(message: string, options: BridgeErrorOptions & ErrorOptions);
+}
+/**
+ * Thrown when a supply fails with an error.
+ */
+export class SupplyError extends WdkError {
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
+    name: string;
     /**
      * The error's reason.
      *
      * @type {string}
      */
     reason: string;
-}
-/**
- * Thrown when a supply fails with an error.
- */
-export class SupplyError extends WdkError {
     /**
      * Creates a new supply error.
      *
@@ -161,17 +264,23 @@ export class SupplyError extends WdkError {
      * @param {SupplyErrorOptions & ErrorOptions} options - The error's options.
      */
     constructor(message: string, options: SupplyErrorOptions & ErrorOptions);
+}
+/**
+ * Thrown when a withdraw fails with an error.
+ */
+export class WithdrawError extends WdkError {
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
+    name: string;
     /**
      * The error's reason.
      *
      * @type {string}
      */
     reason: string;
-}
-/**
- * Thrown when a withdraw fails with an error.
- */
-export class WithdrawError extends WdkError {
     /**
      * Creates a new withdraw error.
      *
@@ -179,17 +288,23 @@ export class WithdrawError extends WdkError {
      * @param {WithdrawErrorOptions & ErrorOptions} options - The error's options.
      */
     constructor(message: string, options: WithdrawErrorOptions & ErrorOptions);
+}
+/**
+ * Thrown when a borrow fails with an error.
+ */
+export class BorrowError extends WdkError {
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
+    name: string;
     /**
      * The error's reason.
      *
      * @type {string}
      */
     reason: string;
-}
-/**
- * Thrown when a borrow fails with an error.
- */
-export class BorrowError extends WdkError {
     /**
      * Creates a new borrow error.
      *
@@ -197,17 +312,23 @@ export class BorrowError extends WdkError {
      * @param {BorrowErrorOptions & ErrorOptions} options - The error's options.
      */
     constructor(message: string, options: BorrowErrorOptions & ErrorOptions);
+}
+/**
+ * Thrown when a repay fails with an error.
+ */
+export class RepayError extends WdkError {
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
+    name: string;
     /**
      * The error's reason.
      *
      * @type {string}
      */
     reason: string;
-}
-/**
- * Thrown when a repay fails with an error.
- */
-export class RepayError extends WdkError {
     /**
      * Creates a new repay error.
      *
@@ -215,17 +336,23 @@ export class RepayError extends WdkError {
      * @param {RepayErrorOptions & ErrorOptions} options - The error's options.
      */
     constructor(message: string, options: RepayErrorOptions & ErrorOptions);
+}
+/**
+ * Thrown when a purchase fails with an error.
+ */
+export class BuyError extends WdkError {
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
+    name: string;
     /**
      * The error's reason.
      *
      * @type {string}
      */
     reason: string;
-}
-/**
- * Thrown when a purchase fails with an error.
- */
-export class BuyError extends WdkError {
     /**
      * Creates a new buy error.
      *
@@ -233,17 +360,23 @@ export class BuyError extends WdkError {
      * @param {BuyErrorOptions & ErrorOptions} options - The error's options.
      */
     constructor(message: string, options: BuyErrorOptions & ErrorOptions);
+}
+/**
+ * Thrown when a sale fails with an error.
+ */
+export class SellError extends WdkError {
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
+    name: string;
     /**
      * The error's reason.
      *
      * @type {string}
      */
     reason: string;
-}
-/**
- * Thrown when a sale fails with an error.
- */
-export class SellError extends WdkError {
     /**
      * Creates a new sell error.
      *
@@ -251,17 +384,23 @@ export class SellError extends WdkError {
      * @param {SellErrorOptions & ErrorOptions} options - The error's options.
      */
     constructor(message: string, options: SellErrorOptions & ErrorOptions);
+}
+/**
+ * Thrown when a swidge fails with an error.
+ */
+export class SwidgeError extends WdkError {
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
+    name: string;
     /**
      * The error's reason.
      *
      * @type {string}
      */
     reason: string;
-}
-/**
- * Thrown when a swidge fails with an error.
- */
-export class SwidgeError extends WdkError {
     /**
      * Creates a new swidge error.
      *
@@ -269,17 +408,23 @@ export class SwidgeError extends WdkError {
      * @param {SwidgeErrorOptions & ErrorOptions} options - The error's options.
      */
     constructor(message: string, options: SwidgeErrorOptions & ErrorOptions);
+}
+/**
+ * Thrown when a SDA fails with an error.
+ */
+export class SdaError extends WdkError {
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
+    name: string;
     /**
      * The error's reason.
      *
      * @type {string}
      */
     reason: string;
-}
-/**
- * Thrown when a SDA fails with an error.
- */
-export class SdaError extends WdkError {
     /**
      * Creates a new SDA error.
      *
@@ -287,80 +432,66 @@ export class SdaError extends WdkError {
      * @param {SdaErrorOptions & ErrorOptions} options - The error's options.
      */
     constructor(message: string, options: SdaErrorOptions & ErrorOptions);
-    /**
-     * The error's reason.
-     *
-     * @type {string}
-     */
-    reason: string;
 }
 export type SwapErrorOptions = {
-    /**
-     * - The error's reason.
+    /*
+     * The error's reason.
      */
     reason: SwapErrorReason;
 };
 export type BridgeErrorOptions = {
-    /**
-     * - The error's reason.
+    /*
+     * The error's reason.
      */
     reason: BridgeErrorReason;
 };
 export type SupplyErrorOptions = {
-    /**
-     * - The error's reason.
+    /*
+     * The error's reason.
      */
     reason: SupplyErrorReason;
 };
 export type WithdrawErrorOptions = {
-    /**
-     * - The error's reason.
+    /*
+     * The error's reason.
      */
     reason: WithdrawErrorReason;
 };
 export type BorrowErrorOptions = {
-    /**
-     * - The error's reason.
+    /*
+     * The error's reason.
      */
     reason: BorrowErrorReason;
 };
 export type RepayErrorOptions = {
-    /**
-     * - The error's reason.
+    /*
+     * The error's reason.
      */
     reason: RepayErrorReason;
 };
 export type BuyErrorOptions = {
-    /**
-     * - The error's reason.
+    /*
+     * The error's reason.
      */
     reason: BuyErrorReason;
 };
 export type SellErrorOptions = {
-    /**
-     * - The error's reason.
+    /*
+     * The error's reason.
      */
     reason: SellErrorReason;
 };
 export type SwidgeErrorOptions = {
-    /**
-     * - The error's reason.
+    /*
+     * The error's reason.
      */
     reason: SwidgeErrorReason;
 };
 export type SdaErrorOptions = {
-    /**
-     * - The error's reason.
+    /*
+     * The error's reason.
      */
     reason: SdaErrorReason;
 };
-import { InvalidTokenError } from '../errors.js';
-import { MaximumFeeExceededError } from '../errors.js';
-import { NoSuchElementError } from '../errors.js';
-import { NotImplementedError } from '../errors.js';
-import { ProviderError } from '../errors.js';
-import { ProviderRequiredError } from '../errors.js';
-import { UnsupportedOperationError } from '../errors.js';
-import { ValueError } from '../errors.js';
-import { WdkError } from '../errors.js';
 export { InvalidTokenError, MaximumFeeExceededError, NoSuchElementError, NotImplementedError, ProviderError, ProviderRequiredError, UnsupportedOperationError, ValueError, WdkError };
+import { InvalidTokenError, MaximumFeeExceededError, NoSuchElementError, NotImplementedError, ProviderError, ProviderRequiredError, UnsupportedOperationError, ValueError, WdkError } from '../errors.js';

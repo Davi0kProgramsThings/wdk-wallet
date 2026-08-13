@@ -1,3 +1,4 @@
+// This file has been automatically generated with jsdoc-to-d-ts
 /** @interface */
 export interface IFiatProtocol {
     /**
@@ -11,7 +12,7 @@ export interface IFiatProtocol {
      * @throws {ProviderError} If the provider fails to estimate the costs of the purchase.
      * @throws {BuyError} If the purchase fails with an error.
      */
-    quoteBuy(options: Omit<BuyOptions, "recipient">): Promise<FiatQuote>;
+    quoteBuy(options: Omit<BuyOptions, 'recipient'>): Promise<FiatQuote>;
     /**
      * Generates a widget URL for a user to purchase a crypto asset with fiat currency.
      *
@@ -36,7 +37,7 @@ export interface IFiatProtocol {
      * @throws {ProviderError} If the provider fails to estimate the costs of the sale.
      * @throws {SellError} If the sale fails with an error.
      */
-    quoteSell(options: Omit<SellOptions, "refundAddress">): Promise<FiatQuote>;
+    quoteSell(options: Omit<SellOptions, 'refundAddress'>): Promise<FiatQuote>;
     /**
      * Generates a widget URL for a user to sell a crypto asset for fiat currency.
      *
@@ -92,6 +93,13 @@ export interface IFiatProtocol {
  */
 export default abstract class FiatProtocol implements IFiatProtocol {
     /**
+     * The wallet account to use to interact with the protocol.
+     *
+     * @protected
+     * @type {IWalletAccountReadOnly | IWalletAccount | undefined}
+     */
+    protected _account: IWalletAccountReadOnly | IWalletAccount | undefined;
+    /**
      * Creates a new interface to the protocol without binding it to a wallet account.
      *
      * @overload
@@ -113,13 +121,6 @@ export default abstract class FiatProtocol implements IFiatProtocol {
      */
     constructor(account: IWalletAccount);
     /**
-     * The wallet account to use to interact with the protocol.
-     *
-     * @protected
-     * @type {IWalletAccountReadOnly | IWalletAccount | undefined}
-     */
-    protected _account: IWalletAccountReadOnly | IWalletAccount | undefined;
-    /**
      * Gets a quote for a crypto asset purchase.
      *
      * @abstract
@@ -131,7 +132,7 @@ export default abstract class FiatProtocol implements IFiatProtocol {
      * @throws {ProviderError} If the provider fails to estimate the costs of the purchase.
      * @throws {BuyError} If the purchase fails with an error.
      */
-    abstract quoteBuy(options: Omit<BuyOptions, "recipient">): Promise<FiatQuote>;
+    abstract quoteBuy(options: Omit<BuyOptions, 'recipient'>): Promise<FiatQuote>;
     /**
      * Generates a URL for a user to purchase a crypto asset with fiat currency.
      *
@@ -158,7 +159,7 @@ export default abstract class FiatProtocol implements IFiatProtocol {
      * @throws {ProviderError} If the provider fails to estimate the costs of the sale.
      * @throws {SellError} If the sale fails with an error.
      */
-    abstract quoteSell(options: Omit<SellOptions, "refundAddress">): Promise<FiatQuote>;
+    abstract quoteSell(options: Omit<SellOptions, 'refundAddress'>): Promise<FiatQuote>;
     /**
      * Generates a URL for a user to sell a crypto asset for fiat currency.
      *
@@ -213,197 +214,179 @@ export default abstract class FiatProtocol implements IFiatProtocol {
      */
     abstract getSupportedCountries(): Promise<SupportedCountry[]>;
 }
-export type IWalletAccountReadOnly = import("../wallet-account-read-only.js").IWalletAccountReadOnly;
-export type IWalletAccount = import("../wallet-account.js").IWalletAccount;
-export type AccountRequiredError = import("./errors.js").AccountRequiredError;
-export type BuyError = import("./errors.js").BuyError;
-export type MaximumFeeExceededError = import("./errors.js").MaximumFeeExceededError;
-export type NoSuchElementError = import("./errors.js").NoSuchElementError;
-export type ReadOnlyAccountRequiredError = import("./errors.js").ReadOnlyAccountRequiredError;
-export type ProviderError = import("./errors.js").ProviderError;
-export type ProviderRequiredError = import("./errors.js").ProviderRequiredError;
-export type SellError = import("./errors.js").SellError;
-export type ValueError = import("./errors.js").ValueError;
-/**
- * Standardized status for an on/off-ramp transaction.
- */
-export type FiatTransactionStatus = "in_progress" | "failed" | "completed";
-/**
- * A protocol-agnostic, standardized object representing the details of an on/off-ramp transaction.
- */
+export type IWalletAccountReadOnly = import('../wallet-account-read-only.js').IWalletAccountReadOnly;
+export type IWalletAccount = import('../wallet-account.js').IWalletAccount;
+export type AccountRequiredError = import('./errors.js').AccountRequiredError;
+export type BuyError = import('./errors.js').BuyError;
+export type MaximumFeeExceededError = import('./errors.js').MaximumFeeExceededError;
+export type NoSuchElementError = import('./errors.js').NoSuchElementError;
+export type ReadOnlyAccountRequiredError = import('./errors.js').ReadOnlyAccountRequiredError;
+export type ProviderError = import('./errors.js').ProviderError;
+export type ProviderRequiredError = import('./errors.js').ProviderRequiredError;
+export type SellError = import('./errors.js').SellError;
+export type ValueError = import('./errors.js').ValueError;
+export type FiatTransactionStatus = 'in_progress' | 'failed' | 'completed';
 export type FiatTransactionDetail = {
-    /**
-     * - The current status of the transaction.
+    /*
+     * The current status of the transaction.
      */
     status: FiatTransactionStatus;
-    /**
-     * - The provider-specific code of the crypto asset (e.g., 'btc').
+    /*
+     * The provider-specific code of the crypto asset (e.g., 'btc').
      */
     cryptoAsset: string;
-    /**
-     * - The currency's ISO 4217 code (e.g., 'USD').
+    /*
+     * The currency's ISO 4217 code (e.g., 'USD').
      */
     fiatCurrency: string;
 };
-/**
- * A protocol-agnostic, standardized object representing a supported crypto asset.
- */
 export type SupportedCryptoAsset = {
-    /**
-     * - Provider-specific asset code for the crypto asset.
+    /*
+     * Provider-specific asset code for the crypto asset.
      */
     code: string;
-    /**
-     * - The network code for the asset, if applicable (e.g., 'ethereum', 'tron').
+    /*
+     * The network code for the asset, if applicable (e.g., 'ethereum', 'tron').
      */
     networkCode: string;
-    /**
-     * - The on-chain number of decimal places for the asset's base unit (e.g., 18 for ETH).
+    /*
+     * The on-chain number of decimal places for the asset's base unit (e.g., 18 for ETH).
      */
     decimals: number;
-    /**
-     * - The asset's full name (e.g., 'Bitcoin').
+    /*
+     * The asset's full name (e.g., 'Bitcoin').
      */
     name?: string;
 };
-/**
- * A protocol-agnostic, standardized object representing a supported fiat currency.
- */
 export type SupportedFiatCurrency = {
-    /**
-     * - The currency's ISO 4217 code (e.g., 'USD').
+    /*
+     * The currency's ISO 4217 code (e.g., 'USD').
      */
     code: string;
-    /**
-     * - The number of decimal places for the currency's smallest unit (e.g., 2 for USD, 0 for JPY).
+    /*
+     * The number of decimal places for the currency's smallest unit (e.g., 2 for USD, 0 for JPY).
      */
     decimals: number;
-    /**
-     * - The currency's full name (e.g., 'United States Dollar').
+    /*
+     * The currency's full name (e.g., 'United States Dollar').
      */
     name?: string;
 };
-/**
- * A protocol-agnostic, standardized object representing a supported country.
- */
 export type SupportedCountry = {
-    /**
-     * - The country's ISO 3166-1 alpha-2 or alpha-3 code.
+    /*
+     * The country's ISO 3166-1 alpha-2 or alpha-3 code.
      */
     code: string;
-    /**
-     * - Whether buying is supported in this country.
+    /*
+     * Whether buying is supported in this country.
      */
     isBuyAllowed: boolean;
-    /**
-     * - Whether selling is supported in this country.
+    /*
+     * Whether selling is supported in this country.
      */
     isSellAllowed: boolean;
-    /**
-     * - The country's common name.
+    /*
+     * The country's common name.
      */
     name?: string;
 };
 export type BuyOptions = BuyCommonOptions & (BuyExactCryptoAmountOptions | BuyWithFiatAmountOptions);
 export type BuyCommonOptions = {
-    /**
-     * - The provider-specific code of the crypto asset to purchase.
+    /*
+     * The provider-specific code of the crypto asset to purchase.
      */
     cryptoAsset: string;
-    /**
-     * - The currency's ISO 4217 code (e.g., 'USD').
+    /*
+     * The currency's ISO 4217 code (e.g., 'USD').
      */
     fiatCurrency: string;
-    /**
-     * - The wallet address to receive the purchased crypto asset. Defaults to the account's address.
+    /*
+     * The wallet address to receive the purchased crypto asset. Defaults to the account's address.
      */
     recipient?: string;
 };
 export type BuyExactCryptoAmountOptions = {
-    /**
-     * - The amount of crypto asset to buy, in its base unit (e.g., wei for ETH).
+    /*
+     * The amount of crypto asset to buy, in its base unit (e.g., wei for ETH).
      */
     cryptoAmount: number | bigint;
-    /**
-     * - The amount of fiat currency to spend, in its smallest unit (e.g., cents for USD).
+    /*
+     * The amount of fiat currency to spend, in its smallest unit (e.g., cents for USD).
      */
     fiatAmount?: never;
 };
 export type BuyWithFiatAmountOptions = {
-    /**
-     * - The amount of fiat currency to spend, in its smallest unit (e.g., cents for USD).
+    /*
+     * The amount of fiat currency to spend, in its smallest unit (e.g., cents for USD).
      */
     fiatAmount: number | bigint;
-    /**
-     * - The amount of crypto asset to buy, in its base unit (e.g., wei for ETH).
+    /*
+     * The amount of crypto asset to buy, in its base unit (e.g., wei for ETH).
      */
     cryptoAmount?: never;
 };
 export type BuyResult = {
-    /**
-     * - The URL for the user to complete the purchase.
+    /*
+     * The URL for the user to complete the purchase.
      */
     buyUrl: string;
 };
 export type SellOptions = SellCommonOptions & (SellExactCryptoAmountOptions | SellForFiatAmountOptions);
 export type SellCommonOptions = {
-    /**
-     * - The provider-specific code of the crypto asset to sell.
+    /*
+     * The provider-specific code of the crypto asset to sell.
      */
     cryptoAsset: string;
-    /**
-     * - The currency's ISO 4217 code (e.g., 'USD').
+    /*
+     * The currency's ISO 4217 code (e.g., 'USD').
      */
     fiatCurrency: string;
-    /**
-     * - The wallet address to receive refunds in case of failure. Defaults to the account's address.
+    /*
+     * The wallet address to receive refunds in case of failure. Defaults to the account's address.
      */
     refundAddress?: string;
 };
 export type SellExactCryptoAmountOptions = {
-    /**
-     * - The amount of crypto asset to sell, in its base unit (e.g., wei for ETH).
+    /*
+     * The amount of crypto asset to sell, in its base unit (e.g., wei for ETH).
      */
     cryptoAmount: number | bigint;
-    /**
-     * - The amount of fiat currency to receive, in its smallest unit (e.g., cents for USD).
+    /*
+     * The amount of fiat currency to receive, in its smallest unit (e.g., cents for USD).
      */
     fiatAmount?: never;
 };
 export type SellForFiatAmountOptions = {
-    /**
-     * - The amount of fiat currency to receive, in its smallest unit (e.g., cents for USD).
+    /*
+     * The amount of fiat currency to receive, in its smallest unit (e.g., cents for USD).
      */
     fiatAmount: number | bigint;
-    /**
-     * - The amount of crypto asset to sell, in its base unit (e.g., wei for ETH).
+    /*
+     * The amount of crypto asset to sell, in its base unit (e.g., wei for ETH).
      */
     cryptoAmount?: never;
 };
 export type SellResult = {
-    /**
-     * - The URL for the user to complete the sale.
+    /*
+     * The URL for the user to complete the sale.
      */
     sellUrl: string;
 };
-/**
- * A protocol-agnostic, standardized object representing a quote for an on/off-ramp transaction.
- */
 export type FiatQuote = {
-    /**
-     * - The amount of the crypto asset, in its base unit (e.g., wei).
+    /*
+     * The amount of the crypto asset, in its base unit (e.g., wei).
      */
     cryptoAmount: bigint;
-    /**
-     * - The amount of the fiat currency, in its smallest unit (e.g., cents).
+    /*
+     * The amount of the fiat currency, in its smallest unit (e.g., cents).
      */
     fiatAmount: bigint;
-    /**
-     * - The fee charged for the transaction, denominated in the smallest unit of the fiat currency.
+    /*
+     * The fee charged for the transaction, denominated in the smallest unit of the fiat currency.
      */
     fee: bigint;
-    /**
-     * - The effective exchange rate, expressed as a string to avoid precision loss (e.g., a rate of "3000.50" for ETH/USD means 1 ETH = 3000.50 USD). Note: This rate applies to the standard units (e.g., ETH and USD).
+    /*
+     * The effective exchange rate, expressed as a string to avoid precision loss (e.g., a rate of "3000.50" for ETH/USD means 1 ETH = 3000.50 USD). Note: This rate applies to the standard units (e.g., ETH and USD).
      */
     rate: string;
 };

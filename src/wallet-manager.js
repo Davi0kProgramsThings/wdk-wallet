@@ -216,8 +216,6 @@ export default class WalletManager {
    * @returns {Promise<IWalletAccount>} The account.
    * @throws {NoSuchElementError} If no signer exists with the given name.
    */
-
-  /** @abstract */
   async getAccount (indexOrSignerName = 0, options = {}) {
     throw new NotImplementedError('getAccount(indexOrSignerName, options?)')
   }

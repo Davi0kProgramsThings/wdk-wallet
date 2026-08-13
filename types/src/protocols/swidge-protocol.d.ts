@@ -1,5 +1,10 @@
-/** @interface */
-export interface ISwidgeProtocol extends ISwapProtocol, IBridgeProtocol {
+// This file has been automatically generated with jsdoc-to-d-ts
+/**
+ * @interface
+ * @extends {ISwapProtocol}
+ * @extends {IBridgeProtocol}
+ */
+export interface ISwidgeProtocol {
     /**
      * Quotes the estimated costs and output of a cross-chain swap/bridge operation.
      * Returns a non-binding quote; the actual execution is performed
@@ -60,8 +65,27 @@ export interface ISwidgeProtocol extends ISwapProtocol, IBridgeProtocol {
      */
     getSupportedTokens(options?: SwidgeSupportedTokensOptions): Promise<SwidgeSupportedToken[]>;
 }
-/** @abstract */
+/**
+ * @abstract
+ * @implements {ISwidgeProtocol}
+ * @implements {ISwapProtocol}
+ * @implements {IBridgeProtocol}
+ */
 export default abstract class SwidgeProtocol implements ISwidgeProtocol, ISwapProtocol, IBridgeProtocol {
+    /**
+     * The wallet account to use to interact with the protocol.
+     *
+     * @protected
+     * @type {IWalletAccountReadOnly | IWalletAccount | undefined}
+     */
+    protected _account: IWalletAccountReadOnly | IWalletAccount | undefined;
+    /**
+     * The swidge protocol configuration.
+     *
+     * @protected
+     * @type {SwidgeProtocolConfig}
+     */
+    protected _config: SwidgeProtocolConfig;
     /**
      * Creates a new swidge protocol without binding it to a wallet account.
      *
@@ -86,20 +110,6 @@ export default abstract class SwidgeProtocol implements ISwidgeProtocol, ISwapPr
      * @param {SwidgeProtocolConfig} [config] - The swidge protocol configuration.
      */
     constructor(account: IWalletAccount, config?: SwidgeProtocolConfig);
-    /**
-     * The wallet account to use to interact with the protocol.
-     *
-     * @protected
-     * @type {IWalletAccountReadOnly | IWalletAccount | undefined}
-     */
-    protected _account: IWalletAccountReadOnly | IWalletAccount | undefined;
-    /**
-     * The swidge protocol configuration.
-     *
-     * @protected
-     * @type {SwidgeProtocolConfig}
-     */
-    protected _config: SwidgeProtocolConfig;
     /**
      * Swaps a pair of tokens by delegating to {@link swidge}.
      *
@@ -126,7 +136,7 @@ export default abstract class SwidgeProtocol implements ISwidgeProtocol, ISwapPr
      * @throws {ProviderError} If the provider fails to estimate the costs of the swap.
      * @throws {SwapError} If the swap fails with an error.
      */
-    quoteSwap(options: SwapOptions): Promise<Omit<SwapResult, "hash">>;
+    quoteSwap(options: SwapOptions): Promise<Omit<SwapResult, 'hash'>>;
     /**
      * Bridges a token to a different blockchain by delegating to {@link swidge}.
      *
@@ -153,7 +163,7 @@ export default abstract class SwidgeProtocol implements ISwidgeProtocol, ISwapPr
      * @throws {ProviderError} If the provider fails to perform the bridge.
      * @throws {BridgeError} If the bridge fails with an error.
      */
-    quoteBridge(options: BridgeOptions): Promise<Omit<BridgeResult, "hash">>;
+    quoteBridge(options: BridgeOptions): Promise<Omit<BridgeResult, 'hash'>>;
     /**
      * Quotes the estimated costs and output of a swidge operation.
      * Returns a non-binding quote; the actual execution is performed
@@ -219,265 +229,261 @@ export default abstract class SwidgeProtocol implements ISwidgeProtocol, ISwapPr
      */
     abstract getSupportedTokens(options?: SwidgeSupportedTokensOptions): Promise<SwidgeSupportedToken[]>;
 }
-export type IWalletAccountReadOnly = import("../wallet-account-read-only.js").IWalletAccountReadOnly;
-export type IWalletAccount = import("../wallet-account.js").IWalletAccount;
-export type ISwapProtocol = import("./swap-protocol.js").ISwapProtocol;
-export type SwapOptions = import("./swap-protocol.js").SwapOptions;
-export type SwapResult = import("./swap-protocol.js").SwapResult;
-export type IBridgeProtocol = import("./bridge-protocol.js").IBridgeProtocol;
-export type BridgeOptions = import("./bridge-protocol.js").BridgeOptions;
-export type BridgeResult = import("./bridge-protocol.js").BridgeResult;
-export type AccountRequiredError = import("./errors.js").AccountRequiredError;
-export type InvalidTokenError = import("./errors.js").InvalidTokenError;
-export type MaximumFeeExceededError = import("./errors.js").MaximumFeeExceededError;
-export type NoSuchElementError = import("./errors.js").NoSuchElementError;
-export type ReadOnlyAccountRequiredError = import("./errors.js").ReadOnlyAccountRequiredError;
-export type ProviderError = import("./errors.js").ProviderError;
-export type ProviderRequiredError = import("./errors.js").ProviderRequiredError;
-export type ValueError = import("./errors.js").ValueError;
-export type SwidgeStatus = "pending" | "action-required" | "completed" | "failed" | "refund-pending" | "refunded" | "cancelled" | "expired" | "partial";
-export type SwidgeFeeType = "network" | "protocol" | "affiliate" | "other";
+export type IWalletAccountReadOnly = import('../wallet-account-read-only.js').IWalletAccountReadOnly;
+export type IWalletAccount = import('../wallet-account.js').IWalletAccount;
+export type ISwapProtocol = import('./swap-protocol.js').ISwapProtocol;
+export type SwapOptions = import('./swap-protocol.js').SwapOptions;
+export type SwapResult = import('./swap-protocol.js').SwapResult;
+export type IBridgeProtocol = import('./bridge-protocol.js').IBridgeProtocol;
+export type BridgeOptions = import('./bridge-protocol.js').BridgeOptions;
+export type BridgeResult = import('./bridge-protocol.js').BridgeResult;
+export type AccountRequiredError = import('./errors.js').AccountRequiredError;
+export type InvalidTokenError = import('./errors.js').InvalidTokenError;
+export type MaximumFeeExceededError = import('./errors.js').MaximumFeeExceededError;
+export type NoSuchElementError = import('./errors.js').NoSuchElementError;
+export type ReadOnlyAccountRequiredError = import('./errors.js').ReadOnlyAccountRequiredError;
+export type ProviderError = import('./errors.js').ProviderError;
+export type ProviderRequiredError = import('./errors.js').ProviderRequiredError;
+export type ValueError = import('./errors.js').ValueError;
+export type SwidgeStatus = 'pending' | 'action-required' | 'completed' | 'failed'
+            | 'refund-pending' | 'refunded' | 'cancelled' | 'expired' | 'partial';
+export type SwidgeFeeType = 'network' | 'protocol' | 'affiliate' | 'other';
 export type SwidgeProtocolConfig = {
-    /**
-     * - Maximum acceptable network fee in basis points of the input amount.
+    /*
+     * Maximum acceptable network fee in basis points of the input amount.
      */
     maxNetworkFeeBps?: number | bigint;
-    /**
-     * - Maximum acceptable protocol fee in basis points of the input amount.
+    /*
+     * Maximum acceptable protocol fee in basis points of the input amount.
      */
     maxProtocolFeeBps?: number | bigint;
 };
 export type SwidgeOptions = SwidgeCommonOptions & (SwidgeExactInOptions | SwidgeExactOutOptions);
 export type SwidgeCommonOptions = {
-    /**
-     * - The provider-specific identifier or address of the source token.
+    /*
+     * The provider-specific identifier or address of the source token.
      */
     fromToken: string;
-    /**
-     * - The provider-specific identifier or address of the destination token.
+    /*
+     * The provider-specific identifier or address of the destination token.
      */
     toToken: string;
-    /**
-     * - The identifier of the destination chain. If omitted, defaults to the source chain (same-chain swap).
+    /*
+     * The identifier of the destination chain. If omitted, defaults to the source chain (same-chain swap).
      */
     toChain?: string | number;
-    /**
-     * - The address that will receive the output tokens.
+    /*
+     * The address that will receive the output tokens.
      */
     recipient?: string;
-    /**
-     * - The address that will receive refunds if the tx cannot complete.
+    /*
+     * The address that will receive refunds if the tx cannot complete.
      */
     refundAddress?: string;
-    /**
-     * - The maximum acceptable slippage as a decimal (e.g., 0.01 for 1%).
+    /*
+     * The maximum acceptable slippage as a decimal (e.g., 0.01 for 1%).
      */
     slippage?: number;
-    /**
-     * - The minimum acceptable amount of destination tokens to receive (in base unit).
+    /*
+     * The minimum acceptable amount of destination tokens to receive (in base unit).
      */
     minAmountOut?: number | bigint;
 };
 export type SwidgeExactInOptions = {
-    /**
-     * - The exact amount of source tokens to spend (in base unit).
+    /*
+     * The exact amount of source tokens to spend (in base unit).
      */
     fromTokenAmount: number | bigint;
-    /**
-     * - Not applicable for exact-in operations.
+    /*
+     * Not applicable for exact-in operations.
      */
     toTokenAmount?: never;
 };
 export type SwidgeExactOutOptions = {
-    /**
-     * - Not applicable for exact-out operations.
+    /*
+     * Not applicable for exact-out operations.
      */
     fromTokenAmount?: never;
-    /**
-     * - The exact amount of destination tokens to receive (in base unit).
+    /*
+     * The exact amount of destination tokens to receive (in base unit).
      */
     toTokenAmount: number | bigint;
 };
 export type SwidgeFee = {
-    /**
-     * - The category of the fee.
+    /*
+     * The category of the fee.
      */
     type: SwidgeFeeType;
-    /**
-     * - The fee amount in base units.
+    /*
+     * The fee amount in base units.
      */
     amount: bigint;
-    /**
-     * - The token in which the fee is denominated.
+    /*
+     * The token in which the fee is denominated.
      */
     token: string;
-    /**
-     * - The chain on which the fee is charged.
+    /*
+     * The chain on which the fee is charged.
      */
     chain?: string | number;
-    /**
-     * - Whether the fee is already included in the quoted amounts.
+    /*
+     * Whether the fee is already included in the quoted amounts.
      */
     included?: boolean;
-    /**
-     * - A human-readable description of the fee.
+    /*
+     * A human-readable description of the fee.
      */
     description?: string;
 };
 export type SwidgeTransaction = {
-    /**
-     * - The transaction hash.
+    /*
+     * The transaction hash.
      */
     hash: string;
-    /**
-     * - The chain on which the transaction occurred.
+    /*
+     * The chain on which the transaction occurred.
      */
     chain?: string | number;
-    /**
-     * - The role of the transaction within the swidge.
+    /*
+     * The role of the transaction within the swidge.
      */
-    type?: "source" | "destination" | "approval" | "refund" | "other";
+    type?: 'source' | 'destination' | 'approval' | 'refund' | 'other';
 };
-/**
- * Non-binding quote for a swidge operation.
- * Providers that internally decompose the operation into multiple sequential transactions
- * should encapsulate that decomposition behind a single quote.
- */
 export type SwidgeQuote = {
-    /**
-     * - The amount of source tokens to spend.
+    /*
+     * The amount of source tokens to spend.
      */
     fromTokenAmount: bigint;
-    /**
-     * - The estimated amount of destination tokens to receive.
+    /*
+     * The estimated amount of destination tokens to receive.
      */
     toTokenAmount: bigint;
-    /**
-     * - The minimum guaranteed amount after slippage.
+    /*
+     * The minimum guaranteed amount after slippage.
      */
     toTokenAmountMin: bigint;
-    /**
-     * - Itemised fee breakdown.
+    /*
+     * Itemised fee breakdown.
      */
     fees: SwidgeFee[];
-    /**
-     * - Estimated duration in seconds.
+    /*
+     * Estimated duration in seconds.
      */
     estimatedDuration?: number;
-    /**
-     * - Unix timestamp (seconds) at which the quote expires.
+    /*
+     * Unix timestamp (seconds) at which the quote expires.
      */
     expiry?: number;
-    /**
-     * - Provider-reported estimated price impact as a decimal (e.g., 0.01 for 1%).
+    /*
+     * Provider-reported estimated price impact as a decimal (e.g., 0.01 for 1%).
      */
     priceImpact?: number;
 };
 export type SwidgeResult = {
-    /**
-     * - The unique swidge execution identifier.
+    /*
+     * The unique swidge execution identifier.
      */
     id: string;
-    /**
-     * - The primary transaction hash (if available immediately).
+    /*
+     * The primary transaction hash (if available immediately).
      */
     hash?: string;
-    /**
-     * - Itemised fee breakdown.
+    /*
+     * Itemised fee breakdown.
      */
     fees: SwidgeFee[];
-    /**
-     * - Transactions produced by the swidge execution.
+    /*
+     * Transactions produced by the swidge execution.
      */
     transactions?: SwidgeTransaction[];
-    /**
-     * - The actual amount of source tokens spent.
+    /*
+     * The actual amount of source tokens spent.
      */
     fromTokenAmount: bigint;
-    /**
-     * - The actual or expected amount of destination tokens.
+    /*
+     * The actual or expected amount of destination tokens.
      */
     toTokenAmount: bigint;
-    /**
-     * - The minimum guaranteed amount after slippage.
+    /*
+     * The minimum guaranteed amount after slippage.
      */
     toTokenAmountMin?: bigint;
 };
 export type SwidgeStatusOptions = {
-    /**
-     * - The source chain identifier.
+    /*
+     * The source chain identifier.
      */
     fromChain?: string | number;
-    /**
-     * - The destination chain identifier.
+    /*
+     * The destination chain identifier.
      */
     toChain?: string | number;
 };
 export type SwidgeStatusResult = {
-    /**
-     * - The current status of the swidge.
+    /*
+     * The current status of the swidge.
      */
     status: SwidgeStatus;
-    /**
-     * - Transactions associated with the swidge.
+    /*
+     * Transactions associated with the swidge.
      */
     transactions?: SwidgeTransaction[];
 };
 export type SwidgeSupportedChain = {
-    /**
-     * - The provider-specific chain identifier.
+    /*
+     * The provider-specific chain identifier.
      */
     id: string | number;
-    /**
-     * - The human-readable chain name.
+    /*
+     * The human-readable chain name.
      */
     name: string;
-    /**
-     * - The chain or virtual machine type (e.g., 'evm', 'svm', 'utxo').
+    /*
+     * The chain or virtual machine type (e.g., 'evm', 'svm', 'utxo').
      */
     type: string;
-    /**
-     * - The symbol of the chain's native token.
+    /*
+     * The symbol of the chain's native token.
      */
     nativeToken: string;
 };
 export type SwidgeSupportedToken = {
-    /**
-     * - The provider-specific token identifier to use in swidge operations.
+    /*
+     * The provider-specific token identifier to use in swidge operations.
      */
     token: string;
-    /**
-     * - The chain on which the token is available.
+    /*
+     * The chain on which the token is available.
      */
     chain: string | number;
-    /**
-     * - The token symbol.
+    /*
+     * The token symbol.
      */
     symbol: string;
-    /**
-     * - The number of decimal places for the token's base unit.
+    /*
+     * The number of decimal places for the token's base unit.
      */
     decimals: number;
-    /**
-     * - The token contract address, if applicable.
+    /*
+     * The token contract address, if applicable.
      */
     address?: string;
-    /**
-     * - The token's full name.
+    /*
+     * The token's full name.
      */
     name?: string;
 };
 export type SwidgeSupportedTokensOptions = {
-    /**
-     * - The optional source chain for route-scoped discovery.
+    /*
+     * The optional source chain for route-scoped discovery.
      */
     fromChain?: string | number;
-    /**
-     * - The optional source token for route-scoped discovery.
+    /*
+     * The optional source token for route-scoped discovery.
      */
     fromToken?: string;
-    /**
-     * - The optional destination chain for route-scoped discovery.
+    /*
+     * The optional destination chain for route-scoped discovery.
      */
     toChain?: string | number;
 };

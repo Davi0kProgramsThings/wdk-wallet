@@ -1,3 +1,4 @@
+// This file has been automatically generated with jsdoc-to-d-ts
 /** @interface */
 export interface ISwapProtocol {
     /**
@@ -26,13 +27,27 @@ export interface ISwapProtocol {
      * @throws {ProviderError} If the provider fails to estimate the costs of the swap.
      * @throws {SwapError} If the swap fails with an error.
      */
-    quoteSwap(options: SwapOptions): Promise<Omit<SwapResult, "hash">>;
+    quoteSwap(options: SwapOptions): Promise<Omit<SwapResult, 'hash'>>;
 }
 /**
  * @abstract
  * @implements {ISwapProtocol}
  */
 export default abstract class SwapProtocol implements ISwapProtocol {
+    /**
+     * The wallet account to use to interact with the protocol.
+     *
+     * @protected
+     * @type {IWalletAccountReadOnly | IWalletAccount}
+     */
+    protected _account: IWalletAccountReadOnly | IWalletAccount;
+    /**
+     * The swap protocol configuration.
+     *
+     * @protected
+     * @type {SwapProtocolConfig}
+     */
+    protected _config: SwapProtocolConfig;
     /**
      * Creates a new read-only swap protocol.
      *
@@ -49,20 +64,6 @@ export default abstract class SwapProtocol implements ISwapProtocol {
      * @param {SwapProtocolConfig} [config] - The swap protocol configuration.
      */
     constructor(account: IWalletAccount, config?: SwapProtocolConfig);
-    /**
-     * The wallet account to use to interact with the protocol.
-     *
-     * @protected
-     * @type {IWalletAccountReadOnly | IWalletAccount}
-     */
-    protected _account: IWalletAccountReadOnly | IWalletAccount;
-    /**
-     * The swap protocol configuration.
-     *
-     * @protected
-     * @type {SwapProtocolConfig}
-     */
-    protected _config: SwapProtocolConfig;
     /**
      * Swaps a pair of tokens.
      *
@@ -90,78 +91,78 @@ export default abstract class SwapProtocol implements ISwapProtocol {
      * @throws {ProviderError} If the provider fails to estimate the costs of the swap.
      * @throws {SwapError} If the swap fails with an error.
      */
-    abstract quoteSwap(options: SwapOptions): Promise<Omit<SwapResult, "hash">>;
+    abstract quoteSwap(options: SwapOptions): Promise<Omit<SwapResult, 'hash'>>;
 }
-export type IWalletAccountReadOnly = import("../wallet-account-read-only.js").IWalletAccountReadOnly;
-export type IWalletAccount = import("../wallet-account.js").IWalletAccount;
-export type AccountRequiredError = import("./errors.js").AccountRequiredError;
-export type InvalidTokenError = import("./errors.js").InvalidTokenError;
-export type MaximumFeeExceededError = import("./errors.js").MaximumFeeExceededError;
-export type ReadOnlyAccountRequiredError = import("./errors.js").ReadOnlyAccountRequiredError;
-export type ProviderError = import("./errors.js").ProviderError;
-export type ProviderRequiredError = import("./errors.js").ProviderRequiredError;
-export type SwapError = import("./errors.js").SwapError;
-export type ValueError = import("./errors.js").ValueError;
+export type IWalletAccountReadOnly = import('../wallet-account-read-only.js').IWalletAccountReadOnly;
+export type IWalletAccount = import('../wallet-account.js').IWalletAccount;
+export type AccountRequiredError = import('./errors.js').AccountRequiredError;
+export type InvalidTokenError = import('./errors.js').InvalidTokenError;
+export type MaximumFeeExceededError = import('./errors.js').MaximumFeeExceededError;
+export type ReadOnlyAccountRequiredError = import('./errors.js').ReadOnlyAccountRequiredError;
+export type ProviderError = import('./errors.js').ProviderError;
+export type ProviderRequiredError = import('./errors.js').ProviderRequiredError;
+export type SwapError = import('./errors.js').SwapError;
+export type ValueError = import('./errors.js').ValueError;
 export type SwapProtocolConfig = {
-    /**
-     * - The maximum fee amount for swap operations.
+    /*
+     * The maximum fee amount for swap operations.
      */
     swapMaxFee?: number | bigint;
 };
 export type SwapOptions = SwapCommonOptions & (SwapBuyOptions | SwapSellOptions);
 export type SwapCommonOptions = {
-    /**
-     * - The address of the token to sell.
+    /*
+     * The address of the token to sell.
      */
     tokenIn: string;
-    /**
-     * - The address of the token to buy.
+    /*
+     * The address of the token to buy.
      */
     tokenOut: string;
-    /**
-     * - The address that will receive the output tokens. If not set, the account itself will receive the funds.
+    /*
+     * The address that will receive the output tokens. If not set, the account itself will receive the funds.
      */
     to?: string;
-    /**
-     * - The minimum acceptable amount of destination tokens to receive (in base unit).
+    /*
+     * The minimum acceptable amount of destination tokens to receive (in base unit).
      */
     minAmountOut?: number | bigint;
 };
 export type SwapBuyOptions = {
-    /**
-     * - The amount of input tokens to sell (in base unit).
+    /*
+     * The amount of input tokens to sell (in base unit).
      */
     tokenInAmount?: never;
-    /**
-     * - The amount of output tokens to buy (in base unit).
+    /*
+     * The amount of output tokens to buy (in base unit).
      */
     tokenOutAmount: number | bigint;
 };
 export type SwapSellOptions = {
-    /**
-     * - The amount of input tokens to sell (in base unit).
+    /*
+     * The amount of input tokens to sell (in base unit).
      */
     tokenInAmount: number | bigint;
-    /**
-     * - The amount of output tokens to buy (in base unit).
+    /*
+     * The amount of output tokens to buy (in base unit).
      */
     tokenOutAmount?: never;
 };
 export type SwapResult = {
-    /**
-     * - The hash of the swap operation.
+    /*
+     * The hash of the swap operation.
      */
     hash: string;
-    /**
-     * - The gas cost.
+    /*
+     * The gas cost.
      */
     fee: bigint;
-    /**
-     * - The amount of input tokens sold.
+    /*
+     * The amount of input tokens sold.
      */
     tokenInAmount: bigint;
-    /**
-     * - The amount of output tokens bought.
+    /*
+     * The amount of output tokens bought.
      */
     tokenOutAmount: bigint;
 };

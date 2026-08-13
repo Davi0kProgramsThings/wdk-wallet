@@ -1,3 +1,4 @@
+// This file has been automatically generated with jsdoc-to-d-ts
 /** @interface */
 export interface ILendingProtocol {
     /**
@@ -26,7 +27,7 @@ export interface ILendingProtocol {
      * @throws {ProviderError} If the provider fails to estimate the costs of the supply.
      * @throws {SupplyError} If the supply fails with an error.
      */
-    quoteSupply(options: SupplyOptions): Promise<Omit<SupplyResult, "hash">>;
+    quoteSupply(options: SupplyOptions): Promise<Omit<SupplyResult, 'hash'>>;
     /**
      * Withdraws a specific token amount from the pool.
      *
@@ -53,7 +54,7 @@ export interface ILendingProtocol {
      * @throws {ProviderError} If the provider fails to estimate the costs of the withdraw.
      * @throws {WithdrawError} If the withdraw fails with an error.
      */
-    quoteWithdraw(options: WithdrawOptions): Promise<Omit<WithdrawResult, "hash">>;
+    quoteWithdraw(options: WithdrawOptions): Promise<Omit<WithdrawResult, 'hash'>>;
     /**
      * Borrows a specific token amount.
      *
@@ -80,7 +81,7 @@ export interface ILendingProtocol {
      * @throws {ProviderError} If the provider fails to estimate the costs of the borrow.
      * @throws {BorrowError} If the borrow fails with an error.
      */
-    quoteBorrow(options: BorrowOptions): Promise<Omit<BorrowResult, "hash">>;
+    quoteBorrow(options: BorrowOptions): Promise<Omit<BorrowResult, 'hash'>>;
     /**
      * Repays a specific token amount.
      *
@@ -107,13 +108,20 @@ export interface ILendingProtocol {
      * @throws {ProviderError} If the provider fails to estimate the costs of the repay.
      * @throws {RepayError} If the repay fails with an error.
      */
-    quoteRepay(options: RepayOptions): Promise<Omit<RepayResult, "hash">>;
+    quoteRepay(options: RepayOptions): Promise<Omit<RepayResult, 'hash'>>;
 }
 /**
  * @abstract
  * @implements {ILendingProtocol}
  */
 export default abstract class LendingProtocol implements ILendingProtocol {
+    /**
+     * The wallet account to use to interact with the protocol.
+     *
+     * @protected
+     * @type {IWalletAccountReadOnly | IWalletAccount}
+     */
+    protected _account: IWalletAccountReadOnly | IWalletAccount;
     /**
      * Creates a new read-only lending protocol.
      *
@@ -128,13 +136,6 @@ export default abstract class LendingProtocol implements ILendingProtocol {
      * @param {IWalletAccount} account - The wallet account to use to interact with the protocol.
      */
     constructor(account: IWalletAccount);
-    /**
-     * The wallet account to use to interact with the protocol.
-     *
-     * @protected
-     * @type {IWalletAccountReadOnly | IWalletAccount}
-     */
-    protected _account: IWalletAccountReadOnly | IWalletAccount;
     /**
      * Supplies a specific token amount to the lending pool.
      *
@@ -162,7 +163,7 @@ export default abstract class LendingProtocol implements ILendingProtocol {
      * @throws {ProviderError} If the provider fails to estimate the costs of the supply.
      * @throws {SupplyError} If the supply fails with an error.
      */
-    abstract quoteSupply(options: SupplyOptions): Promise<Omit<SupplyResult, "hash">>;
+    abstract quoteSupply(options: SupplyOptions): Promise<Omit<SupplyResult, 'hash'>>;
     /**
      * Withdraws a specific token amount from the pool.
      *
@@ -190,7 +191,7 @@ export default abstract class LendingProtocol implements ILendingProtocol {
      * @throws {ProviderError} If the provider fails to estimate the costs of the withdraw.
      * @throws {WithdrawError} If the withdraw fails with an error.
      */
-    abstract quoteWithdraw(options: WithdrawOptions): Promise<Omit<WithdrawResult, "hash">>;
+    abstract quoteWithdraw(options: WithdrawOptions): Promise<Omit<WithdrawResult, 'hash'>>;
     /**
      * Borrows a specific token amount.
      *
@@ -218,7 +219,7 @@ export default abstract class LendingProtocol implements ILendingProtocol {
      * @throws {ProviderError} If the provider fails to estimate the costs of the borrow.
      * @throws {BorrowError} If the borrow fails with an error.
      */
-    abstract quoteBorrow(options: BorrowOptions): Promise<Omit<BorrowResult, "hash">>;
+    abstract quoteBorrow(options: BorrowOptions): Promise<Omit<BorrowResult, 'hash'>>;
     /**
      * Repays a specific token amount.
      *
@@ -246,114 +247,114 @@ export default abstract class LendingProtocol implements ILendingProtocol {
      * @throws {ProviderError} If the provider fails to estimate the costs of the repay.
      * @throws {RepayError} If the repay fails with an error.
      */
-    abstract quoteRepay(options: RepayOptions): Promise<Omit<RepayResult, "hash">>;
+    abstract quoteRepay(options: RepayOptions): Promise<Omit<RepayResult, 'hash'>>;
 }
-export type IWalletAccountReadOnly = import("../wallet-account-read-only.js").IWalletAccountReadOnly;
-export type IWalletAccount = import("../wallet-account.js").IWalletAccount;
-export type AccountRequiredError = import("./errors.js").AccountRequiredError;
-export type BorrowError = import("./errors.js").BorrowError;
-export type InvalidTokenError = import("./errors.js").InvalidTokenError;
-export type MaximumFeeExceededError = import("./errors.js").MaximumFeeExceededError;
-export type ReadOnlyAccountRequiredError = import("./errors.js").ReadOnlyAccountRequiredError;
-export type ProviderError = import("./errors.js").ProviderError;
-export type ProviderRequiredError = import("./errors.js").ProviderRequiredError;
-export type RepayError = import("./errors.js").RepayError;
-export type SupplyError = import("./errors.js").SupplyError;
-export type ValueError = import("./errors.js").ValueError;
-export type WithdrawError = import("./errors.js").WithdrawError;
+export type IWalletAccountReadOnly = import('../wallet-account-read-only.js').IWalletAccountReadOnly;
+export type IWalletAccount = import('../wallet-account.js').IWalletAccount;
+export type AccountRequiredError = import('./errors.js').AccountRequiredError;
+export type BorrowError = import('./errors.js').BorrowError;
+export type InvalidTokenError = import('./errors.js').InvalidTokenError;
+export type MaximumFeeExceededError = import('./errors.js').MaximumFeeExceededError;
+export type ReadOnlyAccountRequiredError = import('./errors.js').ReadOnlyAccountRequiredError;
+export type ProviderError = import('./errors.js').ProviderError;
+export type ProviderRequiredError = import('./errors.js').ProviderRequiredError;
+export type RepayError = import('./errors.js').RepayError;
+export type SupplyError = import('./errors.js').SupplyError;
+export type ValueError = import('./errors.js').ValueError;
+export type WithdrawError = import('./errors.js').WithdrawError;
 export type SupplyOptions = {
-    /**
-     * - The address of the token to supply.
+    /*
+     * The address of the token to supply.
      */
     token: string;
-    /**
-     * - The amount of tokens to supply (in base unit).
+    /*
+     * The amount of tokens to supply (in base unit).
      */
     amount: number | bigint;
-    /**
-     * - The address on behalf of which the supply operation should be performed. If not set, the supply operation will be performed on behalf of the account itself.
+    /*
+     * The address on behalf of which the supply operation should be performed. If not set, the supply operation will be performed on behalf of the account itself.
      */
     onBehalfOf?: string;
 };
 export type SupplyResult = {
-    /**
-     * - The hash of the supply operation.
+    /*
+     * The hash of the supply operation.
      */
     hash: string;
-    /**
-     * - The gas cost.
+    /*
+     * The gas cost.
      */
     fee: bigint;
 };
 export type WithdrawOptions = {
-    /**
-     * - The address of the token to withdraw.
+    /*
+     * The address of the token to withdraw.
      */
     token: string;
-    /**
-     * - The amount of tokens to withdraw (in base unit).
+    /*
+     * The amount of tokens to withdraw (in base unit).
      */
     amount: number | bigint;
-    /**
-     * - The address that should receive the tokens. If not set, the account itself will receive the funds.
+    /*
+     * The address that should receive the tokens. If not set, the account itself will receive the funds.
      */
     to?: string;
 };
 export type WithdrawResult = {
-    /**
-     * - The hash of the withdraw operation.
+    /*
+     * The hash of the withdraw operation.
      */
     hash: string;
-    /**
-     * - The gas cost.
+    /*
+     * The gas cost.
      */
     fee: bigint;
 };
 export type BorrowOptions = {
-    /**
-     * - The address of the token to borrow.
+    /*
+     * The address of the token to borrow.
      */
     token: string;
-    /**
-     * - The amount of tokens to borrow (in base unit).
+    /*
+     * The amount of tokens to borrow (in base unit).
      */
     amount: number | bigint;
-    /**
-     * - The address on behalf of which the borrow operation should be performed. If not set, the borrow operation will be performed on behalf of the account itself.
+    /*
+     * The address on behalf of which the borrow operation should be performed. If not set, the borrow operation will be performed on behalf of the account itself.
      */
     onBehalfOf?: string;
 };
 export type BorrowResult = {
-    /**
-     * - The hash of the borrow operation.
+    /*
+     * The hash of the borrow operation.
      */
     hash: string;
-    /**
-     * - The gas cost.
+    /*
+     * The gas cost.
      */
     fee: bigint;
 };
 export type RepayOptions = {
-    /**
-     * - The address of the token to repay.
+    /*
+     * The address of the token to repay.
      */
     token: string;
-    /**
-     * - The amount of tokens to repay (in base unit).
+    /*
+     * The amount of tokens to repay (in base unit).
      */
     amount: number | bigint;
-    /**
-     * - The address on behalf of which the repay operation should be performed. If not set, the repay operation will be performed on behalf of the account itself.
+    /*
+     * The address on behalf of which the repay operation should be performed. If not set, the repay operation will be performed on behalf of the account itself.
      */
     onBehalfOf?: string;
 };
 export type RepayResult = {
-    /**
-     * - The hash of the repay operation.
+    /*
+     * The hash of the repay operation.
      */
     hash: string;
-    /**
-     * - The gas cost.
+    /*
+     * The gas cost.
      */
     fee: bigint;
 };

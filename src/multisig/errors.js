@@ -33,6 +33,11 @@ export class AccountNotOwnerError extends WdkError {
   constructor (message) {
     super(message)
 
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
     this.name = 'AccountNotOwnerError'
   }
 }
@@ -49,6 +54,11 @@ export class ThresholdNotMetError extends WdkError {
   constructor (message) {
     super(message)
 
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
     this.name = 'ThresholdNotMetError'
   }
 }

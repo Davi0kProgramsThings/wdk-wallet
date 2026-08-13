@@ -1,7 +1,14 @@
+// This file has been automatically generated with jsdoc-to-d-ts
 /**
  * Thrown when the account is not an owner of the multisig wallet.
  */
 export class AccountNotOwnerError extends WdkError {
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
+    name: string;
     /**
      * Creates a new account not owner error.
      *
@@ -14,20 +21,18 @@ export class AccountNotOwnerError extends WdkError {
  */
 export class ThresholdNotMetError extends WdkError {
     /**
+     * The error's name.
+     *
+     * @type {string}
+     */
+    name: string;
+    /**
      * Creates a new threshold not met error.
      *
      * @param {string} message - The error's message.
      */
     constructor(message: string);
 }
-export type TransactionErrorOptions = import("../errors.js").TransactionErrorOptions;
-import { MaximumFeeExceededError } from '../errors.js';
-import { NoSuchElementError } from '../errors.js';
-import { NotImplementedError } from '../errors.js';
-import { ProviderError } from '../errors.js';
-import { ProviderRequiredError } from '../errors.js';
-import { TransactionError } from '../errors.js';
-import { TransactionErrorReason } from '../errors.js';
-import { ValueError } from '../errors.js';
-import { WdkError } from '../errors.js';
+export type TransactionErrorOptions = import('../errors.js').TransactionErrorOptions;
 export { MaximumFeeExceededError, NoSuchElementError, NotImplementedError, ProviderError, ProviderRequiredError, TransactionError, TransactionErrorReason, ValueError, WdkError };
+import { MaximumFeeExceededError, NoSuchElementError, NotImplementedError, ProviderError, ProviderRequiredError, TransactionError, TransactionErrorReason, ValueError, WdkError } from '../errors.js';

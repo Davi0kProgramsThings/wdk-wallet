@@ -1,3 +1,4 @@
+// This file has been automatically generated with jsdoc-to-d-ts
 /**
  * Interface for "Smart Deposit Address" (SDA) protocols: services that issue a deposit address, accept a
  * stablecoin (or native token) from a supported source chain, convert it, and deliver a chosen asset (e.g., USDT)
@@ -169,6 +170,14 @@ export interface ISdaProtocol {
  */
 export default abstract class SdaProtocol implements ISdaProtocol {
     /**
+     * The wallet account to use to interact with the protocol. The account's address is the default delivery
+     * destination for created addresses.
+     *
+     * @protected
+     * @type {IWalletAccountReadOnly | IWalletAccount | undefined}
+     */
+    protected _account: IWalletAccountReadOnly | IWalletAccount | undefined;
+    /**
      * Creates a new SDA protocol without binding it to a wallet account.
      *
      * @overload
@@ -189,14 +198,6 @@ export default abstract class SdaProtocol implements ISdaProtocol {
      * @param {IWalletAccount} account - The wallet account to use to interact with the protocol.
      */
     constructor(account: IWalletAccount);
-    /**
-     * The wallet account to use to interact with the protocol. The account's address is the default delivery
-     * destination for created addresses.
-     *
-     * @protected
-     * @type {IWalletAccountReadOnly | IWalletAccount | undefined}
-     */
-    protected _account: IWalletAccountReadOnly | IWalletAccount | undefined;
     /**
      * Lists the conversion routes the protocol supports: source chains, accepted input tokens, output assets and
      * per-route deposit limits. A protocol that discovers routes by blockchain pairs might require the `sourceChain`
@@ -351,387 +352,328 @@ export default abstract class SdaProtocol implements ISdaProtocol {
      */
     disableDepositAddress(id: string): Promise<void>;
 }
-export type IWalletAccountReadOnly = import("../wallet-account-read-only.js").IWalletAccountReadOnly;
-export type IWalletAccount = import("../wallet-account.js").IWalletAccount;
-export type AccountRequiredError = import("./errors.js").AccountRequiredError;
-export type InvalidTokenError = import("./errors.js").InvalidTokenError;
-export type NoSuchElementError = import("./errors.js").NoSuchElementError;
-export type ReadOnlyAccountRequiredError = import("./errors.js").ReadOnlyAccountRequiredError;
-export type ProviderError = import("./errors.js").ProviderError;
-export type ProviderRequiredError = import("./errors.js").ProviderRequiredError;
-export type SdaError = import("./errors.js").SdaError;
-export type ValueError = import("./errors.js").ValueError;
-/**
- * A blockchain identifier: a numeric chain id (e.g. `1`) or a protocol-specific chain name (e.g. `'ethereum'`).
- */
+export type IWalletAccountReadOnly = import('../wallet-account-read-only.js').IWalletAccountReadOnly;
+export type IWalletAccount = import('../wallet-account.js').IWalletAccount;
+export type AccountRequiredError = import('./errors.js').AccountRequiredError;
+export type InvalidTokenError = import('./errors.js').InvalidTokenError;
+export type NoSuchElementError = import('./errors.js').NoSuchElementError;
+export type ReadOnlyAccountRequiredError = import('./errors.js').ReadOnlyAccountRequiredError;
+export type ProviderError = import('./errors.js').ProviderError;
+export type ProviderRequiredError = import('./errors.js').ProviderRequiredError;
+export type SdaError = import('./errors.js').SdaError;
+export type ValueError = import('./errors.js').ValueError;
 export type Blockchain = string | number;
-/**
- * A normalized token reference. `token` is the identifier the protocol expects in SDA calls; `address` is the
- * on-chain contract address when applicable (absent for native gas tokens).
- */
 export type SdaToken = {
-    /**
-     * - The protocol-specific token identifier to use in SDA calls.
+    /*
+     * The protocol-specific token identifier to use in SDA calls.
      */
     token: string;
-    /**
-     * - The chain on which the token lives.
+    /*
+     * The chain on which the token lives.
      */
     chain: Blockchain;
-    /**
-     * - The token symbol (e.g., 'USDC', 'USDT').
+    /*
+     * The token symbol (e.g., 'USDC', 'USDT').
      */
     symbol: string;
-    /**
-     * - The number of decimal places for the token's base unit.
+    /*
+     * The number of decimal places for the token's base unit.
      */
     decimals: number;
-    /**
-     * - The token contract address, if applicable.
+    /*
+     * The token contract address, if applicable.
      */
     address?: string;
-    /**
-     * - The token's full name.
+    /*
+     * The token's full name.
      */
     name?: string;
 };
-/**
- * Per-route deposit limits, denominated in the base unit of the route's input token. Either bound may be absent
- * when the protocol does not enforce it; a protocol that only enforces limits in another denomination (e.g. USD)
- * omits `limits` rather than converting.
- */
 export type SdaDepositAddressLimits = {
-    /**
-     * - Minimum deposit amount, in the input token's base unit.
+    /*
+     * Minimum deposit amount, in the input token's base unit.
      */
     min?: number | bigint;
-    /**
-     * - Maximum deposit amount, in the input token's base unit.
+    /*
+     * Maximum deposit amount, in the input token's base unit.
      */
     max?: number | bigint;
 };
-/**
- * Optional filters for narrowing route discovery.
- */
 export type SdaRoutesOptions = {
-    /**
-     * - Restrict to routes that accept deposits from this chain.
+    /*
+     * Restrict to routes that accept deposits from this chain.
      */
     sourceChain?: Blockchain;
-    /**
-     * - Restrict to routes that accept this input token.
+    /*
+     * Restrict to routes that accept this input token.
      */
     sourceToken?: string;
-    /**
-     * - Restrict to routes that deliver to this chain.
+    /*
+     * Restrict to routes that deliver to this chain.
      */
     destinationChain?: Blockchain;
-    /**
-     * - Restrict to routes that deliver this asset.
+    /*
+     * Restrict to routes that deliver this asset.
      */
     outputAsset?: string;
 };
-/**
- * A supported conversion route: one or more source chains and their accepted input tokens, the destination chain,
- * and the asset delivered there.
- */
 export type SdaRoute = {
-    /**
-     * - The source chains this route accepts deposits from. A list because some
-     * protocols issue one address valid across a VM family.
+    /*
+     * The source chains this route accepts deposits from. A list because some
+     *   protocols issue one address valid across a VM family.
      */
     sourceChains: Blockchain[];
-    /**
-     * - The deposit tokens accepted on the source side.
+    /*
+     * The deposit tokens accepted on the source side.
      */
     inputTokens: SdaToken[];
-    /**
-     * - The chain the converted asset is delivered to.
+    /*
+     * The chain the converted asset is delivered to.
      */
     destinationChain: Blockchain;
-    /**
-     * - The asset delivered to the destination (e.g., USDT). If unset, the route
-     * delivers each input token as its own equivalent on the destination chain.
+    /*
+     * The asset delivered to the destination (e.g., USDT). If unset, the route
+     *   delivers each input token as its own equivalent on the destination chain.
      */
     outputAsset?: SdaToken;
-    /**
-     * - Deposit limits for this route.
+    /*
+     * Deposit limits for this route.
      */
     limits?: SdaDepositAddressLimits;
-    /**
-     * - Whether addresses issued for this route can receive more than one deposit.
+    /*
+     * Whether addresses issued for this route can receive more than one deposit.
      */
     reusable?: boolean;
-    /**
-     * - Typical end-to-end duration in seconds.
+    /*
+     * Typical end-to-end duration in seconds.
      */
     estimatedDuration?: number;
 };
-/**
- * Options for fetching a deposit quote — a non-binding estimate of what a given deposit would deliver.
- */
 export type SdaDepositOptions = {
-    /**
-     * - The chain the deposit originates from.
+    /*
+     * The chain the deposit originates from.
      */
     sourceChain: Blockchain;
-    /**
-     * - The protocol identifier of the token being deposited.
+    /*
+     * The protocol identifier of the token being deposited.
      */
     inputToken: string;
-    /**
-     * - The chain the converted asset is delivered to.
+    /*
+     * The chain the converted asset is delivered to.
      */
     destinationChain: Blockchain;
-    /**
-     * - The protocol identifier of the asset to deliver. Omit for protocols that deliver
-     * each input token as its own equivalent.
+    /*
+     * The protocol identifier of the asset to deliver. Omit for protocols that deliver
+     *   each input token as its own equivalent.
      */
     outputAsset?: string;
-    /**
-     * - The amount to deposit, in the input token's base unit.
+    /*
+     * The amount to deposit, in the input token's base unit.
      */
     inputAmount: number | bigint;
 };
-/**
- * The category of a fee charged by the protocol.
- */
-export type SdaFeeType = "network" | "protocol" | "affiliate" | "other";
-/**
- * A single itemised fee.
- */
+export type SdaFeeType = 'network' | 'protocol' | 'affiliate' | 'other';
 export type SdaFee = {
-    /**
-     * - The category of the fee.
+    /*
+     * The category of the fee.
      */
     type: SdaFeeType;
-    /**
-     * - The fee amount, in the fee token's base unit.
+    /*
+     * The fee amount, in the fee token's base unit.
      */
     amount: bigint;
-    /**
-     * - The token in which the fee is denominated.
+    /*
+     * The token in which the fee is denominated.
      */
     token: string;
-    /**
-     * - The chain on which the fee is charged.
+    /*
+     * The chain on which the fee is charged.
      */
     chain?: Blockchain;
-    /**
-     * - Whether the fee is already reflected in the quoted output amount.
+    /*
+     * Whether the fee is already reflected in the quoted output amount.
      */
     included?: boolean;
-    /**
-     * - A human-readable description of the fee.
+    /*
+     * A human-readable description of the fee.
      */
     description?: string;
 };
-/**
- * A non-binding estimate of the asset delivered for a given deposit.
- */
 export type SdaDepositQuote = {
-    /**
-     * - The chain the deposit originates from.
+    /*
+     * The chain the deposit originates from.
      */
     inputChain: Blockchain;
-    /**
-     * - The protocol identifier of the deposited token.
+    /*
+     * The protocol identifier of the deposited token.
      */
     inputToken: string;
-    /**
-     * - The amount deposited, in the input token's base unit.
+    /*
+     * The amount deposited, in the input token's base unit.
      */
     inputAmount: bigint;
-    /**
-     * - The chain the converted asset is delivered to.
+    /*
+     * The chain the converted asset is delivered to.
      */
     destinationChain: Blockchain;
-    /**
-     * - The protocol identifier of the delivered asset.
+    /*
+     * The protocol identifier of the delivered asset.
      */
     outputAsset: string;
-    /**
-     * - The estimated amount delivered, in the destination asset's base unit.
+    /*
+     * The estimated amount delivered, in the destination asset's base unit.
      */
     outputAmount: bigint;
-    /**
-     * - Itemised fee breakdown.
+    /*
+     * Itemised fee breakdown.
      */
     fees: SdaFee[];
-    /**
-     * - The effective conversion rate as a string, to avoid precision loss.
+    /*
+     * The effective conversion rate as a string, to avoid precision loss.
      */
     rate?: string;
-    /**
-     * - Unix timestamp (seconds) at which the quote expires.
+    /*
+     * Unix timestamp (seconds) at which the quote expires.
      */
     expiry?: number;
-    /**
-     * - The protocol quote identifier, if the protocol issues one.
+    /*
+     * The protocol quote identifier, if the protocol issues one.
      */
     id?: string;
 };
-/**
- * Options for creating a deposit address.
- */
 export type SdaCreateDepositAddressOptions = {
-    /**
-     * - One or more source chains the address should accept deposits from. Protocols
-     * that issue one address per VM family use the full list; single-chain protocols use a one-element list.
+    /*
+     * One or more source chains the address should accept deposits from. Protocols
+     *   that issue one address per VM family use the full list; single-chain protocols use a one-element list.
      */
     sourceChains: Blockchain[];
-    /**
-     * - The chain the converted asset is delivered to.
+    /*
+     * The chain the converted asset is delivered to.
      */
     destinationChain: Blockchain;
-    /**
-     * - The protocol identifier of the asset to deliver (e.g., USDT). Omit for protocols
-     * that deliver each input token as its own equivalent.
+    /*
+     * The protocol identifier of the asset to deliver (e.g., USDT). Omit for protocols
+     *   that deliver each input token as its own equivalent.
      */
     outputAsset?: string;
-    /**
-     * - The address that receives the delivered asset. Defaults to the bound
-     * account's address.
+    /*
+     * The address that receives the delivered asset. Defaults to the bound
+     *   account's address.
      */
     destinationAddress?: string;
 };
-/**
- * A deposit address plus its normalized descriptor: where it accepts deposits from, what it accepts, where it
- * delivers, and its lifecycle metadata.
- */
 export type SdaDepositAddress = {
-    /**
-     * - The deposit address the user sends funds to.
+    /*
+     * The deposit address the user sends funds to.
      */
     address: string;
-    /**
-     * - The protocol identifier for this SDA, used for status, recovery and disabling.
+    /*
+     * The protocol identifier for this SDA, used for status, recovery and disabling.
      */
     id: string;
-    /**
-     * - The chains this address accepts deposits from.
+    /*
+     * The chains this address accepts deposits from.
      */
     sourceChains: Blockchain[];
-    /**
-     * - The tokens this address accepts.
+    /*
+     * The tokens this address accepts.
      */
     supportedInputTokens: SdaToken[];
-    /**
-     * - The chain the converted asset is delivered to.
+    /*
+     * The chain the converted asset is delivered to.
      */
     destinationChain: Blockchain;
-    /**
-     * - The asset delivered to the destination. If unset, the address delivers each
-     * input token as its own equivalent on the destination chain.
+    /*
+     * The asset delivered to the destination. If unset, the address delivers each
+     *   input token as its own equivalent on the destination chain.
      */
     outputAsset?: SdaToken;
-    /**
-     * - The resolved address that receives the delivered asset.
+    /*
+     * The resolved address that receives the delivered asset.
      */
     destinationAddress: string;
-    /**
-     * - Deposit limits for this address.
+    /*
+     * Deposit limits for this address.
      */
     limits?: SdaDepositAddressLimits;
-    /**
-     * - Whether the address can receive more than one deposit.
+    /*
+     * Whether the address can receive more than one deposit.
      */
     reusable: boolean;
-    /**
-     * - Unix timestamp (seconds) at which the address's activation expires, when the protocol's
-     * address activation is time-limited.
+    /*
+     * Unix timestamp (seconds) at which the address's activation expires, when the protocol's
+     *   address activation is time-limited.
      */
     expiry?: number;
 };
-/**
- * The lifecycle status of a deposit/transfer through an SDA.
- */
-export type SdaTransferStatus = "pending" | "detected" | "processing" | "completed" | "failed" | "refund-pending" | "refunded" | "expired";
-/**
- * A single deposit observed at, and processed through, an SDA.
- */
+export type SdaTransferStatus = 'pending' | 'detected' | 'processing' | 'completed' | 'failed'
+            | 'refund-pending' | 'refunded' | 'expired';
 export type SdaTransfer = {
-    /**
-     * - The protocol identifier for this transfer.
+    /*
+     * The protocol identifier for this transfer.
      */
     id: string;
-    /**
-     * - The current status of the transfer.
+    /*
+     * The current status of the transfer.
      */
     status: SdaTransferStatus;
 };
-/**
- * Optional pagination/filtering for transfer history.
- */
 export type SdaTransfersOptions = {
-    /**
-     * - The source chain of the deposit address, required by protocols that key
-     * addresses by (address, chain).
+    /*
+     * The source chain of the deposit address, required by protocols that key
+     *   addresses by (address, chain).
      */
     sourceChain?: Blockchain;
-    /**
-     * - The maximum number of transfers to return.
+    /*
+     * The maximum number of transfers to return.
      */
     limit?: number;
-    /**
-     * - The number of transfers to skip, for offset-based pagination.
+    /*
+     * The number of transfers to skip, for offset-based pagination.
      */
     skip?: number;
-    /**
-     * - Restrict to transfers in this status.
+    /*
+     * Restrict to transfers in this status.
      */
     status?: SdaTransferStatus;
 };
-/**
- * Recover a deposit by the SDA identifier.
- */
 export type SdaRecoverById = {
-    /**
-     * - The protocol SDA identifier (the `SdaDepositAddress.id`).
+    /*
+     * The protocol SDA identifier (the `SdaDepositAddress.id`).
      */
     id: string;
 };
-/**
- * Recover a deposit by its deposit address.
- */
 export type SdaRecoverByAddress = {
-    /**
-     * - The deposit address to reindex.
+    /*
+     * The deposit address to reindex.
      */
     address: string;
-    /**
-     * - The chain of the deposit address, required by protocols that key addresses by
-     * (address, chain).
+    /*
+     * The chain of the deposit address, required by protocols that key addresses by
+     *   (address, chain).
      */
     sourceChain?: Blockchain;
 };
-/**
- * Options for re-processing a deposit that was not picked up automatically (`reindex`). A caller identifies the
- * deposit either by SDA id or by its deposit address.
- */
 export type SdaRecoveryOptions = SdaRecoverById | SdaRecoverByAddress;
-/**
- * The outcome of a recovery attempt.
- */
 export type SdaRecoveryResult = {
-    /**
-     * - The result of the reindex attempt.
+    /*
+     * The result of the reindex attempt.
      */
-    status: "reindexed" | "pending" | "failed";
-    /**
-     * - The address that was reindexed.
+    status: 'reindexed' | 'pending' | 'failed';
+    /*
+     * The address that was reindexed.
      */
     address?: string;
-    /**
-     * - The protocol SDA identifier.
+    /*
+     * The protocol SDA identifier.
      */
     id?: string;
-    /**
-     * - The transfer that was recovered, if one resulted.
+    /*
+     * The transfer that was recovered, if one resulted.
      */
     transfer?: SdaTransfer;
-    /**
-     * - A human-readable description of the outcome.
+    /*
+     * A human-readable description of the outcome.
      */
     message?: string;
 };

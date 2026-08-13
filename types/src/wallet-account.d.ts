@@ -1,3 +1,4 @@
+// This file has been automatically generated with jsdoc-to-d-ts
 /**
  * @interface
  * @template [TSignedTransaction=unknown]
@@ -66,7 +67,7 @@ export interface IWalletAccount<TSignedTransaction = unknown> extends IWalletAcc
      * @throws {ProviderError} If the provider fails to estimate the costs of the transaction.
      * @throws {TransactionError} If the transaction fails with an error.
      */
-    quoteSendTransaction(tx: Transaction | TSignedTransaction): Promise<Omit<TransactionResult, "hash">>;
+    quoteSendTransaction(tx: Transaction | TSignedTransaction): Promise<Omit<TransactionResult, 'hash'>>;
     /**
      * Transfers a token to another address.
      *
@@ -89,26 +90,26 @@ export interface IWalletAccount<TSignedTransaction = unknown> extends IWalletAcc
     /**
      * Disposes the wallet account, erasing the private key from the memory.
      */
-    dispose(): void;
+    dispose(): any;
 }
-export type Transaction = import("./wallet-account-read-only.js").Transaction;
-export type TransactionResult = import("./wallet-account-read-only.js").TransactionResult;
-export type TransferOptions = import("./wallet-account-read-only.js").TransferOptions;
-export type TransferResult = import("./wallet-account-read-only.js").TransferResult;
-export type InvalidTokenError = import("./errors.js").InvalidTokenError;
-export type MaximumFeeExceededError = import("./errors.js").MaximumFeeExceededError;
-export type ProviderError = import("./errors.js").ProviderError;
-export type ProviderRequiredError = import("./errors.js").ProviderRequiredError;
-export type TransactionError = import("./errors.js").TransactionError;
-export type TransferError = import("./errors.js").TransferError;
-export type ValueError = import("./errors.js").ValueError;
+export type Transaction = import('./wallet-account-read-only.js').Transaction;
+export type TransactionResult = import('./wallet-account-read-only.js').TransactionResult;
+export type TransferOptions = import('./wallet-account-read-only.js').TransferOptions;
+export type TransferResult = import('./wallet-account-read-only.js').TransferResult;
+export type InvalidTokenError = import('./errors.js').InvalidTokenError;
+export type MaximumFeeExceededError = import('./errors.js').MaximumFeeExceededError;
+export type ProviderError = import('./errors.js').ProviderError;
+export type ProviderRequiredError = import('./errors.js').ProviderRequiredError;
+export type TransactionError = import('./errors.js').TransactionError;
+export type TransferError = import('./errors.js').TransferError;
+export type ValueError = import('./errors.js').ValueError;
 export type KeyPair = {
-    /**
-     * - The public key.
+    /*
+     * The public key.
      */
     publicKey: Uint8Array;
-    /**
-     * - The private key (null if the account has been disposed).
+    /*
+     * The private key (null if the account has been disposed).
      */
     privateKey: Uint8Array | null;
 };

@@ -1,3 +1,4 @@
+// This file has been automatically generated with jsdoc-to-d-ts
 /**
  * The read-only members shared by every wallet account, single-signer or multisig.
  *
@@ -77,68 +78,52 @@ export interface IWalletAccountReadOnlySimple {
      */
     waitForTransaction(hash: string, options?: WaitForTransactionOptions): Promise<TransactionReceipt>;
 }
-export type InvalidTokenError = import("./errors.js").InvalidTokenError;
-export type NoSuchElementError = import("./errors.js").NoSuchElementError;
-export type ProviderError = import("./errors.js").ProviderError;
-export type ProviderRequiredError = import("./errors.js").ProviderRequiredError;
-export type TimeoutError = import("./errors.js").TimeoutError;
-export type ValueError = import("./errors.js").ValueError;
-export type UnsupportedOperationError = import("./errors.js").UnsupportedOperationError;
-/**
- * A normalized, cross-chain transaction finality level.
- *
- * - `pending`: seen, not settled (mempool / processed / in-flight).
- * - `confirmed`: settled, reversible only under extreme conditions.
- * - `final`: irreversible per the chain's own guarantees.
- * - `dropped`: evicted / replaced, never landed.
- */
-export type Finality = "pending" | "confirmed" | "final" | "dropped";
-/**
- * A normalized, cross-chain transaction receipt. Blockchain modules extend this
- * type with their own native receipt fields (e.g. `confirmations`, the raw
- * transaction and receipt objects, etc.).
- */
+export type InvalidTokenError = import('./errors.js').InvalidTokenError;
+export type NoSuchElementError = import('./errors.js').NoSuchElementError;
+export type ProviderError = import('./errors.js').ProviderError;
+export type ProviderRequiredError = import('./errors.js').ProviderRequiredError;
+export type TimeoutError = import('./errors.js').TimeoutError;
+export type ValueError = import('./errors.js').ValueError;
+export type UnsupportedOperationError = import('./errors.js').UnsupportedOperationError;
+export type Finality = 'pending' | 'confirmed' | 'final' | 'dropped';
 export type TransactionReceipt = {
-    /**
-     * - The transaction's identifier (hash / signature / lt:hash).
+    /*
+     * The transaction's identifier (hash / signature / lt:hash).
      */
     hash: string;
-    /**
-     * - The transaction's finality level.
+    /*
+     * The transaction's finality level.
      */
     finality: Finality;
-    /**
-     * - The execution's result (not set if the transaction is still pending or it has been dropped).
+    /*
+     * The execution's result (not set if the transaction is still pending or it has been dropped).
      */
     success?: boolean;
-    /**
-     * - A reference to the including block (block number / height / slot / masterchain seqno).
+    /*
+     * A reference to the including block (block number / height / slot / masterchain seqno).
      */
     block?: number;
-    /**
-     * - The fee paid, when known.
+    /*
+     * The fee paid, when known.
      */
     fee?: bigint;
 };
-/**
- * The finality level to wait for.
- */
-export type WaitForTransactionTarget = "confirmed" | "final";
+export type WaitForTransactionTarget = 'confirmed' | 'final';
 export type WaitForTransactionOptions = {
-    /**
-     * - The finality target to wait for (default: 'confirmed').
+    /*
+     * The finality target to wait for (default: 'confirmed').
      */
     target?: WaitForTransactionTarget;
-    /**
-     * - The total time budget in milliseconds before giving up. If omitted, the account's `defaultWaitTimeout` is used.
+    /*
+     * The total time budget in milliseconds before giving up. If omitted, the account's `defaultWaitTimeout` is used.
      */
     timeout?: number;
-    /**
-     * - The poll cadence in milliseconds. If omitted, the account's `defaultWaitInterval` is used.
+    /*
+     * The poll cadence in milliseconds. If omitted, the account's `defaultWaitInterval` is used.
      */
     interval?: number;
-    /**
-     * - How many consecutive getTransaction() failures to tolerate before rethrowing (default: 3).
+    /*
+     * How many consecutive getTransaction() failures to tolerate before rethrowing (default: 3).
      */
     maxPollErrors?: number;
 };

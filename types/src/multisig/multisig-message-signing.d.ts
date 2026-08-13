@@ -1,3 +1,4 @@
+// This file has been automatically generated with jsdoc-to-d-ts
 /**
  * Adds message-signing features to a multisig wallet.
  *
@@ -25,15 +26,15 @@ export interface IMultisigMessageSigning extends IMultisigMessageSigningReadOnly
      */
     approveMessageProposal(messageId: string): Promise<MultisigMessageProposal & MultisigSignature>;
 }
-export type MultisigMessageProposal = import("./multisig-message-signing-read-only.js").MultisigMessageProposal;
-export type AccountNotOwnerError = import("./errors.js").AccountNotOwnerError;
-export type NoSuchElementError = import("./errors.js").NoSuchElementError;
-export type ProviderError = import("./errors.js").ProviderError;
-export type ProviderRequiredError = import("./errors.js").ProviderRequiredError;
-export type ValueError = import("./errors.js").ValueError;
+export type MultisigMessageProposal = import('./multisig-message-signing-read-only.js').MultisigMessageProposal;
+export type AccountNotOwnerError = import('./errors.js').AccountNotOwnerError;
+export type NoSuchElementError = import('./errors.js').NoSuchElementError;
+export type ProviderError = import('./errors.js').ProviderError;
+export type ProviderRequiredError = import('./errors.js').ProviderRequiredError;
+export type ValueError = import('./errors.js').ValueError;
 export type MultisigSignature = {
-    /**
-     * - The caller's signature.
+    /*
+     * The caller's signature.
      */
     signature: string;
 };

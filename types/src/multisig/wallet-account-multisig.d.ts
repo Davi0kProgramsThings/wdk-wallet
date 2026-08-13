@@ -1,3 +1,4 @@
+// This file has been automatically generated with jsdoc-to-d-ts
 /** @interface */
 export interface IWalletAccountMultisig extends IWalletAccountReadOnlyMultisig {
     /**
@@ -74,27 +75,27 @@ export interface IWalletAccountMultisig extends IWalletAccountReadOnlyMultisig {
      */
     executeProposal(proposalId: string): Promise<TransactionResult>;
 }
-export type Transaction = import("../wallet-account-read-only.js").Transaction;
-export type TransactionResult = import("../wallet-account-read-only.js").TransactionResult;
-export type KeyPair = import("../wallet-account.js").KeyPair;
-export type MultisigProposal = import("./wallet-account-read-only-multisig.js").MultisigProposal;
-export type AccountNotOwnerError = import("./errors.js").AccountNotOwnerError;
-export type MaximumFeeExceededError = import("./errors.js").MaximumFeeExceededError;
-export type NoSuchElementError = import("./errors.js").NoSuchElementError;
-export type ProviderError = import("./errors.js").ProviderError;
-export type ProviderRequiredError = import("./errors.js").ProviderRequiredError;
-export type TransactionError = import("./errors.js").TransactionError;
-export type ThresholdNotMetError = import("./errors.js").ThresholdNotMetError;
-export type ValueError = import("./errors.js").ValueError;
+export type Transaction = import('../wallet-account-read-only.js').Transaction;
+export type TransactionResult = import('../wallet-account-read-only.js').TransactionResult;
+export type KeyPair = import('../wallet-account.js').KeyPair;
+export type MultisigProposal = import('./wallet-account-read-only-multisig.js').MultisigProposal;
+export type AccountNotOwnerError = import('./errors.js').AccountNotOwnerError;
+export type MaximumFeeExceededError = import('./errors.js').MaximumFeeExceededError;
+export type NoSuchElementError = import('./errors.js').NoSuchElementError;
+export type ProviderError = import('./errors.js').ProviderError;
+export type ProviderRequiredError = import('./errors.js').ProviderRequiredError;
+export type TransactionError = import('./errors.js').TransactionError;
+export type ThresholdNotMetError = import('./errors.js').ThresholdNotMetError;
+export type ValueError = import('./errors.js').ValueError;
 export type MultisigTransactionOptions = {
-    /**
-     * - If true, automatically executes the transaction when the approval threshold is met (only takes effect if this signer's approval is the last one required).
+    /*
+     * If true, automatically executes the transaction when the approval threshold is met (only takes effect if this signer's approval is the last one required).
      */
     autoExecute?: boolean;
 };
 export type MultisigAutoExecuteResult = {
-    /**
-     * - If auto execute is set to true and the method call triggers the execution of the proposal, this field is set to the corresponding transaction's result (i.e., hash and fee).
+    /*
+     * If auto execute is set to true and the method call triggers the execution of the proposal, this field is set to the corresponding transaction's result (i.e., hash and fee).
      */
     transaction?: TransactionResult;
 };

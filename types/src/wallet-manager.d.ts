@@ -1,5 +1,38 @@
+// This file has been automatically generated with jsdoc-to-d-ts
 /** @abstract */
 export default abstract class WalletManager {
+    /**
+     * The default signer.
+     *
+     * @protected
+     * @type {ISigner | undefined}
+     */
+    protected _defaultSigner: ISigner | undefined;
+    /**
+     * The wallet configuration.
+     *
+     * @protected
+     * @type {WalletConfig}
+     */
+    protected _config: WalletConfig;
+    /**
+     * Creates a new wallet manager from a BIP-39 seed.
+     *
+     * @overload
+     * @param {string | Uint8Array} seed - The BIP-39 seed phrase or raw seed bytes.
+     * @param {WalletConfig} [config] - The wallet configuration.
+     * @throws {ValueError} If the seed is not a valid seed or BIP-39 seed phrase.
+     */
+    constructor(seedOrSigner: string | Uint8Array, config?: WalletConfig);
+    /**
+     * Creates a new wallet manager from a default signer.
+     *
+     * @overload
+     * @param {ISigner} signer - The default signer.
+     * @param {WalletConfig} [config] - The wallet configuration.
+     * @throws {InvalidSignerError} If the given signer doesn't support account derivation.
+     */
+    constructor(seedOrSigner: ISigner, config?: WalletConfig);
     /**
      * Returns a random [BIP-39](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki) seed phrase.
      *
@@ -14,56 +47,6 @@ export default abstract class WalletManager {
      * @returns {boolean} True if the seed phrase is valid.
      */
     static isValidSeedPhrase(seedPhrase: string): boolean;
-    /**
-     * Creates a new wallet manager from a BIP-39 seed.
-     *
-     * @overload
-     * @param {string | Uint8Array} seed - The BIP-39 seed phrase or raw seed bytes.
-     * @param {WalletConfig} [config] - The wallet configuration.
-     * @throws {ValueError} If the seed is not a valid seed or BIP-39 seed phrase.
-     */
-    constructor(seed: string | Uint8Array, config?: WalletConfig);
-    /**
-     * Creates a new wallet manager from a default signer.
-     *
-     * @overload
-     * @param {ISigner} signer - The default signer.
-     * @param {WalletConfig} [config] - The wallet configuration.
-     * @throws {InvalidSignerError} If the given signer doesn't support account derivation.
-     */
-    constructor(signer: ISigner, config?: WalletConfig);
-    /** @private */
-    private _seed;
-    /**
-     * The default signer.
-     *
-     * @protected
-     * @type {ISigner | undefined}
-     */
-    protected _defaultSigner: ISigner | undefined;
-    /**
-     * A map between signer names and signers added via {@link addSigner}.
-     *
-     * @protected
-     * @type {Record<string, ISigner>}
-     */
-    protected _signers: Record<string, ISigner>;
-    /**
-     * A map between derivation paths and wallet accounts. The {@link dispose} method will automatically dispose
-     * all the accounts in this map, so developers are encouraged to map all accounts accessed through the
-     * {@link getAccount} and {@link getAccountByPath} methods.
-     *
-     * @protected
-     * @type {Record<string, IWalletAccount>}
-     */
-    protected _accounts: Record<string, IWalletAccount>;
-    /**
-     * The wallet configuration.
-     *
-     * @protected
-     * @type {WalletConfig}
-     */
-    protected _config: WalletConfig;
     /**
      * The seed of the wallet.
      *
@@ -107,9 +90,7 @@ export default abstract class WalletManager {
      * @throws {NoSuchElementError} If a signer name is given but no signer exists with that name.
      * @throws {InvalidSignerError} If the signer doesn't support account derivation.
      */
-    abstract getAccount(index?: number, options?: {
-        signerName?: string;
-    }): Promise<IWalletAccount>;
+    getAccount(indexOrSignerName?: number, options?: Object): Promise<IWalletAccount>;
     /**
      * Returns the wallet account associated with a registered signer. For
      * non-derivable signers (e.g., private-key signers), returns the signer's
@@ -121,7 +102,7 @@ export default abstract class WalletManager {
      * @returns {Promise<IWalletAccount>} The account.
      * @throws {NoSuchElementError} If no signer exists with the given name.
      */
-    abstract getAccount(signerName: string): Promise<IWalletAccount>;
+    getAccount(indexOrSignerName: string, options: any): Promise<IWalletAccount>;
     /**
      * Returns the wallet account at a specific [BIP-44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki) derivation path.
      *
@@ -134,9 +115,7 @@ export default abstract class WalletManager {
      * @throws {NoSuchElementError} If a signer name is given but no signer exists with that name.
      * @throws {InvalidSignerError} If the signer doesn't support account derivation.
      */
-    abstract getAccountByPath(path: string, options?: {
-        signerName?: string;
-    }): Promise<IWalletAccount>;
+    abstract getAccountByPath(path: string, options?: Object): Promise<IWalletAccount>;
     /**
      * Returns the current fee rates.
      *
@@ -149,30 +128,30 @@ export default abstract class WalletManager {
     /**
      * Disposes all wallet accounts and signers, clearing secret material from memory.
      */
-    dispose(): void;
+    dispose(): any;
 }
-export type IWalletAccount = import("./wallet-account.js").IWalletAccount;
-export type ISigner = import("./signer.js").ISigner;
-export type InvalidSignerError = import("./errors.js").InvalidSignerError;
-export type ProviderError = import("./errors.js").ProviderError;
-export type ProviderRequiredError = import("./errors.js").ProviderRequiredError;
+export type IWalletAccount = import('./wallet-account.js').IWalletAccount;
+export type ISigner = import('./signer.js').ISigner;
+export type InvalidSignerError = import('./errors.js').InvalidSignerError;
+export type ProviderError = import('./errors.js').ProviderError;
+export type ProviderRequiredError = import('./errors.js').ProviderRequiredError;
 export type WalletConfig = {
-    /**
-     * - The maximum fee amount for sending transactions.
+    /*
+     * The maximum fee amount for sending transactions.
      */
     transactionMaxFee?: number | bigint;
-    /**
-     * - The maximum fee amount for transfer operations.
+    /*
+     * The maximum fee amount for transfer operations.
      */
     transferMaxFee?: number | bigint;
 };
 export type FeeRates = {
-    /**
-     * - The fee rate for transaction sent with normal priority.
+    /*
+     * The fee rate for transaction sent with normal priority.
      */
     normal: bigint;
-    /**
-     * - The fee rate for transaction sent with fast priority.
+    /*
+     * The fee rate for transaction sent with fast priority.
      */
     fast: bigint;
 };

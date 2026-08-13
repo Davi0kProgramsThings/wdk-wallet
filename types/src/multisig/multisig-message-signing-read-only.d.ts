@@ -1,3 +1,4 @@
+// This file has been automatically generated with jsdoc-to-d-ts
 /**
  * Adds the read-only message-signing queries to a multisig wallet.
  *
@@ -26,28 +27,28 @@ export interface IMultisigMessageSigningReadOnly {
      */
     getMessageProposal(messageId: string): Promise<MultisigMessageProposal | null>;
 }
-export type ProviderError = import("./errors.js").ProviderError;
-export type ProviderRequiredError = import("./errors.js").ProviderRequiredError;
-export type ValueError = import("./errors.js").ValueError;
+export type ProviderError = import('./errors.js').ProviderError;
+export type ProviderRequiredError = import('./errors.js').ProviderRequiredError;
+export type ValueError = import('./errors.js').ValueError;
 export type MultisigMessageProposal = {
-    /**
-     * - The message's hash.
+    /*
+     * The message's hash.
      */
     messageId: string;
-    /**
-     * - The original message.
+    /*
+     * The original message.
      */
     message: string;
-    /**
-     * - The current number of confirmations.
+    /*
+     * The current number of confirmations.
      */
     confirmations: number;
-    /**
-     * - The minimum amount of confirmations to sign the message.
+    /*
+     * The minimum amount of confirmations to sign the message.
      */
     threshold: number;
-    /**
-     * - The final combined signature when the threshold is met.
+    /*
+     * The final combined signature when the threshold is met.
      */
     combinedSignature: string | null;
 };

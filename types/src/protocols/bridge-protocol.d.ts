@@ -1,3 +1,4 @@
+// This file has been automatically generated with jsdoc-to-d-ts
 /** @interface */
 export interface IBridgeProtocol {
     /**
@@ -26,13 +27,27 @@ export interface IBridgeProtocol {
      * @throws {ProviderError} If the provider fails to perform the bridge.
      * @throws {BridgeError} If the bridge fails with an error.
      */
-    quoteBridge(options: BridgeOptions): Promise<Omit<BridgeResult, "hash">>;
+    quoteBridge(options: BridgeOptions): Promise<Omit<BridgeResult, 'hash'>>;
 }
 /**
  * @abstract
  * @implements {IBridgeProtocol}
  */
 export default abstract class BridgeProtocol implements IBridgeProtocol {
+    /**
+     * The wallet account to use to interact with the protocol.
+     *
+     * @protected
+     * @type {IWalletAccountReadOnly | IWalletAccount}
+     */
+    protected _account: IWalletAccountReadOnly | IWalletAccount;
+    /**
+     * The bridge protocol configuration.
+     *
+     * @protected
+     * @type {BridgeProtocolConfig}
+     */
+    protected _config: BridgeProtocolConfig;
     /**
      * Creates a new read-only bridge protocol.
      *
@@ -49,20 +64,6 @@ export default abstract class BridgeProtocol implements IBridgeProtocol {
      * @param {BridgeProtocolConfig} [config] - The bridge protocol configuration.
      */
     constructor(account: IWalletAccount, config?: BridgeProtocolConfig);
-    /**
-     * The wallet account to use to interact with the protocol.
-     *
-     * @protected
-     * @type {IWalletAccountReadOnly | IWalletAccount}
-     */
-    protected _account: IWalletAccountReadOnly | IWalletAccount;
-    /**
-     * The bridge protocol configuration.
-     *
-     * @protected
-     * @type {BridgeProtocolConfig}
-     */
-    protected _config: BridgeProtocolConfig;
     /**
      * Bridges a token to a different blockchain.
      *
@@ -90,53 +91,53 @@ export default abstract class BridgeProtocol implements IBridgeProtocol {
      * @throws {ProviderError} If the provider fails to perform the bridge.
      * @throws {BridgeError} If the bridge fails with an error.
      */
-    abstract quoteBridge(options: BridgeOptions): Promise<Omit<BridgeResult, "hash">>;
+    abstract quoteBridge(options: BridgeOptions): Promise<Omit<BridgeResult, 'hash'>>;
 }
-export type IWalletAccountReadOnly = import("../wallet-account-read-only.js").IWalletAccountReadOnly;
-export type IWalletAccount = import("../wallet-account.js").IWalletAccount;
-export type AccountRequiredError = import("./errors.js").AccountRequiredError;
-export type BridgeError = import("./errors.js").BridgeError;
-export type InvalidTokenError = import("./errors.js").InvalidTokenError;
-export type MaximumFeeExceededError = import("./errors.js").MaximumFeeExceededError;
-export type ReadOnlyAccountRequiredError = import("./errors.js").ReadOnlyAccountRequiredError;
-export type ProviderError = import("./errors.js").ProviderError;
-export type ProviderRequiredError = import("./errors.js").ProviderRequiredError;
-export type ValueError = import("./errors.js").ValueError;
+export type IWalletAccountReadOnly = import('../wallet-account-read-only.js').IWalletAccountReadOnly;
+export type IWalletAccount = import('../wallet-account.js').IWalletAccount;
+export type AccountRequiredError = import('./errors.js').AccountRequiredError;
+export type BridgeError = import('./errors.js').BridgeError;
+export type InvalidTokenError = import('./errors.js').InvalidTokenError;
+export type MaximumFeeExceededError = import('./errors.js').MaximumFeeExceededError;
+export type ReadOnlyAccountRequiredError = import('./errors.js').ReadOnlyAccountRequiredError;
+export type ProviderError = import('./errors.js').ProviderError;
+export type ProviderRequiredError = import('./errors.js').ProviderRequiredError;
+export type ValueError = import('./errors.js').ValueError;
 export type BridgeProtocolConfig = {
-    /**
-     * - The maximum fee amount for bridge operations.
+    /*
+     * The maximum fee amount for bridge operations.
      */
     bridgeMaxFee?: number | bigint;
 };
 export type BridgeOptions = {
-    /**
-     * - The identifier of the destination blockchain (e.g., "arbitrum").
+    /*
+     * The identifier of the destination blockchain (e.g., "arbitrum").
      */
     targetChain: string;
-    /**
-     * - The address of the recipient.
+    /*
+     * The address of the recipient.
      */
     recipient: string;
-    /**
-     * - The address of the token to bridge.
+    /*
+     * The address of the token to bridge.
      */
     token: string;
-    /**
-     * - The amount of tokenss to bridge to the destination chain (in base unit).
+    /*
+     * The amount of tokenss to bridge to the destination chain (in base unit).
      */
     amount: number | bigint;
 };
 export type BridgeResult = {
-    /**
-     * - The hash of the bridge operation.
+    /*
+     * The hash of the bridge operation.
      */
     hash: string;
-    /**
-     * - The gas cost.
+    /*
+     * The gas cost.
      */
     fee: bigint;
-    /**
-     * - The amount of native tokens paid to the bridge protocol.
+    /*
+     * The amount of native tokens paid to the bridge protocol.
      */
     bridgeFee: bigint;
 };

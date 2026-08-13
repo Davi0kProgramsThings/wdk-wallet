@@ -1,13 +1,16 @@
+// This file has been automatically generated with jsdoc-to-d-ts
 /**
  * Enum that assigns a comparable ordinal to each finality level, used to check
  * whether an observed finality satisfies a requested target.
+ *
+ * @readonly
+ * @enum {number}
  */
-export type FINALITY = number;
-export namespace FINALITY {
-    let pending: number;
-    let dropped: number;
-    let confirmed: number;
-    let final: number;
+export enum FINALITY {
+  pending = 0,
+  dropped = 1,
+  confirmed = 2,
+  final = 3
 }
 /** @interface */
 export interface IWalletAccountReadOnly extends IWalletAccountReadOnlySimple {
@@ -21,7 +24,7 @@ export interface IWalletAccountReadOnly extends IWalletAccountReadOnlySimple {
      * @throws {ProviderError} If the provider fails to estimate the costs of the transaction.
      * @throws {TransactionError} If the transaction fails with an error.
      */
-    quoteSendTransaction(tx: Transaction): Promise<Omit<TransactionResult, "hash">>;
+    quoteSendTransaction(tx: Transaction): Promise<Omit<TransactionResult, 'hash'>>;
     /**
      * Quotes the costs of a transfer operation.
      *
@@ -33,19 +36,13 @@ export interface IWalletAccountReadOnly extends IWalletAccountReadOnlySimple {
      * @throws {ProviderError} If the provider fails to estimate the costs of the transfer.
      * @throws {TransferError} If the transfer fails with an error.
      */
-    quoteTransfer(options: TransferOptions): Promise<Omit<TransferResult, "hash">>;
+    quoteTransfer(options: TransferOptions): Promise<Omit<TransferResult, 'hash'>>;
 }
 /**
  * @abstract
  * @implements {IWalletAccountReadOnly}
  */
 export default abstract class WalletAccountReadOnly implements IWalletAccountReadOnly {
-    /**
-     * Creates a new read-only wallet account.
-     *
-     * @param {string} [address] - The account's address.
-     */
-    constructor(address?: string);
     /**
      * The default poll cadence for {@link waitForTransaction}, in milliseconds,
      * applied when the caller doesn't provide an `interval`. Subclasses override
@@ -62,8 +59,12 @@ export default abstract class WalletAccountReadOnly implements IWalletAccountRea
      * @type {number}
      */
     get defaultWaitTimeout(): number;
-    /** @private */
-    private __address;
+    /**
+     * Creates a new read-only wallet account.
+     *
+     * @param {string} [address] - The account's address.
+     */
+    constructor(address?: string);
     /**
      * The account's address.
      *
@@ -118,7 +119,7 @@ export default abstract class WalletAccountReadOnly implements IWalletAccountRea
      * @throws {ProviderError} If the provider fails to estimate the costs of the transaction.
      * @throws {TransactionError} If the transaction fails with an error.
      */
-    abstract quoteSendTransaction(tx: Transaction): Promise<Omit<TransactionResult, "hash">>;
+    abstract quoteSendTransaction(tx: Transaction): Promise<Omit<TransactionResult, 'hash'>>;
     /**
      * Quotes the costs of a transfer operation.
      *
@@ -131,7 +132,7 @@ export default abstract class WalletAccountReadOnly implements IWalletAccountRea
      * @throws {ProviderError} If the provider fails to estimate the costs of the transfer.
      * @throws {TransferError} If the transfer fails with an error.
      */
-    abstract quoteTransfer(options: TransferOptions): Promise<Omit<TransferResult, "hash">>;
+    abstract quoteTransfer(options: TransferOptions): Promise<Omit<TransferResult, 'hash'>>;
     /**
      * Returns a transaction's receipt.
      *
@@ -175,55 +176,55 @@ export default abstract class WalletAccountReadOnly implements IWalletAccountRea
      */
     waitForTransaction(hash: string, options?: WaitForTransactionOptions): Promise<TransactionReceipt>;
 }
-export type Finality = import("./wallet-account-read-only-simple.js").Finality;
-export type TransactionReceipt = import("./wallet-account-read-only-simple.js").TransactionReceipt;
-export type WaitForTransactionOptions = import("./wallet-account-read-only-simple.js").WaitForTransactionOptions;
-export type InvalidTokenError = import("./errors.js").InvalidTokenError;
-export type ProviderRequiredError = import("./errors.js").ProviderRequiredError;
-export type TransactionError = import("./errors.js").TransactionError;
-export type TransferError = import("./errors.js").TransferError;
-export type ValueError = import("./errors.js").ValueError;
+export type Finality = import('./wallet-account-read-only-simple.js').Finality;
+export type TransactionReceipt = import('./wallet-account-read-only-simple.js').TransactionReceipt;
+export type WaitForTransactionOptions = import('./wallet-account-read-only-simple.js').WaitForTransactionOptions;
+export type InvalidTokenError = import('./errors.js').InvalidTokenError;
+export type ProviderRequiredError = import('./errors.js').ProviderRequiredError;
+export type TransactionError = import('./errors.js').TransactionError;
+export type TransferError = import('./errors.js').TransferError;
+export type ValueError = import('./errors.js').ValueError;
 export type Transaction = {
-    /**
-     * - The transaction's recipient.
+    /*
+     * The transaction's recipient.
      */
     to: string;
-    /**
-     * - The amount of native tokens to send to the recipient (in base unit).
+    /*
+     * The amount of native tokens to send to the recipient (in base unit).
      */
     value: number | bigint;
 };
 export type TransactionResult = {
-    /**
-     * - The transaction's hash.
+    /*
+     * The transaction's hash.
      */
     hash: string;
-    /**
-     * - The gas cost.
+    /*
+     * The gas cost.
      */
     fee: bigint;
 };
 export type TransferOptions = {
-    /**
-     * - The address of the token to transfer.
+    /*
+     * The address of the token to transfer.
      */
     token: string;
-    /**
-     * - The address of the recipient.
+    /*
+     * The address of the recipient.
      */
     recipient: string;
-    /**
-     * - The amount of tokens to transfer to the recipient (in base units).
+    /*
+     * The amount of tokens to transfer to the recipient (in base units).
      */
     amount: number | bigint;
 };
 export type TransferResult = {
-    /**
-     * - The hash of the transfer operation.
+    /*
+     * The hash of the transfer operation.
      */
     hash: string;
-    /**
-     * - The gas cost.
+    /*
+     * The gas cost.
      */
     fee: bigint;
 };

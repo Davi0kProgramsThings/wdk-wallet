@@ -1,3 +1,4 @@
+// This file has been automatically generated with jsdoc-to-d-ts
 /**
  * Adds owner management features to a multisig wallet.
  *
@@ -52,14 +53,14 @@ export interface IMultisigOwnerManagement {
      */
     changeThreshold(newThreshold: number): Promise<MultisigProposal>;
 }
-export type MultisigProposal = import("./wallet-account-read-only-multisig.js").MultisigProposal;
-export type AccountNotOwnerError = import("./errors.js").AccountNotOwnerError;
-export type ProviderError = import("./errors.js").ProviderError;
-export type ProviderRequiredError = import("./errors.js").ProviderRequiredError;
-export type ValueError = import("./errors.js").ValueError;
+export type MultisigProposal = import('./wallet-account-read-only-multisig.js').MultisigProposal;
+export type AccountNotOwnerError = import('./errors.js').AccountNotOwnerError;
+export type ProviderError = import('./errors.js').ProviderError;
+export type ProviderRequiredError = import('./errors.js').ProviderRequiredError;
+export type ValueError = import('./errors.js').ValueError;
 export type MultisigOptions = {
-    /**
-     * - The new amount of approvals required to execute a transaction.
+    /*
+     * The new amount of approvals required to execute a transaction.
      */
     threshold: number;
 };

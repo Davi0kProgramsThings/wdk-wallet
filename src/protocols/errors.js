@@ -249,6 +249,11 @@ export class AccountRequiredError extends WdkError {
   constructor (message) {
     super(message)
 
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
     this.name = 'AccountRequiredError'
   }
 }
@@ -265,6 +270,11 @@ export class ReadOnlyAccountRequiredError extends AccountRequiredError {
   constructor (message) {
     super(message)
 
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
     this.name = 'ReadOnlyAccountRequiredError'
   }
 }
@@ -282,6 +292,11 @@ export class SwapError extends WdkError {
   constructor (message, options) {
     super(message, options)
 
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
     this.name = 'SwapError'
 
     /**
@@ -306,6 +321,11 @@ export class BridgeError extends WdkError {
   constructor (message, options) {
     super(message, options)
 
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
     this.name = 'BridgeError'
 
     /**
@@ -330,6 +350,11 @@ export class SupplyError extends WdkError {
   constructor (message, options) {
     super(message, options)
 
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
     this.name = 'SupplyError'
 
     /**
@@ -354,6 +379,11 @@ export class WithdrawError extends WdkError {
   constructor (message, options) {
     super(message, options)
 
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
     this.name = 'WithdrawError'
 
     /**
@@ -378,6 +408,11 @@ export class BorrowError extends WdkError {
   constructor (message, options) {
     super(message, options)
 
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
     this.name = 'BorrowError'
 
     /**
@@ -402,6 +437,11 @@ export class RepayError extends WdkError {
   constructor (message, options) {
     super(message, options)
 
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
     this.name = 'RepayError'
 
     /**
@@ -426,6 +466,11 @@ export class BuyError extends WdkError {
   constructor (message, options) {
     super(message, options)
 
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
     this.name = 'BuyError'
 
     /**
@@ -450,6 +495,11 @@ export class SellError extends WdkError {
   constructor (message, options) {
     super(message, options)
 
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
     this.name = 'SellError'
 
     /**
@@ -474,6 +524,11 @@ export class SwidgeError extends WdkError {
   constructor (message, options) {
     super(message, options)
 
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
     this.name = 'SwidgeError'
 
     /**
@@ -498,6 +553,11 @@ export class SdaError extends WdkError {
   constructor (message, options) {
     super(message, options)
 
+    /**
+     * The error's name.
+     *
+     * @type {string}
+     */
     this.name = 'SdaError'
 
     /**
