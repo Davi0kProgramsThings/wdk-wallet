@@ -102,7 +102,7 @@ export default abstract class WalletManager {
      * @returns {Promise<IWalletAccount>} The account.
      * @throws {NoSuchElementError} If no signer exists with the given name.
      */
-    getAccount(indexOrSignerName: string, options: any): Promise<IWalletAccount>;
+    getAccount(indexOrSignerName: string): Promise<IWalletAccount>;
     /**
      * Returns the wallet account at a specific [BIP-44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki) derivation path.
      *
